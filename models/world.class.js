@@ -8,6 +8,11 @@ class World {
         new Enemy(),
         new Enemy(),
     ];
+    backgrounds = [
+        new BackgroundObject('asset/img/5_Levels/SKY-BRIDGE/Backgrounds/tower.png', 0, 0, 310),
+        new BackgroundObject('asset/img/5_Levels/SKY-BRIDGE/Backgrounds/bridge.png', 300, 0, 300),
+        new BackgroundObject('asset/img/5_Levels/SKY-BRIDGE/Backgrounds/clouds 2.png', 280, 0, 300)
+    ]
     ctx;
     canvas;
 
@@ -19,17 +24,23 @@ class World {
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.ctx.drawImage(this.character.img, this.character.x, this.character.y, this.character.width, this.character.height);
-        this.enemies.forEach(enemy => {
-            this.ctx.drawImage(enemy.img, enemy.x, enemy.y, enemy.width, enemy.height);
-        })
-        this.clouds.forEach(cloud => { 
-            this.ctx.drawImage(cloud.img, cloud.x, cloud.y, cloud.width, cloud.height);
-        })
-
+        this.addObjectsToMap(this.backgrounds);
+        this.addObjectsToMap(this.clouds);
+        this.addToMap(this.character);
+        this.addObjectsToMap(this.enemies);
         let self = this;
         requestAnimationFrame(() => {
             self.draw();
         })
+    }
+
+    addObjectsToMap(objects) {
+        objects.forEach(o => { 
+            this.addToMap(o);
+        })
+    }
+
+    addToMap(mo) {
+        this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
     }
 }

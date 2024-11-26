@@ -1,9 +1,9 @@
 class MovableObject {
-    x = 120;
+    x = 100;
     y = 250;
     img;
-    height = 150;
-    width = 100;
+    height = 250;
+    width = 250;
 
     // constructor(x, y, img) {
     //     this.x = x;
