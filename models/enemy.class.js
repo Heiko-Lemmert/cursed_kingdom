@@ -1,7 +1,53 @@
 class Enemy extends MovableObject {
+    IMAGES_WALKING= [
+        'asset/img/2_Enemies/Skeleton/PNG/PNG Sequences/Walking/0_Skeleton_Walking_000.png',
+        'asset/img/2_Enemies/Skeleton/PNG/PNG Sequences/Walking/0_Skeleton_Walking_001.png',
+        'asset/img/2_Enemies/Skeleton/PNG/PNG Sequences/Walking/0_Skeleton_Walking_002.png',
+        'asset/img/2_Enemies/Skeleton/PNG/PNG Sequences/Walking/0_Skeleton_Walking_003.png',
+        'asset/img/2_Enemies/Skeleton/PNG/PNG Sequences/Walking/0_Skeleton_Walking_004.png',
+        'asset/img/2_Enemies/Skeleton/PNG/PNG Sequences/Walking/0_Skeleton_Walking_005.png',
+        'asset/img/2_Enemies/Skeleton/PNG/PNG Sequences/Walking/0_Skeleton_Walking_006.png',
+        'asset/img/2_Enemies/Skeleton/PNG/PNG Sequences/Walking/0_Skeleton_Walking_007.png',
+        'asset/img/2_Enemies/Skeleton/PNG/PNG Sequences/Walking/0_Skeleton_Walking_008.png',
+        'asset/img/2_Enemies/Skeleton/PNG/PNG Sequences/Walking/0_Skeleton_Walking_009.png',
+        'asset/img/2_Enemies/Skeleton/PNG/PNG Sequences/Walking/0_Skeleton_Walking_010.png',
+        'asset/img/2_Enemies/Skeleton/PNG/PNG Sequences/Walking/0_Skeleton_Walking_011.png',
+        'asset/img/2_Enemies/Skeleton/PNG/PNG Sequences/Walking/0_Skeleton_Walking_012.png',
+        'asset/img/2_Enemies/Skeleton/PNG/PNG Sequences/Walking/0_Skeleton_Walking_013.png',
+        'asset/img/2_Enemies/Skeleton/PNG/PNG Sequences/Walking/0_Skeleton_Walking_014.png',
+        'asset/img/2_Enemies/Skeleton/PNG/PNG Sequences/Walking/0_Skeleton_Walking_015.png',
+        'asset/img/2_Enemies/Skeleton/PNG/PNG Sequences/Walking/0_Skeleton_Walking_016.png',
+        'asset/img/2_Enemies/Skeleton/PNG/PNG Sequences/Walking/0_Skeleton_Walking_017.png',
+        'asset/img/2_Enemies/Skeleton/PNG/PNG Sequences/Walking/0_Skeleton_Walking_017.png',
+        'asset/img/2_Enemies/Skeleton/PNG/PNG Sequences/Walking/0_Skeleton_Walking_018.png',
+        'asset/img/2_Enemies/Skeleton/PNG/PNG Sequences/Walking/0_Skeleton_Walking_019.png',
+        'asset/img/2_Enemies/Skeleton/PNG/PNG Sequences/Walking/0_Skeleton_Walking_020.png',
+        'asset/img/2_Enemies/Skeleton/PNG/PNG Sequences/Walking/0_Skeleton_Walking_021.png',
+        'asset/img/2_Enemies/Skeleton/PNG/PNG Sequences/Walking/0_Skeleton_Walking_022.png',
+        'asset/img/2_Enemies/Skeleton/PNG/PNG Sequences/Walking/0_Skeleton_Walking_023.png'
+    ]
+    otherDirection = true;
+    
+
     constructor() {
-        super().loadImage('asset/img/2_Enemies/Zombie/PNG/PNG Sequences/Idle Blinking/0_Zombie_Idle Blinking_000.png');
+        super().loadImage('asset/img/2_Enemies/Skeleton/PNG/PNG Sequences/Walking/0_Skeleton_Walking_000.png');
         this.x = 200 + Math.random() * 500;
+        this.speed = 0.25 + Math.random() * 0.25
+        this.loadImages(this.IMAGES_WALKING);
+        this.animate();
+    }
+
+    animate() {
+        setInterval(() => {
+            this.moveLeft();
+        }, 1000 / 60)
+
+        setInterval(() => {
+            let i = this.currentImages % this.IMAGES_WALKING.length;
+            let path = this.IMAGES_WALKING[i];
+            this.img = this.imageCache[path];
+            this.currentImages++
+        }, 100)
     }
     
 }
