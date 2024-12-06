@@ -12,7 +12,6 @@ function init() {
 window.addEventListener('keydown', event => {
     switch (event.keyCode) {
         case 87:
-            console.log(event)
             console.log('Up is pressend')
             keyboard.up = true;
             break;
