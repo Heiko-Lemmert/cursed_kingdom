@@ -30,7 +30,7 @@ class Enemy extends MovableObject {
     
 
     constructor() {
-        super().loadImage('asset/img/2_Enemies/Skeleton/PNG/PNG Sequences/Walking/0_Skeleton_Walking_000.png');
+        super().loadImage(this.IMAGES_WALKING[0]);
         this.x = 200 + Math.random() * 500;
         this.speed = 0.25 + Math.random() * 0.25
         this.loadImages(this.IMAGES_WALKING);
@@ -43,10 +43,7 @@ class Enemy extends MovableObject {
         }, 1000 / 60)
 
         setInterval(() => {
-            let i = this.currentImages % this.IMAGES_WALKING.length;
-            let path = this.IMAGES_WALKING[i];
-            this.img = this.imageCache[path];
-            this.currentImages++
+            this.playAnimation(this.IMAGES_WALKING)
         }, 100)
     }
     

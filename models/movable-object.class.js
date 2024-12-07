@@ -29,4 +29,11 @@ class MovableObject {
     moveLeft() {
         this.x -= this.speed;
     }
+
+    playAnimation(images) {
+        let i = this.currentImages % images.length;
+        let path = images[i];
+        this.img = this.imageCache[path];
+        this.currentImages++
+    }
 }

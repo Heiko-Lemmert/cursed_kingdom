@@ -24,7 +24,7 @@ class Character extends MovableObject {
     audioWalking = new Audio('asset/audio/walking3.mp3');
 
     constructor() {
-        super().loadImage('asset/img/1_Main_character/Archer/PNG Sequences/Walking/0_Archer_Walking_000.png');
+        super().loadImage(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_WALKING);
         this.animate()
     }
@@ -48,10 +48,7 @@ class Character extends MovableObject {
 
         setInterval(() => {
             if (this.world.keyboard.right || this.world.keyboard.left) {
-                let i = this.currentImages % this.IMAGES_WALKING.length;
-                let path = this.IMAGES_WALKING[i];
-                this.img = this.imageCache[path];
-                this.currentImages++
+                this.playAnimation(this.IMAGES_WALKING)
             }
         }, 10)
     }
