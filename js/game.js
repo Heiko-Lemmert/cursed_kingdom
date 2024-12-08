@@ -7,6 +7,7 @@ function init() {
     world = new World(canvas, keyboard);
 
     console.log('My Character is', world.character)
+    console.log('The First Coin is:', world.level.coins[0])
 }
 
 window.addEventListener('keydown', event => {

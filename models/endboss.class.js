@@ -1,5 +1,5 @@
 class Endboss extends MovableObject {
-    IMAGES_WALKING= [
+    IMAGES_WALKING = [
         'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Walking/0_Death_Knight_Walking_000.png',
         'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Walking/0_Death_Knight_Walking_001.png',
         'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Walking/0_Death_Knight_Walking_002.png',
@@ -30,14 +30,14 @@ class Endboss extends MovableObject {
 
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);
-        this.x = 2400;
+        this.x = 7000;
         this.y = 40;
         this.height = 500;
         this.width = 500;
         this.loadImages(this.IMAGES_WALKING);
         setTimeout(() => {
             this.animate()
-        }, 3000);
+        }, 4000);
     }
 
     animate() {

@@ -18,7 +18,7 @@ class World {
         this.character.world = this;
     }
 /**
- * Die Draw() Methode zeichnet mit Hilfe der requestAnimationFrame() pro Sekunde 30-60 mal alle Objekte und Hintergründe.
+ * Die Draw() Methode zeichnet mit Hilfe der requestAnimationFrame()-Methode 30-60 mal pro Sekunde alle Objekte und Hintergründe auf die Canvas.
  */
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -27,6 +27,8 @@ class World {
         this.addObjectsToMap(this.level.clouds);
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
+        this.addObjectsToMap(this.level.coins);
+        this.addObjectsToMap(this.level.arrows);
         this.ctx.translate(-this.camera_x, 0);
         let self = this;
         requestAnimationFrame(() => {  // Mit dieser Funktion wird die Draw() 30-60 mal pro Sekunde ausgeführt
