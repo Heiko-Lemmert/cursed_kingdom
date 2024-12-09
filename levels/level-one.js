@@ -36,7 +36,7 @@ const levelOne = new Level(
         new Coin(5320, 200),
     ],
     [
-        new Arrow(250),
+        new Arrow(450),
     ]
 )
 
