@@ -59,6 +59,7 @@ class Character extends MovableObject {
     world;
     speed = 10;
     audioWalking = new Audio('asset/audio/walking3.mp3');
+    audioJumping = new Audio('asset/audio/jump.mp3')
 
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);
@@ -66,44 +67,56 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_FALLING);
-
         this.animate();
         this.applyGravity();
+        this.audioWalking.loop = true;
+        this.frameColor = 'blue'
+        // this.drawRectangle();
     }
 
     animate() {
         setInterval(() => {
             this.audioWalking.pause();
-            if (this.world.keyboard.right && this.x < this.world.level.levelEndX) {
-                this.audioWalking.play();
+            if (this.world.keyboard.right && this.mapEndPoint()) {
+                if (!this.isAboveGround()) this.audioWalking.play();
                 this.moveRight();
-                this.otherDirection = false;
             }
-            if (this.world.keyboard.left && this.x > 0) {
+            if (this.world.keyboard.left && this.mapStartPoint()) {
+                if (!this.isAboveGround()) this.audioWalking.play();
                 this.moveLeft();
-                this.otherDirection = true;
-                this.audioWalking.play();
             }
-            if (this.world.keyboard.space && this.y >= 250) {
-                this.speedY = 20;
+            if (this.world.keyboard.space && !this.isAboveGround()) {
+                this.audioJumping.play()
+                this.jump();
             }
             this.world.camera_x = -this.x + 50;
             this.world.addObjectsToMap;
         }, 1000 / 60)
 
         setInterval(() => {
-            if (this.isAboveGround() && this.speedY >= 0) {
-                this.playAnimation(this.IMAGES_JUMPING)
-            } 
-            else if (this.isAboveGround() && this.speedY < 0) {
+            if (this.isAboveGround() && this.speedY < 0 || this.isAboveGround() && this.world.keyboard.right || this.isAboveGround() && this.world.keyboard.left) {
                 this.playAnimation(this.IMAGES_FALLING)
             } 
-            else if (this.y >= 250 && !this.world.keyboard.right && !this.world.keyboard.left) {
+            else if (!this.isAboveGround() && !this.world.keyboard.right && !this.world.keyboard.left) {
                 this.playAnimation(this.IMAGES_IDLE)
             }
-            else if (this.world.keyboard.right || this.world.keyboard.left) {
+            else if (!this.isAboveGround() && this.world.keyboard.right || !this.isAboveGround() && this.world.keyboard.left) {
                 this.playAnimation(this.IMAGES_WALKING)
             }
-        }, 50)
+        }, 100)
+
+        setInterval(() => {
+            if (this.isAboveGround() && this.speedY >= 0 && !this.world.keyboard.right && !this.world.keyboard.left) {
+                this.playAnimation(this.IMAGES_JUMPING)
+            }  
+        }, 250)
+    }
+
+    drawRectangle() {
+        this.world.ctx.beginPath();
+        this.world.ctx.lineWidth = '5';
+        this.world.ctx.strokeStyle = 'blue';
+        this.world.ctx.rect(this.x, this.y, this.width, this.height);
+        this.world.ctx.stroke();
     }
 }

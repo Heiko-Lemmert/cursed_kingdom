@@ -17,9 +17,9 @@ class World {
     setWorld() {
         this.character.world = this;
     }
-/**
- * Die Draw() Methode zeichnet mit Hilfe der requestAnimationFrame()-Methode 30-60 mal pro Sekunde alle Objekte und Hintergründe auf die Canvas.
- */
+    /**
+     * Die Draw() Methode zeichnet mit Hilfe der requestAnimationFrame()-Methode 30-60 mal pro Sekunde alle Objekte und Hintergründe auf die Canvas.
+     */
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.camera_x, 0);
@@ -31,27 +31,32 @@ class World {
         this.addObjectsToMap(this.level.arrows);
         this.ctx.translate(-this.camera_x, 0);
         let self = this;
-        requestAnimationFrame(() => {  // Mit dieser Funktion wird die Draw() 30-60 mal pro Sekunde ausgeführt
+        requestAnimationFrame(() => { // Mit dieser Funktion wird die Draw() 30-60 mal pro Sekunde ausgeführt
             self.draw();
         })
     }
 
     addObjectsToMap(objects) {
-        objects.forEach(o => { 
+        objects.forEach(o => {
             this.addToMap(o);
         })
     }
 
-    addToMap(mo) {
-        if(mo.otherDirection) {
+    /**
+     * 
+     * @param {object} wo This is a World object
+     */
+    addToMap(wo) {
+        if (wo.otherDirection) {
             this.ctx.save();
-            this.ctx.translate(mo.width, 0);
+            this.ctx.translate(wo.width, 0);
             this.ctx.scale(-1, 1)
-            mo.x = mo.x * -1;
+            wo.x = wo.x * -1;
         }
-        this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
-        if(mo.otherDirection) {
-            mo.x = mo.x * -1;
+        wo.draw(this.ctx);
+        wo.drawFrame(this.ctx);
+        if (wo.otherDirection) {
+            wo.x = wo.x * -1;
             this.ctx.restore();
         }
     }

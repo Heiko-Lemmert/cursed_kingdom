@@ -27,4 +27,17 @@ class CollectibleObject {
         this.img = this.imageCache[path];
         this.currentImages++
     }
+
+    draw(ctx) {
+        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+    }
+
+    drawFrame(ctx) {
+        ctx.beginPath();
+        ctx.lineWidth = '5';
+        ctx.strokeStyle = 'green';
+        ctx.rect(this.x, this.y, this.width, this.height);
+        ctx.stroke();
+    }
+
 }
