@@ -60,6 +60,13 @@ class Character extends MovableObject {
     speed = 10;
     audioWalking = new Audio('asset/audio/walking3.mp3');
     audioJumping = new Audio('asset/audio/jump.mp3')
+    offsetFrame = {
+        x : 160,
+        y : 300,
+        width : 120,
+        height : 150
+    };
+
 
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);
@@ -69,9 +76,9 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_FALLING);
         this.animate();
         this.applyGravity();
+        this.offset = this.calculateOffset(this.outerFrame, this.offsetFrame)
         this.audioWalking.loop = true;
-        this.frameColor = 'blue'
-        // this.drawRectangle();
+        this.frameColor = 'blue';
     }
 
     animate() {
@@ -110,13 +117,5 @@ class Character extends MovableObject {
                 this.playAnimation(this.IMAGES_JUMPING)
             }  
         }, 250)
-    }
-
-    drawRectangle() {
-        this.world.ctx.beginPath();
-        this.world.ctx.lineWidth = '5';
-        this.world.ctx.strokeStyle = 'blue';
-        this.world.ctx.rect(this.x, this.y, this.width, this.height);
-        this.world.ctx.stroke();
     }
 }

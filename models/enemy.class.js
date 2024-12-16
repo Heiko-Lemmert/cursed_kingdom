@@ -27,14 +27,23 @@ class Enemy extends MovableObject {
         'asset/img/2_Enemies/Skeleton/PNG/PNG Sequences/Walking/0_Skeleton_Walking_023.png'
     ]
     otherDirection = true;
+    offsetFrame = {
+        y : 300,
+        width : 120,
+        height : 150
+    };
     
 
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);
-        this.x = 200 + Math.random() * 500;
+        // this.x = 600 + Math.random() * 500;
+        this.x = 600;
         this.speed = 0.25 + Math.random() * 0.25
+        this.offsetFrame.x = this.x + 60;
+        this.outerFrame.x = this.x;
+        this.offset = this.calculateOffset(this.outerFrame, this.offsetFrame)
         this.loadImages(this.IMAGES_WALKING);
-        this.animate();
+        // this.animate();
     }
 
     animate() {
