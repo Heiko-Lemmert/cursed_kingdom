@@ -34,10 +34,13 @@ const levelOne = new Level(
         new Coin(5160, 80),
         new Coin(5240, 140),
         new Coin(5320, 200),
+
+        // Arrows
+        new Arrow(450, 400)
     ],
-    [
-        new Arrow(450),
-    ]
+    // [
+    //     new Arrow(450, 400),
+    // ]
 )
 
 function fillBackgroundArr() {

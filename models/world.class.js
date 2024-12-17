@@ -29,8 +29,7 @@ class World {
         this.addObjectsToMap(this.level.clouds);
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
-        // this.addObjectsToMap(this.level.coins);
-        // this.addObjectsToMap(this.level.arrows);
+        this.addObjectsToMap(this.level.collectibles);
         this.ctx.translate(-this.camera_x, 0);
         let self = this;
         requestAnimationFrame(() => { // Mit dieser Funktion wird die Draw() 30-60 mal pro Sekunde ausgeführt
@@ -43,23 +42,42 @@ class World {
             this.level.enemies.forEach(enemy => {
                 if (this.character.isColliding(enemy)) {
                     console.log('Collison detected with', enemy)
+                    this.character.hit();
+                    setInterval(() => {
+                        this.character.playAnimation(this.character.IMAGES_HURT)
+                    }, 1000 / 30);
+                    console.log('Collison detected your energy is', this.character.energy)
+                }
+            });
+        }, 1000);
+
+        setInterval(() => {
+            this.level.collectibles.forEach((collectible, i) => {
+                if (this.character.isColliding(collectible)) {
+                    console.log('Collison detected with', collectible, i)
                 }
             });
         }, 1000);
     }
 
     checkCollisonFrame() {
-            console.log('Objekt Character - Berechnete Grenzen:');
-            console.log('Left:', this.character.x + this.character.offset.left);
-            console.log('Right:', this.character.x + this.character.width - this.character.offset.right);
-            console.log('Top:', this.character.y + this.character.offset.top);
-            console.log('Bottom:', this.character.y + this.character.height - this.character.offset.bottom);
+        console.log('Objekt Character - Berechnete Grenzen:');
+        console.log('Left:', this.character.x + this.character.offset.left);
+        console.log('Right:', this.character.x + this.character.width - this.character.offset.right);
+        console.log('Top:', this.character.y + this.character.offset.top);
+        console.log('Bottom:', this.character.y + this.character.height - this.character.offset.bottom);
 
-            console.log('Objekt Enemy - Berechnete Grenzen:');
-            console.log('Left:', this.level.enemies[0].x + this.level.enemies[0].offset.left);
-            console.log('Right:', this.level.enemies[0].x + this.level.enemies[0].width - this.level.enemies[0].offset.right);
-            console.log('Top:', this.level.enemies[0].y + this.level.enemies[0].offset.top);
-            console.log('Bottom:', this.level.enemies[0].y + this.level.enemies[0].height - this.level.enemies[0].offset.bottom);
+        console.log('Objekt Enemy - Berechnete Grenzen:');
+        console.log('Left:', this.level.enemies[0].x + this.level.enemies[0].offset.left);
+        console.log('Right:', this.level.enemies[0].x + this.level.enemies[0].width - this.level.enemies[0].offset.right);
+        console.log('Top:', this.level.enemies[0].y + this.level.enemies[0].offset.top);
+        console.log('Bottom:', this.level.enemies[0].y + this.level.enemies[0].height - this.level.enemies[0].offset.bottom);
+
+        console.log('Objekt Coin - Berechnete Grenzen:');
+        console.log('Left:', this.level.collectibles[0].x + this.level.collectibles[0].offset.left);
+        console.log('Right:', this.level.collectibles[0].x + this.level.collectibles[0].width - this.level.collectibles[0].offset.right);
+        console.log('Top:', this.level.collectibles[0].y + this.level.collectibles[0].offset.top);
+        console.log('Bottom:', this.level.collectibles[0].y + this.level.collectibles[0].height - this.level.collectibles[0].offset.bottom);
     }
 
     addObjectsToMap(objects) {
@@ -78,7 +96,7 @@ class World {
         }
         wo.draw(this.ctx);
         wo.drawFrame(this.ctx);
-        wo.drawOffsetFrame(this.ctx);
+        wo.drawinnerFrame(this.ctx);
         if (wo.otherDirection) {
             this.flipImgBack(wo);
         }
@@ -89,12 +107,12 @@ class World {
         this.ctx.translate(wo.width, 0);
         this.ctx.scale(-1, 1)
         wo.x = wo.x * -1;
-        wo.offsetFrame.flippedX = wo.width - (wo.offsetFrame.x + wo.offsetFrame.width);
+        wo.innerFrame.flippedX = wo.width - (wo.innerFrame.x + wo.innerFrame.width);
     }
 
     flipImgBack(wo) {
         wo.x = wo.x * -1;
-        wo.offsetFrame.flippedX = wo.width - (wo.offsetFrame.x + wo.offsetFrame.width);
+        wo.innerFrame.flippedX = wo.width - (wo.innerFrame.x + wo.innerFrame.width);
         this.ctx.restore();
     }
 

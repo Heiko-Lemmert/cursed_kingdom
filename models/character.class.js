@@ -56,11 +56,27 @@ class Character extends MovableObject {
         'asset/img/1_Main_character/Archer/PNG Sequences/Falling Down/0_Archer_Falling Down_004.png',
         'asset/img/1_Main_character/Archer/PNG Sequences/Falling Down/0_Archer_Falling Down_005.png',
     ];
+    IMAGES_HURT = [
+        'asset/img/1_Main_character/Archer/PNG Sequences/Hurt/0_Archer_Hurt_000.png',
+        'asset/img/1_Main_character/Archer/PNG Sequences/Hurt/0_Archer_Hurt_001.png',
+        'asset/img/1_Main_character/Archer/PNG Sequences/Hurt/0_Archer_Hurt_002.png',
+        'asset/img/1_Main_character/Archer/PNG Sequences/Hurt/0_Archer_Hurt_003.png',
+        'asset/img/1_Main_character/Archer/PNG Sequences/Hurt/0_Archer_Hurt_004.png',
+        'asset/img/1_Main_character/Archer/PNG Sequences/Hurt/0_Archer_Hurt_005.png',
+        'asset/img/1_Main_character/Archer/PNG Sequences/Hurt/0_Archer_Hurt_005.png',
+        'asset/img/1_Main_character/Archer/PNG Sequences/Hurt/0_Archer_Hurt_006.png',
+        'asset/img/1_Main_character/Archer/PNG Sequences/Hurt/0_Archer_Hurt_007.png',
+        'asset/img/1_Main_character/Archer/PNG Sequences/Hurt/0_Archer_Hurt_008.png',
+        'asset/img/1_Main_character/Archer/PNG Sequences/Hurt/0_Archer_Hurt_009.png',
+        'asset/img/1_Main_character/Archer/PNG Sequences/Hurt/0_Archer_Hurt_010.png',
+        'asset/img/1_Main_character/Archer/PNG Sequences/Hurt/0_Archer_Hurt_011.png'
+    ];
+
     world;
     speed = 10;
     audioWalking = new Audio('asset/audio/walking3.mp3');
     audioJumping = new Audio('asset/audio/jump.mp3')
-    offsetFrame = {
+    innerFrame = {
         x : 160,
         y : 300,
         width : 120,
@@ -74,9 +90,10 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_FALLING);
+        this.loadImages(this.IMAGES_HURT);
         this.animate();
         this.applyGravity();
-        this.offset = this.calculateOffset(this.outerFrame, this.offsetFrame)
+        this.offset = this.calculateOffset(this.outerFrame, this.innerFrame)
         this.audioWalking.loop = true;
         this.frameColor = 'blue';
     }

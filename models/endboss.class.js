@@ -27,7 +27,7 @@ class Endboss extends MovableObject {
         'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Walking/0_Death_Knight_Walking_023.png'
     ]
     otherDirection = true;
-    offsetFrame = {
+    innerFrame = {
         y : 130,
         width : 200,
         height : 325
@@ -44,8 +44,8 @@ class Endboss extends MovableObject {
         this.outerFrame.y = this.y;
         this.outerFrame.width = this.width;
         this.outerFrame.height = this.height;
-        this.offsetFrame.x = this.x + 150;
-        this.offset = this.calculateOffset(this.outerFrame, this.offsetFrame);
+        this.innerFrame.x = this.x + 150;
+        this.offset = this.calculateOffset(this.outerFrame, this.innerFrame);
         // setTimeout(() => {
         //     this.animate()
         // }, 4000);

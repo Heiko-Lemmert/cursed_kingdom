@@ -4,10 +4,17 @@ class Arrow extends CollectibleObject {
     amplitude = 5; // Höhe des Sprungs
     frequency = 0.1; // Geschwindigkeit des Hüpfens
     angle = 0; // Aktueller Winkel (für sinusförmige Bewegung)
+    innerFrame = {
+        width: this.width,
+        height: this.height
+    };
 
-    constructor(x) {
+    constructor(x, y) {
         super().loadImage(this.IMG_SRC);
-        this.x = x;
+        this.x = this.outerFrame.x = this.innerFrame.x = x;
+        this.y = this.outerFrame.y = this.innerFrame.y = y;
+        // this.outerFrame.x = x;
+        // this.innerFrame.x = x;
         this.animate()
     }
 

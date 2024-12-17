@@ -12,13 +12,14 @@ class MovableObject {
     acceleration = 1;
     frameColor = 'red';
     onCollisionCourse = true;
+    energy = 100;
     outerFrame = {
         x: this.x,
         y: this.y,
         width: this.width,
         height: this.height
     }
-    offsetFrame = {
+    innerFrame = {
         y: 0,
         x: 0,
         width: 0,
@@ -36,7 +37,7 @@ class MovableObject {
         setInterval(() => {
             if (this.isAboveGround() || this.speedY > 0) {
                 this.y -= this.speedY;
-                this.offsetFrame.y -= this.speedY;
+                this.innerFrame.y -= this.speedY;
                 this.speedY -= this.acceleration;
             }
         }, 1000 / 25);
@@ -57,13 +58,13 @@ class MovableObject {
 
     moveRight() {
         this.x += this.speed;
-        this.offsetFrame.x += this.speed;
+        this.innerFrame.x += this.speed;
         this.otherDirection = false;
     }
 
     moveLeft() {
         this.x -= this.speed;
-        this.offsetFrame.x -= this.speed;
+        this.innerFrame.x -= this.speed;
         this.otherDirection = true;
     }
 
@@ -92,22 +93,12 @@ class MovableObject {
         }
     }
 
-    // drawOffsetFrame(ctx) {
-    //     if (this instanceof Character || this instanceof Enemy || this instanceof Endboss) {
-    //         ctx.beginPath();
-    //         ctx.lineWidth = '4';
-    //         ctx.strokeStyle = 'yellow'
-    //         ctx.rect(this.offsetFrame.x, this.offsetFrame.y, this.offsetFrame.width, this.offsetFrame.height);
-    //         ctx.stroke();
-    //     }
-    // }
-
-    drawOffsetFrame(ctx) {
+    drawinnerFrame(ctx) {
         ctx.beginPath();
         ctx.lineWidth = '4';
         ctx.strokeStyle = 'yellow';
-        let drawX = this.otherDirection ? this.offsetFrame.flippedX : this.offsetFrame.x;
-        ctx.rect(drawX, this.offsetFrame.y, this.offsetFrame.width, this.offsetFrame.height);
+        let drawX = this.otherDirection ? this.innerFrame.flippedX : this.innerFrame.x;
+        ctx.rect(drawX, this.innerFrame.y, this.innerFrame.width, this.innerFrame.height);
         ctx.stroke();
     }
 
@@ -143,7 +134,7 @@ class MovableObject {
             this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
             this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
     }
-    
+
     calculateOffset(outerFrame, innerFrame) {
         return {
             left: Math.abs(innerFrame.x - outerFrame.x),
@@ -151,5 +142,10 @@ class MovableObject {
             right: Math.abs((outerFrame.x + outerFrame.width) - (innerFrame.x + innerFrame.width)),
             bottom: Math.abs((outerFrame.y + outerFrame.height) - (innerFrame.y + innerFrame.height))
         };
+    }
+
+    hit() {
+        this.x -= 10;
+        this.energy -= 10;
     }
 }
