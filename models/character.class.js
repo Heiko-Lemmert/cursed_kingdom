@@ -71,11 +71,30 @@ class Character extends MovableObject {
         'asset/img/1_Main_character/Archer/PNG Sequences/Hurt/0_Archer_Hurt_010.png',
         'asset/img/1_Main_character/Archer/PNG Sequences/Hurt/0_Archer_Hurt_011.png'
     ];
+    IMAGES_DYING = [
+        'asset/img/1_Main_character/Archer/PNG Sequences/Dying/0_Archer_Dying_000.png',
+        'asset/img/1_Main_character/Archer/PNG Sequences/Dying/0_Archer_Dying_001.png',
+        'asset/img/1_Main_character/Archer/PNG Sequences/Dying/0_Archer_Dying_002.png',
+        'asset/img/1_Main_character/Archer/PNG Sequences/Dying/0_Archer_Dying_003.png',
+        'asset/img/1_Main_character/Archer/PNG Sequences/Dying/0_Archer_Dying_004.png',
+        'asset/img/1_Main_character/Archer/PNG Sequences/Dying/0_Archer_Dying_005.png',
+        'asset/img/1_Main_character/Archer/PNG Sequences/Dying/0_Archer_Dying_005.png',
+        'asset/img/1_Main_character/Archer/PNG Sequences/Dying/0_Archer_Dying_006.png',
+        'asset/img/1_Main_character/Archer/PNG Sequences/Dying/0_Archer_Dying_007.png',
+        'asset/img/1_Main_character/Archer/PNG Sequences/Dying/0_Archer_Dying_008.png',
+        'asset/img/1_Main_character/Archer/PNG Sequences/Dying/0_Archer_Dying_009.png',
+        'asset/img/1_Main_character/Archer/PNG Sequences/Dying/0_Archer_Dying_010.png',
+        'asset/img/1_Main_character/Archer/PNG Sequences/Dying/0_Archer_Dying_011.png',
+        'asset/img/1_Main_character/Archer/PNG Sequences/Dying/0_Archer_Dying_012.png',
+        'asset/img/1_Main_character/Archer/PNG Sequences/Dying/0_Archer_Dying_013.png',
+        'asset/img/1_Main_character/Archer/PNG Sequences/Dying/0_Archer_Dying_014.png'
+    ];
 
     world;
     speed = 10;
     audioWalking = new Audio('asset/audio/walking3.mp3');
-    audioJumping = new Audio('asset/audio/jump.mp3')
+    audioJumping = new Audio('asset/audio/jump.mp3');
+    frameColor = 'blue';
     innerFrame = {
         x : 160,
         y : 300,
@@ -91,11 +110,11 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_FALLING);
         this.loadImages(this.IMAGES_HURT);
+        this.loadImages(this.IMAGES_DYING);
         this.animate();
         this.applyGravity();
         this.offset = this.calculateOffset(this.outerFrame, this.innerFrame)
         this.audioWalking.loop = true;
-        this.frameColor = 'blue';
     }
 
     animate() {
@@ -118,20 +137,25 @@ class Character extends MovableObject {
         }, 1000 / 60)
 
         setInterval(() => {
-            if (this.isAboveGround() && this.speedY < 0 || this.isAboveGround() && this.world.keyboard.right || this.isAboveGround() && this.world.keyboard.left) {
-                this.playAnimation(this.IMAGES_FALLING)
+            if (this.isDead()) {
+                this.playAnimation(this.IMAGES_DYING);
+            } else if (this.isHurt() && !this.isDead()) {
+                this.playAnimation(this.IMAGES_HURT);
+            }
+            else if (this.isAboveGround() && this.speedY < 0 || this.isAboveGround() && this.world.keyboard.right || this.isAboveGround() && this.world.keyboard.left) {
+                this.playAnimation(this.IMAGES_FALLING);
             } 
-            else if (!this.isAboveGround() && !this.world.keyboard.right && !this.world.keyboard.left) {
-                this.playAnimation(this.IMAGES_IDLE)
+            else if (!this.isAboveGround() && !this.world.keyboard.right && !this.world.keyboard.left && !this.isDead() && !this.isHurt()) {
+                this.playAnimation(this.IMAGES_IDLE);
             }
             else if (!this.isAboveGround() && this.world.keyboard.right || !this.isAboveGround() && this.world.keyboard.left) {
-                this.playAnimation(this.IMAGES_WALKING)
+                this.playAnimation(this.IMAGES_WALKING);
             }
         }, 100)
 
         setInterval(() => {
             if (this.isAboveGround() && this.speedY >= 0 && !this.world.keyboard.right && !this.world.keyboard.left) {
-                this.playAnimation(this.IMAGES_JUMPING)
+                this.playAnimation(this.IMAGES_JUMPING);
             }  
         }, 250)
     }

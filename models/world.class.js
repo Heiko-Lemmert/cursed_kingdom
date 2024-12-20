@@ -1,6 +1,7 @@
 class World {
     character = new Character();
     level = levelOne;
+    health = new Heahltbar(this.character);
     ctx;
     canvas;
     keyboard;
@@ -27,6 +28,7 @@ class World {
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgrounds);
         this.addObjectsToMap(this.level.clouds);
+        this.health.draw(this.ctx);
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.collectibles);
@@ -41,11 +43,7 @@ class World {
         setInterval(() => {
             this.level.enemies.forEach(enemy => {
                 if (this.character.isColliding(enemy)) {
-                    console.log('Collison detected with', enemy)
                     this.character.hit();
-                    setInterval(() => {
-                        this.character.playAnimation(this.character.IMAGES_HURT)
-                    }, 1000 / 30);
                     console.log('Collison detected your energy is', this.character.energy)
                 }
             });
@@ -96,7 +94,7 @@ class World {
         }
         wo.draw(this.ctx);
         wo.drawFrame(this.ctx);
-        wo.drawinnerFrame(this.ctx);
+        wo.drawInnerFrame(this.ctx);
         if (wo.otherDirection) {
             this.flipImgBack(wo);
         }
@@ -115,5 +113,4 @@ class World {
         wo.innerFrame.flippedX = wo.width - (wo.innerFrame.x + wo.innerFrame.width);
         this.ctx.restore();
     }
-
 }

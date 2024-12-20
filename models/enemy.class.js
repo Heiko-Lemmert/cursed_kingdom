@@ -27,6 +27,7 @@ class Enemy extends MovableObject {
         'asset/img/2_Enemies/Skeleton/PNG/PNG Sequences/Walking/0_Skeleton_Walking_023.png'
     ]
     otherDirection = true;
+    frameColor = 'red';
     innerFrame = {
         y : 300,
         width : 120,
