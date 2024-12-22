@@ -1,7 +1,10 @@
 class World {
     character = new Character();
     level = levelOne;
-    health = new Heahltbar(this.character);
+    health = new Heahltbar();
+    arrows = [
+        new ShootableObject(160)
+    ];
     ctx;
     canvas;
     keyboard;
@@ -13,11 +16,14 @@ class World {
         this.keyboard = keyboard;
         this.setWorld();
         this.draw();
-        this.checkCollison();
+        this.run();
     }
 
     setWorld() {
         this.character.world = this;
+        // this.arrows.forEach(a => {
+        //     a.world = this;
+        // });
     }
 
     /**
@@ -28,8 +34,14 @@ class World {
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgrounds);
         this.addObjectsToMap(this.level.clouds);
+
+        this.ctx.translate(-this.camera_x, 0);
+        // --- Space for fixed Objects
         this.health.draw(this.ctx);
+        this.ctx.translate(this.camera_x, 0);
+
         this.addToMap(this.character);
+        this.addObjectsToMap(this.arrows)
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.collectibles);
         this.ctx.translate(-this.camera_x, 0);
@@ -39,23 +51,37 @@ class World {
         })
     }
 
-    checkCollison() {
+    run() {
         setInterval(() => {
-            this.level.enemies.forEach(enemy => {
-                if (this.character.isColliding(enemy)) {
-                    this.character.hit();
-                    console.log('Collison detected your energy is', this.character.energy)
-                }
-            });
-        }, 1000);
+            this.checkCollison();
+            this.checkCollected();
+            this.checkShootableObject();
+        }, 250);
+    }
 
-        setInterval(() => {
-            this.level.collectibles.forEach((collectible, i) => {
-                if (this.character.isColliding(collectible)) {
-                    console.log('Collison detected with', collectible, i)
-                }
-            });
-        }, 1000);
+    checkCollison() {
+        this.level.enemies.forEach(enemy => {
+            if (this.character.isColliding(enemy)) {
+                this.character.hit();
+                this.health.setPercent(this.character.energy);
+                console.log('Collison detected your energy is', this.character.energy)
+            }
+        });
+    }
+
+    checkCollected() {
+        this.level.collectibles.forEach((collectible, i) => {
+            if (this.character.isColliding(collectible)) {
+                console.log('Collison detected with', collectible, i)
+            }
+        });
+    }
+
+    checkShootableObject() {
+        if (this.keyboard.down && !this.character.isAboveGround) {
+            let arrow = new ShootableObject(this.character.x + 160);
+            this.arrows.push(arrow);
+        }
     }
 
     checkCollisonFrame() {

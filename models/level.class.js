@@ -3,8 +3,6 @@ class Level {
     clouds;
     backgrounds;
     collectibles;
-    // coins;
-    // arrows;
     levelEndX = 7200;
 
     constructor(enemies, clouds, backgrounds, collectibles) {
@@ -12,7 +10,5 @@ class Level {
         this.clouds = clouds;
         this.backgrounds = backgrounds;
         this.collectibles = collectibles;
-        // this.coins = coins;
-        // this.arrows = arrows;
     }
 }

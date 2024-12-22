@@ -1,11 +1,8 @@
 class MovableObject extends DrawableObjects {
     x = 100;
     y = 250;
-    img;
     height = 250;
     width = 250;
-    imageCache = {};
-    currentImages = 0;
     speed = 0.15;
     otherDirection = false;
     speedY = 0;
@@ -87,7 +84,7 @@ class MovableObject extends DrawableObjects {
     }
 
     hit() {
-        this.energy -= 10;
+        this.energy -= 20;
         this.lastHit = new Date().getTime();
         if (this.energy < 0) {
             this.energy = 0
