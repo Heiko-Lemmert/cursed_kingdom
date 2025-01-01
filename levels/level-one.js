@@ -19,7 +19,6 @@ const levelOne = new Level(
         new Coin(1160, 80),
         new Coin(1240, 140),
         new Coin(1320, 200),
-        
 
         // Two Section 
         new Coin(3000, 200),
@@ -35,9 +34,10 @@ const levelOne = new Level(
         new Coin(5240, 140),
         new Coin(5320, 200),
 
-        // Apple
-        new Apple(450, 400)
     ],
+    [
+        new Apple(450, 400)
+    ]
 )
 
 function fillBackgroundArr() {
@@ -46,8 +46,8 @@ function fillBackgroundArr() {
     for (let i = 0; i < 8; i++) {
         backgrounds.push(new BackgroundObject(`asset/img/5_Levels/SKY-BRIDGE/Backgrounds/tower.png`, 0, xpostion, 310));
         backgrounds.push(new BackgroundObject(`asset/img/5_Levels/SKY-BRIDGE/Backgrounds/${bridgeImg}.png`, 300, xpostion, 300));
-        backgrounds.push(new BackgroundObject(`asset/img/5_Levels/SKY-BRIDGE/Backgrounds/grass.png`, 280, xpostion, 300)); 
+        backgrounds.push(new BackgroundObject(`asset/img/5_Levels/SKY-BRIDGE/Backgrounds/grass.png`, 280, xpostion, 300));
         bridgeImg = bridgeImg === 'bridge' ? 'bridge-180' : 'bridge';
-        xpostion += 1200; 
+        xpostion += 1200;
     }
 }

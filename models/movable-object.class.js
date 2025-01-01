@@ -8,8 +8,7 @@ class MovableObject extends DrawableObjects {
     speedY = 0;
     acceleration = 1;
     onCollisionCourse = true;
-    energy = 100;
-    previousEnergy = this.energy;
+    health = 100;
     lastHit = 0;
     outerFrame = {
         x: this.x,
@@ -83,16 +82,20 @@ class MovableObject extends DrawableObjects {
         return this.x > 0
     }
 
-    hit() {
-        this.energy -= 20;
+    /**
+     * 
+     * @param {number} damage is the amount of damage
+     */
+    hit(damage) {
+        this.health -= damage;
         this.lastHit = new Date().getTime();
-        if (this.energy < 0) {
-            this.energy = 0
+        if (this.health < 0) {
+            this.health = 0
         }
     }
 
     isDead() {
-        return this.energy === 0;
+        return this.health === 0;
     }
 
     isHurt() {

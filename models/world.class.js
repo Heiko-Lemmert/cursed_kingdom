@@ -3,12 +3,14 @@ class World {
     level = levelOne;
     health = new Heahltbar();
     arrows = [
-        new ShootableObject(160)
+       // new ShootableObject(160)
     ];
     ctx;
     canvas;
     keyboard;
     camera_x = 0;
+    currentCoins = 0;
+    currentEnergy = 0;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -21,9 +23,6 @@ class World {
 
     setWorld() {
         this.character.world = this;
-        // this.arrows.forEach(a => {
-        //     a.world = this;
-        // });
     }
 
     /**
@@ -43,7 +42,8 @@ class World {
         this.addToMap(this.character);
         this.addObjectsToMap(this.arrows)
         this.addObjectsToMap(this.level.enemies);
-        this.addObjectsToMap(this.level.collectibles);
+        this.addObjectsToMap(this.level.coins);
+        this.addObjectsToMap(this.level.apples);
         this.ctx.translate(-this.camera_x, 0);
         let self = this;
         requestAnimationFrame(() => { // Mit dieser Funktion wird die Draw() 30-60 mal pro Sekunde ausgeführt
@@ -54,7 +54,8 @@ class World {
     run() {
         setInterval(() => {
             this.checkCollison();
-            this.checkCollected();
+            this.checkCoinCollison();
+            this.checkAppleCollison();
             this.checkShootableObject();
         }, 250);
     }
@@ -62,23 +63,40 @@ class World {
     checkCollison() {
         this.level.enemies.forEach(enemy => {
             if (this.character.isColliding(enemy)) {
-                this.character.hit();
-                this.health.setPercent(this.character.energy);
-                console.log('Collison detected your energy is', this.character.energy)
+                this.character.hit(20);
+                this.health.setPercent(this.character.health);
+            }
+            this.arrows.forEach((arrow, i) => {
+                if (arrow.isColliding(enemy)) {
+                    enemy.hit(100); 
+                    this.arrows.splice(i, 1)
+                }
+            })
+
+        });
+    }
+
+    checkCoinCollison() {
+        this.level.coins.forEach((collectible, i) => {
+            if (this.character.isColliding(collectible)) {
+                this.level.coins.splice(i, 1)
+                this.currentCoins++
             }
         });
     }
 
-    checkCollected() {
-        this.level.collectibles.forEach((collectible, i) => {
+    checkAppleCollison() {
+        this.level.apples.forEach((collectible, i) => {
             if (this.character.isColliding(collectible)) {
                 console.log('Collison detected with', collectible, i)
+                this.level.apples.splice(i, 1)
+                this.currentEnergy++
             }
         });
     }
 
     checkShootableObject() {
-        if (this.keyboard.down && !this.character.isAboveGround) {
+        if (this.keyboard.down && !this.character.isAboveGround()) {
             let arrow = new ShootableObject(this.character.x + 160);
             this.arrows.push(arrow);
         }
@@ -98,10 +116,10 @@ class World {
         console.log('Bottom:', this.level.enemies[0].y + this.level.enemies[0].height - this.level.enemies[0].offset.bottom);
 
         console.log('Objekt Coin - Berechnete Grenzen:');
-        console.log('Left:', this.level.collectibles[0].x + this.level.collectibles[0].offset.left);
-        console.log('Right:', this.level.collectibles[0].x + this.level.collectibles[0].width - this.level.collectibles[0].offset.right);
-        console.log('Top:', this.level.collectibles[0].y + this.level.collectibles[0].offset.top);
-        console.log('Bottom:', this.level.collectibles[0].y + this.level.collectibles[0].height - this.level.collectibles[0].offset.bottom);
+        console.log('Left:', this.level.coins[0].x + this.level.coins[0].offset.left);
+        console.log('Right:', this.level.coins[0].x + this.level.coins[0].width - this.level.coins[0].offset.right);
+        console.log('Top:', this.level.coins[0].y + this.level.coins[0].offset.top);
+        console.log('Bottom:', this.level.coins[0].y + this.level.coins[0].height - this.level.coins[0].offset.bottom);
     }
 
     addObjectsToMap(objects) {
