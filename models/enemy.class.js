@@ -56,7 +56,6 @@ class Enemy extends MovableObject {
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);
         this.x = 600 + Math.random() * 500;
-        // this.x = 600;
         this.speed = 0.25 + Math.random() * 0.25
         this.innerFrame.x = this.x + 60;
         this.outerFrame.x = this.x;

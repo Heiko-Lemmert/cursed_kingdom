@@ -1,9 +1,11 @@
 class World {
     character = new Character();
     level = levelOne;
-    health = new Heahltbar();
+    healthbar = new Heahltbar();
+    energybar = new Energybar();
+    coinbar = new Coinbar();
     arrows = [
-       // new ShootableObject(160)
+        // new ShootableObject(160)
     ];
     ctx;
     canvas;
@@ -14,6 +16,7 @@ class World {
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
+        this.ctx.font = '48px Eagle Lake'
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.setWorld();
@@ -36,7 +39,10 @@ class World {
 
         this.ctx.translate(-this.camera_x, 0);
         // --- Space for fixed Objects
-        this.health.draw(this.ctx);
+        this.healthbar.draw(this.ctx);
+        this.energybar.draw(this.ctx);
+        this.coinbar.draw(this.ctx);
+        this.coinbar.fillText(this.ctx);
         this.ctx.translate(this.camera_x, 0);
 
         this.addToMap(this.character);
@@ -64,11 +70,11 @@ class World {
         this.level.enemies.forEach(enemy => {
             if (this.character.isColliding(enemy)) {
                 this.character.hit(20);
-                this.health.setPercent(this.character.health);
+                this.healthbar.setPercent(this.character.health, this.healthbar.IMAGES_HEALTH);
             }
             this.arrows.forEach((arrow, i) => {
                 if (arrow.isColliding(enemy)) {
-                    enemy.hit(100); 
+                    enemy.hit(100);
                     this.arrows.splice(i, 1)
                 }
             })
@@ -80,7 +86,7 @@ class World {
         this.level.coins.forEach((collectible, i) => {
             if (this.character.isColliding(collectible)) {
                 this.level.coins.splice(i, 1)
-                this.currentCoins++
+                this.coinbar.currentCoins++
             }
         });
     }
@@ -88,17 +94,19 @@ class World {
     checkAppleCollison() {
         this.level.apples.forEach((collectible, i) => {
             if (this.character.isColliding(collectible)) {
-                console.log('Collison detected with', collectible, i)
-                this.level.apples.splice(i, 1)
-                this.currentEnergy++
+                this.level.apples.splice(i, 1);
+                this.character.increasesEnergy();
+                this.energybar.setPercent(this.character.energy, this.energybar.IMAGES_ENERGY);
             }
         });
     }
 
     checkShootableObject() {
-        if (this.keyboard.down && !this.character.isAboveGround()) {
+        if (this.keyboard.down && !this.character.isAboveGround() && this.character.hasEnergy()) {
             let arrow = new ShootableObject(this.character.x + 160);
             this.arrows.push(arrow);
+            this.character.lostEnergy();
+            this.energybar.setPercent(this.character.energy, this.energybar.IMAGES_ENERGY);
         }
     }
 
@@ -156,5 +164,10 @@ class World {
         wo.x = wo.x * -1;
         wo.innerFrame.flippedX = wo.width - (wo.innerFrame.x + wo.innerFrame.width);
         this.ctx.restore();
+    }
+
+    /* Alternative (quick and dirty), um alle Intervalle zu beenden. */
+    clearAllIntervals() {
+        for (let i = 1; i < 9999; i++) window.clearInterval(i);
     }
 }

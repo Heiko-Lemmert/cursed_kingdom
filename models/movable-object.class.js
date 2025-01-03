@@ -10,6 +10,7 @@ class MovableObject extends DrawableObjects {
     onCollisionCourse = true;
     health = 100;
     lastHit = 0;
+    energy = 100;
     outerFrame = {
         x: this.x,
         y: this.y,
@@ -102,5 +103,21 @@ class MovableObject extends DrawableObjects {
         let timepassed = new Date().getTime() - this.lastHit; // Differenz in ms
         timepassed = timepassed / 1000 // Differenz in s
         return timepassed < 1
+    }
+
+    hasEnergy() {
+        return this.energy > 0;
+    }
+
+    lostEnergy() {
+        this.energy -= 20;
+    }
+
+    increasesEnergy() {
+        if (this.energy === 100) {
+            return;
+        } else {
+            this.energy += 20;
+        }
     }
 }

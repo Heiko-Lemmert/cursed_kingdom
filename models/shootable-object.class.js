@@ -15,7 +15,6 @@ class ShootableObject extends MovableObject {
     onFly() {
         setInterval(() => {
                this.x += 5;
-                // console.log('I shoot my Arrow on x =', this.x) 
         }, 1000 / 60);
     }
 }
