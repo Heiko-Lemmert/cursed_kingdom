@@ -5,16 +5,24 @@ class ShootableObject extends MovableObject {
     IMG_SRC = 'asset/img/1_Main_character/Archer/Vector Parts/Arrow.png';
     speed = 1;
 
-    constructor(x) {
+    constructor(x, otherDirection) {
         super();
         this.x = x;
+        this.otherDirection = otherDirection;
         this.loadImage(this.IMG_SRC);
         this.onFly();
     }
-    
+
     onFly() {
-        setInterval(() => {
-               this.x += 5;
-        }, 1000 / 60);
+        if (this.otherDirection) {
+            setInterval(() => {
+                this.x -= 10;
+            }, 1000 / 60);
+        } else {
+            setInterval(() => {
+                this.x += 10;
+            }, 1000 / 60);
+        }
+
     }
 }

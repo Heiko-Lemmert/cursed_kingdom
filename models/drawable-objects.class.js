@@ -38,13 +38,6 @@ class DrawableObjects {
         ctx.stroke();
     }
 
-    playAnimation(images) {
-        let i = this.currentImages % images.length;
-        let path = images[i];
-        this.img = this.imageCache[path];
-        this.currentImages++
-    }
-
     isColliding(mo) {
         return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
             this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
@@ -59,5 +52,12 @@ class DrawableObjects {
             right: Math.abs((outerFrame.x + outerFrame.width) - (innerFrame.x + innerFrame.width)),
             bottom: Math.abs((outerFrame.y + outerFrame.height) - (innerFrame.y + innerFrame.height))
         };
+    }
+
+    playAnimation(images) {
+        let i = this.currentImages % images.length;
+        let path = images[i];
+        this.img = this.imageCache[path];
+        this.currentImages++
     }
 }

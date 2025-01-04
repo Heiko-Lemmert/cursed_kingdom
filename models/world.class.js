@@ -63,7 +63,7 @@ class World {
             this.checkCoinCollison();
             this.checkAppleCollison();
             this.checkShootableObject();
-        }, 250);
+        }, 150);
     }
 
     checkCollison() {
@@ -103,8 +103,14 @@ class World {
 
     checkShootableObject() {
         if (this.keyboard.down && !this.character.isAboveGround() && this.character.hasEnergy()) {
-            let arrow = new ShootableObject(this.character.x + 160);
-            this.arrows.push(arrow);
+            if (this.character.otherDirection) {
+                let arrow = new ShootableObject(this.character.x, true);
+                this.arrows.push(arrow);
+                console.log('Ich schieße nach links')
+            } else {
+                let arrow = new ShootableObject(this.character.x + 160);
+                this.arrows.push(arrow);
+            }
             this.character.lostEnergy();
             this.energybar.setPercent(this.character.energy, this.energybar.IMAGES_ENERGY);
         }
