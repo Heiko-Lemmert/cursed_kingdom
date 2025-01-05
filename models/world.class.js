@@ -69,16 +69,21 @@ class World {
     checkCollison() {
         this.level.enemies.forEach(enemy => {
             if (this.character.isColliding(enemy)) {
-                this.character.hit(20);
-                this.healthbar.setPercent(this.character.health, this.healthbar.IMAGES_HEALTH);
+                if (this.character.isLandingOn(enemy)) {
+                    console.log('Ich lande auf dem Gegner');
+                    this.character.speedY = 10; // Der Charakter wird "zurückprallen".
+                    enemy.hit(100); // Gegner besiegen (z. B. mit 100 Schaden).
+                } else {
+                    this.character.hit(20); // Schaden für den Charakter, wenn er nicht auf dem Gegner landet.
+                    this.healthbar.setPercent(this.character.health, this.healthbar.IMAGES_HEALTH);
+                }
             }
             this.arrows.forEach((arrow, i) => {
                 if (arrow.isColliding(enemy)) {
-                    enemy.hit(100);
-                    this.arrows.splice(i, 1)
+                    enemy.hit(100); // Gegner erlediet schaden durch Pfeil.
+                    this.arrows.splice(i, 1); // Pfeil entfernen.
                 }
-            })
-
+            });
         });
     }
 
