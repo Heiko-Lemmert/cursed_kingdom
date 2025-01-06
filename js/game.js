@@ -7,7 +7,7 @@ function init() {
     world = new World(canvas, keyboard);
 
     // console.log('My Character is', world.character)
-    // console.log('The First Coin is:', world.level.coins[0])
+    // console.log('The First Coin is:', world.level.coins[0])f
 }
 
 window.addEventListener('keydown', event => {
@@ -32,6 +32,10 @@ window.addEventListener('keydown', event => {
             // console.log('Space is pressend')
             keyboard.space = true;
             break;
+        case 70:
+            // console.log('Space is pressend')
+            keyboard.fire = true;
+            break;
     }
 })
 
@@ -47,7 +51,7 @@ window.addEventListener('keyup', (event) => {
             break;
         case 68:
             // console.log('Right is lossing')
-            keyboard.right = false;
+            keyboard.right = false;f
             break;
         case 65:
             // console.log('Left is lossing')
@@ -56,6 +60,10 @@ window.addEventListener('keyup', (event) => {
         case 32:
             // console.log('Space is lossing')
             keyboard.space = false;
+            break;
+        case 70:
+            // console.log('Space is pressend')
+            keyboard.fire = false;
             break;
     }
 })

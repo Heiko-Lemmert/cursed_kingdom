@@ -4,9 +4,7 @@ class World {
     healthbar = new Heahltbar();
     energybar = new Energybar();
     coinbar = new Coinbar();
-    arrows = [
-        // new ShootableObject(160)
-    ];
+    arrows = [];
     ctx;
     canvas;
     keyboard;
@@ -68,7 +66,7 @@ class World {
 
     checkCollison() {
         this.level.enemies.forEach(enemy => {
-            if (this.character.isColliding(enemy)) {
+            if (this.character.isColliding(enemy) && !enemy.isDead()) {
                 if (this.character.isLandingOn(enemy)) {
                     console.log('Ich lande auf dem Gegner');
                     this.character.speedY = 10; // Der Charakter wird "zurückprallen".
@@ -78,10 +76,13 @@ class World {
                     this.healthbar.setPercent(this.character.health, this.healthbar.IMAGES_HEALTH);
                 }
             }
-            this.arrows.forEach((arrow, i) => {
+            this.arrows.forEach((arrow) => {
                 if (arrow.isColliding(enemy)) {
                     enemy.hit(100); // Gegner erlediet schaden durch Pfeil.
-                    this.arrows.splice(i, 1); // Pfeil entfernen.
+                    this.arrows.splice(arrow, 1); // Pfeil entfernen.
+                    setTimeout(()=> {
+                        this.level.enemies.splice(enemy, 1)
+                    }, 1500)
                 }
             });
         });
@@ -107,7 +108,7 @@ class World {
     }
 
     checkShootableObject() {
-        if (this.keyboard.down && !this.character.isAboveGround() && this.character.hasEnergy()) {
+        if (this.keyboard.fire && !this.character.isAboveGround() && this.character.hasEnergy()) {
             if (this.character.otherDirection) {
                 let arrow = new ShootableObject(this.character.x, true);
                 this.arrows.push(arrow);

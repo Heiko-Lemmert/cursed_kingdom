@@ -53,6 +53,16 @@ class MovableObject extends DrawableObjects {
         this.otherDirection = true;
     }
 
+    moveUp() {
+        this.y -= this.speed;
+        this.innerFrame.y -= this.speed;
+    }
+
+    moveDown() {
+        this.y += this.speed;
+        this.innerFrame.y += this.speed;
+    }
+
     jump() {
         this.speedY = 22;
     }

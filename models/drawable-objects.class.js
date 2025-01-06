@@ -49,35 +49,9 @@ class DrawableObjects {
     }
 
     isLandingOn(mo) {
-        return this.y + this.height - this.offset.bottom < mo.y + mo.offset.top + 35 &&
+        return this.y + this.height - this.offset.bottom < mo.y + mo.offset.top + 50 &&
                this.y + this.height > mo.y; // Überprüft, ob der Charakter knapp auf dem Gegner landet
     }
-
-    // isLandingOn(mo) {
-    //     console.log('Character:', {
-    //         speedY: this.speedY,
-    //         y: this.y,
-    //         height: this.height,
-    //         offsetBottom: this.offset.bottom
-    //     });
-    //     console.log('Enemy:', {
-    //         y: mo.y,
-    //         offsetTop: mo.offset.top,
-    //         x: mo.x,
-    //         width: mo.width,
-    //         offsetLeft: mo.offset.left,
-    //         offsetRight: mo.offset.right
-    //     });
-    
-    //     const result =
-    //         this.y + this.height - this.offset.bottom <= mo.y + mo.offset.top + 35 &&
-    //         this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
-    //         this.x + this.offset.left < mo.x + mo.width - mo.offset.right;
-    
-    //     console.log('isLandingOn result:', result);
-    //     return result;
-    // }
-
 
     calculateOffset(outerFrame, innerFrame) {
         return {

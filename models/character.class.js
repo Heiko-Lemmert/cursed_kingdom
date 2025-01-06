@@ -128,6 +128,14 @@ class Character extends MovableObject {
                 if (!this.isAboveGround()) this.audioWalking.play();
                 this.moveLeft();
             }
+            if (this.world.keyboard.up) {
+                if (!this.isAboveGround()) this.audioWalking.play();
+                this.moveUp();
+            }
+            if (this.world.keyboard.down) {
+                if (!this.isAboveGround()) this.audioWalking.play();
+                this.moveDown();
+            }
             if (this.world.keyboard.space && !this.isAboveGround()) {
                 this.audioJumping.play()
                 this.jump();
