@@ -51,7 +51,7 @@ window.addEventListener('keyup', (event) => {
             break;
         case 68:
             // console.log('Right is lossing')
-            keyboard.right = false;f
+            keyboard.right = false;
             break;
         case 65:
             // console.log('Left is lossing')
@@ -62,7 +62,6 @@ window.addEventListener('keyup', (event) => {
             keyboard.space = false;
             break;
         case 70:
-            // console.log('Space is pressend')
             keyboard.fire = false;
             break;
     }

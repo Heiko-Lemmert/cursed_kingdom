@@ -69,6 +69,7 @@ class World {
             if (this.character.isColliding(enemy) && !enemy.isDead()) {
                 if (this.character.isLandingOn(enemy)) {
                     console.log('Ich lande auf dem Gegner');
+                    console.log('Aktuelle Höhe ist', + this.character.y)
                     this.character.speedY = 10; // Der Charakter wird "zurückprallen".
                     enemy.hit(100); // Gegner besiegen (z. B. mit 100 Schaden).
                 } else {

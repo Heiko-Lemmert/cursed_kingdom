@@ -30,13 +30,22 @@ class MovableObject extends DrawableObjects {
         right: 0,
         bottom: 0
     };
+    currentY;
+    isJumping = false;
 
     applyGravity() {
         setInterval(() => {
-            if (this.isAboveGround() || this.speedY > 0) {
+            if (this.isJumping) { // this.isAboveGround() || this.speedY > 0
                 this.y -= this.speedY;
                 this.innerFrame.y -= this.speedY;
                 this.speedY -= this.acceleration;
+                // Sobald der Charakter den Boden erreicht:
+                if (Math.abs(this.y - this.currentY) < 10) { // Toleranz von 10 Pixel
+                    this.y = this.currentY; // Auf Boden fixieren
+                    this.speedY = 0; // Geschwindigkeit zurücksetzen
+                    this.isJumping = false; // Sprungstatus zurücksetzen
+                }
+
             }
         }, 1000 / 25);
     }
@@ -63,8 +72,18 @@ class MovableObject extends DrawableObjects {
         this.innerFrame.y += this.speed;
     }
 
+    currentPosition() {
+        // Speichert die aktuelle Y-Position als Ausgangspunkt für den Sprung
+        if (!this.isJumping) {
+            this.currentY = this.y;
+        }
+    }
+
     jump() {
-        this.speedY = 22;
+        if (!this.isJumping) {
+            this.isJumping = true;
+            this.speedY = 22;
+        }
     }
 
     // This Section is for different Rules
@@ -74,7 +93,7 @@ class MovableObject extends DrawableObjects {
      * @returns The object is in the Air
      */
     isAboveGround() {
-        return this.y < 250;
+        return this.y < 145;
     }
 
     /**
@@ -91,6 +110,22 @@ class MovableObject extends DrawableObjects {
      */
     mapStartPoint() {
         return this.x > 0
+    }
+
+    /**
+     * 
+     * @returns The object is located at the top of the bridge
+     */
+    bridgeTopPoint() {
+        return this.y > 150
+    }
+
+    /**
+     * 
+     * @returns The object is located at the bottom of the bridge
+     */
+    bridgeBottomPoint() {
+        return this.y < 330
     }
 
     /**
