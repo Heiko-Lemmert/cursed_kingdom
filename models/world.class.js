@@ -110,13 +110,17 @@ class World {
 
     checkShootableObject() {
         if (this.keyboard.fire && !this.character.isAboveGround() && this.character.hasEnergy()) {
+            if (this.character.lastShoot) {
+                this.animationFinished = false; // <------------------------------------------------------------------ Animation geht nur einmal weil Varibale ggf. nur hier geändert wird
+            }
+            let shootAnimation = setInterval(() => {
+                this.character.playOnceAnimation(this.character.IMAGES_SHOOTING, shootAnimation)
+            }, 1000 / 60);
+            
             if (this.character.otherDirection) {
-                let arrow = new ShootableObject(this.character.x, true);
-                this.arrows.push(arrow);
-                console.log('Ich schieße nach links')
+                this.character.shoot(this.character.x, true);
             } else {
-                let arrow = new ShootableObject(this.character.x + 160);
-                this.arrows.push(arrow);
+                this.character.shoot(this.character.x + 160);
             }
             this.character.lostEnergy();
             this.energybar.setPercent(this.character.energy, this.energybar.IMAGES_ENERGY);

@@ -107,11 +107,12 @@ class Character extends MovableObject {
     audioWalking = new Audio('asset/audio/walking3.mp3');
     audioJumping = new Audio('asset/audio/jump.mp3');
     frameColor = 'blue';
+    lastShoot = 0;
     innerFrame = {
-        x : 160,
-        y : 300,
-        width : 120,
-        height : 150
+        x: 160,
+        y: 300,
+        width: 120,
+        height: 150
     };
 
 
@@ -126,6 +127,7 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_SHOOTING);
         this.animate();
         this.applyGravity();
+        // this.resetShoot();
         this.offset = this.calculateOffset(this.outerFrame, this.innerFrame)
         this.audioWalking.loop = true;
         this.currentY = this.y;
@@ -161,29 +163,44 @@ class Character extends MovableObject {
 
         setInterval(() => {
             if (this.isDead() && !this.animationFinished) {
-                this.playDeathAnimation(this.IMAGES_DYING);
+                this.playOnceAnimation(this.IMAGES_DYING);
             } else if (this.isHurt() && !this.isDead()) {
                 this.playAnimation(this.IMAGES_HURT);
-            }
-            else if (this.isAboveGround() && this.speedY < 0 || this.isAboveGround() && this.world.keyboard.right || this.isAboveGround() && this.world.keyboard.left) {
+            } else if (this.isAboveGround() && this.speedY < 0 || this.isAboveGround() && this.world.keyboard.right || this.isAboveGround() && this.world.keyboard.left) {
                 this.playAnimation(this.IMAGES_FALLING);
-            } 
-            else if (!this.isAboveGround() && !this.world.keyboard.right && !this.world.keyboard.left && !this.isDead() && !this.isHurt()) {
+            } else if (!this.isAboveGround() && !this.world.keyboard.right && !this.world.keyboard.left && !this.isDead() && !this.isHurt()) {
                 this.playAnimation(this.IMAGES_IDLE);
-            }
-            else if (!this.isAboveGround() && this.world.keyboard.right || !this.isAboveGround() && this.world.keyboard.left) {
+            } else if (!this.isAboveGround() && this.world.keyboard.right || !this.isAboveGround() && this.world.keyboard.left || !this.isAboveGround() && this.world.keyboard.down || !this.isAboveGround() && this.world.keyboard.up) {
                 this.playAnimation(this.IMAGES_WALKING);
-            } 
-            else if (this.world.keyboard.fire) {
-                console.log('Test')
-                this.playAnimation(this.IMAGES_SHOOTING);
             }
         }, 100)
 
         setInterval(() => {
             if (this.isAboveGround() && this.speedY >= 0 && !this.world.keyboard.right && !this.world.keyboard.left) {
                 this.playAnimation(this.IMAGES_JUMPING);
-            }  
+            }
         }, 250)
+    }
+
+    shoot(x, left) {
+        let arrow = new ShootableObject(x, left);
+        this.world.arrows.push(arrow);
+        this.lastShoot = new Date().getTime();
+    }
+
+    resetShoot() {
+        setInterval(() => {
+            let timepassed = new Date().getTime() - this.lastShoot; // Differenz in ms
+            timepassed = timepassed / 1000 // Differenz in s
+            if (timepassed > 0.5) {
+                this.animationFinished = false;
+            }
+        }, 100);
+    }
+
+    lastShoot() {
+        let timepassed = new Date().getTime() - this.lastShoot; // Differenz in ms
+        timepassed = timepassed / 1000 // Differenz in s
+        return timepassed > 1;
     }
 }

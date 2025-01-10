@@ -3,7 +3,7 @@ class DrawableObjects {
     imageCache = {};
     currentImages = 0;
     animationFinished = false;
-    currentDeathImages = 0;
+    currentOnceImages = 0;
 
     loadImage(path) {
         this.img = new Image();
@@ -69,18 +69,19 @@ class DrawableObjects {
         this.currentImages++
     }
 
-    playDeathAnimation(images) {
+    playOnceAnimation(images, interval) {
         // Abbruchbedingung: Wenn die Animation abgeschlossen ist, bleibt das letzte Bild stehen
         if (this.animationFinished) return;
     
-        let i = this.currentDeathImages;
+        let i = this.currentOnceImages;
         if (i >= images.length) { // Animation abgeschlossen
             this.animationFinished = true;
             this.img = this.imageCache[images[images.length - 1]]; // Letztes Bild anzeigen
+            clearInterval(interval) // Beendet den einkommender Intervall
         } else {
             let path = images[i];
             this.img = this.imageCache[path];
-            this.currentDeathImages++; 
+            this.currentOnceImages++; 
         }
     }
 }

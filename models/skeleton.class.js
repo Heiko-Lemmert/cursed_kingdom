@@ -73,7 +73,7 @@ class Skeleton extends MovableObject {
 
         setInterval(() => {
             if (this.isDead() && !this.animationFinished) {
-                this.playDeathAnimation(this.IMAGES_DYING);
+                this.playOnceAnimation(this.IMAGES_DYING);
             } else {
                 // this.playAnimation(this.IMAGES_WALKING);
             }   
