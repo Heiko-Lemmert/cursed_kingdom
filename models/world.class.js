@@ -61,7 +61,7 @@ class World {
             this.checkCoinCollison();
             this.checkAppleCollison();
             this.checkShootableObject();
-        }, 150);
+        }, 100);
     }
 
     checkCollison() {
@@ -69,7 +69,7 @@ class World {
             if (this.character.isColliding(enemy) && !enemy.isDead()) {
                 if (this.character.isLandingOn(enemy)) {
                     console.log('Ich lande auf dem Gegner');
-                    console.log('Aktuelle Höhe ist', + this.character.y)
+                    console.log('Aktuelle Höhe ist', +this.character.y)
                     this.character.speedY = 10; // Der Charakter wird "zurückprallen".
                     enemy.hit(100); // Gegner besiegen (z. B. mit 100 Schaden).
                 } else {
@@ -81,7 +81,7 @@ class World {
                 if (arrow.isColliding(enemy)) {
                     enemy.hit(100); // Gegner erlediet schaden durch Pfeil.
                     this.arrows.splice(arrow, 1); // Pfeil entfernen.
-                    setTimeout(()=> {
+                    setTimeout(() => {
                         this.level.enemies.splice(enemy, 1)
                     }, 1500)
                 }
@@ -108,22 +108,64 @@ class World {
         });
     }
 
+    // checkShootableObject() {
+    //     if (this.keyboard.fire && !this.character.isAboveGround() && this.character.hasEnergy() && this.character.lastShootAgo()) {
+
+    //         console.log("Schuss wird ausgeführt"); // Debug
+    //         this.character.currentOnceImages = 0;
+    //         // this.character.isShooting = true; // Schießen blockieren
+    //         this.character.animationFinished = false; // Animation zurücksetzen
+
+    //         // Schussrichtung und Position
+    //         if (this.character.otherDirection) {
+    //             this.character.shoot(this.character.x, true);
+    //         } else {
+    //             this.character.shoot(this.character.x + 160);
+    //         }
+
+           
+
+    //         // Energieverlust
+    //         // this.character.lostEnergy();
+    //         this.energybar.setPercent(this.character.energy, this.energybar.IMAGES_ENERGY);
+
+    //         // setTimeout(() => {
+    //         //     console.log("Schuss abgeschlossen"); // Debug
+    //         //     this.character.isShooting = false;
+    //         // }, 5000);
+
+    //     }
+    // }
+
     checkShootableObject() {
-        if (this.keyboard.fire && !this.character.isAboveGround() && this.character.hasEnergy()) {
-            if (this.character.lastShoot) {
-                this.animationFinished = false; // <------------------------------------------------------------------ Animation geht nur einmal weil Varibale ggf. nur hier geändert wird
-            }
-            let shootAnimation = setInterval(() => {
-                this.character.playOnceAnimation(this.character.IMAGES_SHOOTING, shootAnimation)
-            }, 1000 / 60);
-            
-            if (this.character.otherDirection) {
-                this.character.shoot(this.character.x, true);
+        if (
+            this.keyboard.fire && // Taste F wird gedrückt
+            !this.character.isAboveGround() && // Charakter steht auf dem Boden
+            this.character.hasEnergy() && // Charakter hat Energie
+            this.character.lastShootAgo() && // Zeit seit letztem Schuss ist ausreichend
+            !this.character.isShooting // Animation läuft noch nicht
+        ) {
+            this.character.isShooting = true; // Blockiere weiteren Schuss
+            this.character.animationFinished = false; // Setze Animation zurück
+
+            // Setze die Richtung des Schusses
+            const shootX = this.character.otherDirection ? this.character.x : this.character.x + 160;
+    
+            // Schuss erzeugen
+            this.character.shoot(shootX, this.character.otherDirection);
+    
+            // Schussanimation starten
+            if (this.keyboard.right || this.keyboard.left) {
+                this.character.startShootAnimation(this.character.IMAGES_RUN_SHOOTING);
             } else {
-                this.character.shoot(this.character.x + 160);
+                this.character.startShootAnimation(this.character.IMAGES_SHOOTING);
             }
-            this.character.lostEnergy();
-            this.energybar.setPercent(this.character.energy, this.energybar.IMAGES_ENERGY);
+            
+    
+            // Energieverlust und Anzeige aktualisieren
+            // this.character.lostEnergy();
+            this.energybar.setPercent(this.character.energy, this.energybar.IMAGES_ENERGY
+            );
         }
     }
 

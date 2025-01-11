@@ -101,6 +101,21 @@ class Character extends MovableObject {
         'asset/img/1_Main_character/Archer/PNG Sequences/Shooting/0_Archer_Shooting_007.png',
         'asset/img/1_Main_character/Archer/PNG Sequences/Shooting/0_Archer_Shooting_008.png'
     ];
+    IMAGES_RUN_SHOOTING = [
+        'asset/img/1_Main_character/Archer/PNG Sequences/Run Shooting/0_Archer_Run Shooting_000.png',
+        'asset/img/1_Main_character/Archer/PNG Sequences/Run Shooting/0_Archer_Run Shooting_001.png',
+        'asset/img/1_Main_character/Archer/PNG Sequences/Run Shooting/0_Archer_Run Shooting_002.png',
+        'asset/img/1_Main_character/Archer/PNG Sequences/Run Shooting/0_Archer_Run Shooting_003.png',
+        'asset/img/1_Main_character/Archer/PNG Sequences/Run Shooting/0_Archer_Run Shooting_004.png',
+        'asset/img/1_Main_character/Archer/PNG Sequences/Run Shooting/0_Archer_Run Shooting_005.png',
+        'asset/img/1_Main_character/Archer/PNG Sequences/Run Shooting/0_Archer_Run Shooting_005.png',
+        'asset/img/1_Main_character/Archer/PNG Sequences/Run Shooting/0_Archer_Run Shooting_006.png',
+        'asset/img/1_Main_character/Archer/PNG Sequences/Run Shooting/0_Archer_Run Shooting_007.png',
+        'asset/img/1_Main_character/Archer/PNG Sequences/Run Shooting/0_Archer_Run Shooting_008.png',
+        'asset/img/1_Main_character/Archer/PNG Sequences/Run Shooting/0_Archer_Run Shooting_009.png',
+        'asset/img/1_Main_character/Archer/PNG Sequences/Run Shooting/0_Archer_Run Shooting_010.png',
+        'asset/img/1_Main_character/Archer/PNG Sequences/Run Shooting/0_Archer_Run Shooting_011.png',
+    ];
 
     world;
     speed = 10;
@@ -108,6 +123,8 @@ class Character extends MovableObject {
     audioJumping = new Audio('asset/audio/jump.mp3');
     frameColor = 'blue';
     lastShoot = 0;
+    isShooting = false;
+    animationInterval = null;
     innerFrame = {
         x: 160,
         y: 300,
@@ -125,6 +142,7 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DYING);
         this.loadImages(this.IMAGES_SHOOTING);
+        this.loadImages(this.IMAGES_RUN_SHOOTING);
         this.animate();
         this.applyGravity();
         // this.resetShoot();
@@ -173,7 +191,7 @@ class Character extends MovableObject {
             } else if (!this.isAboveGround() && this.world.keyboard.right || !this.isAboveGround() && this.world.keyboard.left || !this.isAboveGround() && this.world.keyboard.down || !this.isAboveGround() && this.world.keyboard.up) {
                 this.playAnimation(this.IMAGES_WALKING);
             }
-        }, 100)
+        }, 1000 / 30)
 
         setInterval(() => {
             if (this.isAboveGround() && this.speedY >= 0 && !this.world.keyboard.right && !this.world.keyboard.left) {
@@ -183,24 +201,46 @@ class Character extends MovableObject {
     }
 
     shoot(x, left) {
+        this.lastShoot = new Date().getTime();
         let arrow = new ShootableObject(x, left);
         this.world.arrows.push(arrow);
-        this.lastShoot = new Date().getTime();
+
     }
 
-    resetShoot() {
-        setInterval(() => {
-            let timepassed = new Date().getTime() - this.lastShoot; // Differenz in ms
-            timepassed = timepassed / 1000 // Differenz in s
-            if (timepassed > 0.5) {
-                this.animationFinished = false;
-            }
-        }, 100);
-    }
-
-    lastShoot() {
+    lastShootAgo() {
         let timepassed = new Date().getTime() - this.lastShoot; // Differenz in ms
         timepassed = timepassed / 1000 // Differenz in s
         return timepassed > 1;
+    }
+
+    startShootAnimation(images) {
+        this.currentOnceImages = 0;
+        console.log("isShooting:", this.isShooting);
+        console.log("animationInterval:", this.animationInterval);
+
+        // Verhindere, dass ein neuer Intervall gestartet wird, wenn einer aktiv ist
+        if (this.animationInterval) {
+            console.log("Animation läuft bereits");
+            return;
+        }
+
+        // Starte neuen Intervall
+        this.animationInterval = setInterval(() => {
+            const i = this.currentOnceImages;
+
+            if (i >= images.length) {
+                // Animation abgeschlossen
+                clearInterval(this.animationInterval); // Beende Intervall
+                this.animationInterval = null; // Setze zurück
+                this.animationFinished = true;
+                this.isShooting = false; // Erlaube erneutes Schießen
+                console.log("Schussanimation beendet");
+            } else {
+                // Zeige das nächste Bild der Animation
+                const path = images[i];
+                this.img = this.imageCache[path];
+                this.currentOnceImages++;
+            }
+        }, 1000); // 60 FPS
     }
 }

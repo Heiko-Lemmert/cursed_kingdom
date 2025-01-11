@@ -75,6 +75,7 @@ class DrawableObjects {
     
         let i = this.currentOnceImages;
         if (i >= images.length) { // Animation abgeschlossen
+            console.log("Animation abgeschlossen"); // Debug
             this.animationFinished = true;
             this.img = this.imageCache[images[images.length - 1]]; // Letztes Bild anzeigen
             clearInterval(interval) // Beendet den einkommender Intervall
