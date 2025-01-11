@@ -124,7 +124,7 @@ class Character extends MovableObject {
     frameColor = 'blue';
     lastShoot = 0;
     isShooting = false;
-    animationInterval = null;
+    shootAnimationFinished = false;
     innerFrame = {
         x: 160,
         y: 300,
@@ -186,9 +186,9 @@ class Character extends MovableObject {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (this.isAboveGround() && this.speedY < 0 || this.isAboveGround() && this.world.keyboard.right || this.isAboveGround() && this.world.keyboard.left) {
                 this.playAnimation(this.IMAGES_FALLING);
-            } else if (!this.isAboveGround() && !this.world.keyboard.right && !this.world.keyboard.left && !this.isDead() && !this.isHurt()) {
+            } else if (!this.isAboveGround() && !this.world.keyboard.right && !this.world.keyboard.left && !this.isDead() && !this.isHurt() && !this.isShooting) {
                 this.playAnimation(this.IMAGES_IDLE);
-            } else if (!this.isAboveGround() && this.world.keyboard.right || !this.isAboveGround() && this.world.keyboard.left || !this.isAboveGround() && this.world.keyboard.down || !this.isAboveGround() && this.world.keyboard.up) {
+            } else if (!this.isAboveGround() && this.world.keyboard.right || !this.isAboveGround() && this.world.keyboard.left || !this.isAboveGround() && this.world.keyboard.down || !this.isAboveGround() && this.world.keyboard.up && !this.isShooting) {
                 this.playAnimation(this.IMAGES_WALKING);
             }
         }, 1000 / 30)
@@ -216,13 +216,6 @@ class Character extends MovableObject {
     startShootAnimation(images) {
         this.currentOnceImages = 0;
         console.log("isShooting:", this.isShooting);
-        console.log("animationInterval:", this.animationInterval);
-
-        // Verhindere, dass ein neuer Intervall gestartet wird, wenn einer aktiv ist
-        if (this.animationInterval) {
-            console.log("Animation läuft bereits");
-            return;
-        }
 
         // Starte neuen Intervall
         this.animationInterval = setInterval(() => {
@@ -231,8 +224,6 @@ class Character extends MovableObject {
             if (i >= images.length) {
                 // Animation abgeschlossen
                 clearInterval(this.animationInterval); // Beende Intervall
-                this.animationInterval = null; // Setze zurück
-                this.animationFinished = true;
                 this.isShooting = false; // Erlaube erneutes Schießen
                 console.log("Schussanimation beendet");
             } else {
@@ -240,7 +231,8 @@ class Character extends MovableObject {
                 const path = images[i];
                 this.img = this.imageCache[path];
                 this.currentOnceImages++;
+                console.log(this.currentOnceImages)
             }
-        }, 1000); // 60 FPS
+        }, 1000 / 30); // 60 FPS
     }
 }

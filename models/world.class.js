@@ -108,35 +108,6 @@ class World {
         });
     }
 
-    // checkShootableObject() {
-    //     if (this.keyboard.fire && !this.character.isAboveGround() && this.character.hasEnergy() && this.character.lastShootAgo()) {
-
-    //         console.log("Schuss wird ausgeführt"); // Debug
-    //         this.character.currentOnceImages = 0;
-    //         // this.character.isShooting = true; // Schießen blockieren
-    //         this.character.animationFinished = false; // Animation zurücksetzen
-
-    //         // Schussrichtung und Position
-    //         if (this.character.otherDirection) {
-    //             this.character.shoot(this.character.x, true);
-    //         } else {
-    //             this.character.shoot(this.character.x + 160);
-    //         }
-
-           
-
-    //         // Energieverlust
-    //         // this.character.lostEnergy();
-    //         this.energybar.setPercent(this.character.energy, this.energybar.IMAGES_ENERGY);
-
-    //         // setTimeout(() => {
-    //         //     console.log("Schuss abgeschlossen"); // Debug
-    //         //     this.character.isShooting = false;
-    //         // }, 5000);
-
-    //     }
-    // }
-
     checkShootableObject() {
         if (
             this.keyboard.fire && // Taste F wird gedrückt
@@ -146,7 +117,6 @@ class World {
             !this.character.isShooting // Animation läuft noch nicht
         ) {
             this.character.isShooting = true; // Blockiere weiteren Schuss
-            this.character.animationFinished = false; // Setze Animation zurück
 
             // Setze die Richtung des Schusses
             const shootX = this.character.otherDirection ? this.character.x : this.character.x + 160;
