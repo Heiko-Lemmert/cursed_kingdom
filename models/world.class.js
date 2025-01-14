@@ -117,16 +117,20 @@ class World {
             !this.character.isShooting // Animation läuft noch nicht
         ) {
             this.character.isShooting = true; // Blockiere weiteren Schuss
+            clearInterval(this.character.animationInterval) // Beeende Animations Intervall
 
-            // Setze die Richtung des Schusses
+            // Setze die Richtung und Postion des Schusses
             const shootX = this.character.otherDirection ? this.character.x : this.character.x + 160;
+            const shootY = this.character.y + 125
     
             // Schuss erzeugen
-            this.character.shoot(shootX, this.character.otherDirection);
+            this.character.shoot(shootX, shootY, this.character.otherDirection);
     
             // Schussanimation starten
             if (this.keyboard.right || this.keyboard.left) {
                 this.character.startShootAnimation(this.character.IMAGES_RUN_SHOOTING);
+                console.log('Run and Shoot Animation')
+                console.log("isShooting:", this.character.isShooting);
             } else {
                 this.character.startShootAnimation(this.character.IMAGES_SHOOTING);
             }

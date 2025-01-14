@@ -1,14 +1,14 @@
 class ShootableObject extends MovableObject {
-    y = 350;
     height = 75;
     width = 75;
     IMG_SRC = 'asset/img/1_Main_character/Archer/Vector Parts/Arrow.png';
     speed = 1;
     arrowSpeed = 25;
 
-    constructor(x, otherDirection) {
+    constructor(x, y, otherDirection) {
         super();
         this.x = x;
+        this.y = y;
         this.otherDirection = otherDirection;
         this.loadImage(this.IMG_SRC);
         this.onFly();

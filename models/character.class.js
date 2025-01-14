@@ -131,6 +131,7 @@ class Character extends MovableObject {
         width: 120,
         height: 150
     };
+    animationInterval;
 
 
     constructor() {
@@ -144,6 +145,7 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_SHOOTING);
         this.loadImages(this.IMAGES_RUN_SHOOTING);
         this.animate();
+        this.animateImages();
         this.applyGravity();
         // this.resetShoot();
         this.offset = this.calculateOffset(this.outerFrame, this.innerFrame)
@@ -180,29 +182,36 @@ class Character extends MovableObject {
         }, 1000 / 60)
 
         setInterval(() => {
-            if (this.isDead() && !this.animationFinished) {
-                this.playOnceAnimation(this.IMAGES_DYING);
-            } else if (this.isHurt() && !this.isDead()) {
-                this.playAnimation(this.IMAGES_HURT);
-            } else if (this.isAboveGround() && this.speedY < 0 || this.isAboveGround() && this.world.keyboard.right || this.isAboveGround() && this.world.keyboard.left) {
-                this.playAnimation(this.IMAGES_FALLING);
-            } else if (!this.isAboveGround() && !this.world.keyboard.right && !this.world.keyboard.left && !this.isDead() && !this.isHurt() && !this.isShooting) {
-                this.playAnimation(this.IMAGES_IDLE);
-            } else if (!this.isAboveGround() && this.world.keyboard.right || !this.isAboveGround() && this.world.keyboard.left || !this.isAboveGround() && this.world.keyboard.down || !this.isAboveGround() && this.world.keyboard.up && !this.isShooting) {
-                this.playAnimation(this.IMAGES_WALKING);
-            }
-        }, 1000 / 30)
-
-        setInterval(() => {
             if (this.isAboveGround() && this.speedY >= 0 && !this.world.keyboard.right && !this.world.keyboard.left) {
                 this.playAnimation(this.IMAGES_JUMPING);
             }
         }, 250)
     }
 
-    shoot(x, left) {
+    animateImages() {
+        this.animationInterval = setInterval(() => {
+            if (this.isDead() && !this.animationFinished) {
+                this.playOnceAnimation(this.IMAGES_DYING);
+            } else if (this.isHurt() && !this.isDead()) {
+                this.playAnimation(this.IMAGES_HURT);
+            } else if (this.isAboveGround() && this.speedY < 0 || this.isAboveGround() && this.world.keyboard.right || this.isAboveGround() && this.world.keyboard.left) {
+                this.playAnimation(this.IMAGES_FALLING);
+            } else if (!this.isAboveGround() && !this.world.keyboard.right && !this.world.keyboard.left && !this.world.keyboard.down && !this.world.keyboard.up && !this.isDead() && !this.isHurt() && !this.isShooting) {
+                this.playAnimation(this.IMAGES_IDLE);
+            } else if (!this.isAboveGround() && this.world.keyboard.right || !this.isAboveGround() && this.world.keyboard.left || this.isShooting) {
+                this.playAnimation(this.IMAGES_WALKING);
+                console.log('Only Run Animation')
+            } else if (!this.isAboveGround() && this.world.keyboard.down || !this.isAboveGround() && this.world.keyboard.up) {
+                this.playAnimation(this.IMAGES_WALKING);
+                console.log('UP and Down Animation')
+            }
+        }, 1000 / 30)
+    }
+    
+
+    shoot(x, y, left) {
         this.lastShoot = new Date().getTime();
-        let arrow = new ShootableObject(x, left);
+        let arrow = new ShootableObject(x, y, left);
         this.world.arrows.push(arrow);
 
     }
@@ -215,7 +224,6 @@ class Character extends MovableObject {
 
     startShootAnimation(images) {
         this.currentOnceImages = 0;
-        console.log("isShooting:", this.isShooting);
 
         // Starte neuen Intervall
         this.animationInterval = setInterval(() => {
@@ -223,7 +231,8 @@ class Character extends MovableObject {
 
             if (i >= images.length) {
                 // Animation abgeschlossen
-                clearInterval(this.animationInterval); // Beende Intervall
+                clearInterval(this.animationInterval); // Beende Schuss Intervall
+                this.animateImages(); // Starte animation der anderen Bilder
                 this.isShooting = false; // Erlaube erneutes Schießen
                 console.log("Schussanimation beendet");
             } else {
