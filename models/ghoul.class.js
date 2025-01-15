@@ -44,6 +44,20 @@ class Ghoul extends MovableObject {
         'asset/img/2_Enemies/Ghoul/PNG/PNG Sequences/Dying/0_Ghoul_Dying_013.png',
         'asset/img/2_Enemies/Ghoul/PNG/PNG Sequences/Dying/0_Ghoul_Dying_014.png'
     ];
+    IMAGES_SLASHING = [
+        'asset/img/2_Enemies/Ghoul/PNG/PNG Sequences/Slashing/0_Ghoul_Slashing_000.png',
+        'asset/img/2_Enemies/Ghoul/PNG/PNG Sequences/Slashing/0_Ghoul_Slashing_001.png',
+        'asset/img/2_Enemies/Ghoul/PNG/PNG Sequences/Slashing/0_Ghoul_Slashing_002.png',
+        'asset/img/2_Enemies/Ghoul/PNG/PNG Sequences/Slashing/0_Ghoul_Slashing_003.png',
+        'asset/img/2_Enemies/Ghoul/PNG/PNG Sequences/Slashing/0_Ghoul_Slashing_004.png',
+        'asset/img/2_Enemies/Ghoul/PNG/PNG Sequences/Slashing/0_Ghoul_Slashing_005.png',
+        'asset/img/2_Enemies/Ghoul/PNG/PNG Sequences/Slashing/0_Ghoul_Slashing_006.png',
+        'asset/img/2_Enemies/Ghoul/PNG/PNG Sequences/Slashing/0_Ghoul_Slashing_007.png',
+        'asset/img/2_Enemies/Ghoul/PNG/PNG Sequences/Slashing/0_Ghoul_Slashing_008.png',
+        'asset/img/2_Enemies/Ghoul/PNG/PNG Sequences/Slashing/0_Ghoul_Slashing_009.png',
+        'asset/img/2_Enemies/Ghoul/PNG/PNG Sequences/Slashing/0_Ghoul_Slashing_010.png',
+        'asset/img/2_Enemies/Ghoul/PNG/PNG Sequences/Slashing/0_Ghoul_Slashing_011.png'
+    ];
 
     otherDirection = true;
     frameColor = 'red';
@@ -61,21 +75,24 @@ class Ghoul extends MovableObject {
         this.outerFrame.x = this.x;
         this.offset = this.calculateOffset(this.outerFrame, this.innerFrame)
         this.loadImages(this.IMAGES_WALKING);
-        this.loadImages(this.IMAGES_DYING)
+        this.loadImages(this.IMAGES_DYING);
+        this.loadImages(this.IMAGES_SLASHING);
         this.animate();
     }
 
     animate() {
         setInterval(() => {
-            // this.moveLeft();
+            this.moveLeft();
         }, 1000 / 60);
         
 
         setInterval(() => {
             if (this.isDead() && !this.animationFinished) {
                 this.playOnceAnimation(this.IMAGES_DYING);
+            } else if (this.isSlashing) {
+                this.playAnimation(this.IMAGES_SLASHING);
             } else {
-                // this.playAnimation(this.IMAGES_WALKING);
+                this.playAnimation(this.IMAGES_WALKING);
             }   
         }, 100)
     }

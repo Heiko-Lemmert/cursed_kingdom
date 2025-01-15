@@ -32,6 +32,7 @@ class Endboss extends MovableObject {
         width : 200,
         height : 325
     };
+    startEndFight = false;
 
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);
@@ -46,12 +47,10 @@ class Endboss extends MovableObject {
         this.outerFrame.height = this.height;
         this.innerFrame.x = this.x + 150;
         this.offset = this.calculateOffset(this.outerFrame, this.innerFrame);
-        // setTimeout(() => {
-        //     this.animate()
-        // }, 4000);
+        this.animate()
     }
 
-    animate() {
+    animate() { 
         setInterval(() => {
             this.moveLeft();
         }, 1000 / 60)

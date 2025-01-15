@@ -3,11 +3,11 @@ fillBackgroundArr();
 
 const levelOne = new Level(
     [
-        // new Skeleton(600),
-        // new Ghoul(1500),
-        // new Skeleton(2000),
-        // new Ghoul(2500),
-        // new Endboss(),
+        new Skeleton(600),
+        new Ghoul(1500),
+        new Skeleton(2000),
+        new Ghoul(2500),
+        new Endboss(),
     ],
     [
         new Cloud(),

@@ -32,6 +32,7 @@ class MovableObject extends DrawableObjects {
     };
     currentY;
     isJumping = false;
+    isSlashing = false;
 
     applyGravity() {
         setInterval(() => {
@@ -164,5 +165,15 @@ class MovableObject extends DrawableObjects {
         } else {
             this.energy += 20;
         }
+    }
+
+/**
+ * 
+ * @param {*} mo is a Movable Object
+ * @param {*} number this is the distance between the objects
+ * @returns 
+ */
+    closeBy(mo, number) {
+        return Math.abs(this.x - mo.x) <= number;
     }
 }

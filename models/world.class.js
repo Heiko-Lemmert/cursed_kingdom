@@ -61,6 +61,7 @@ class World {
             this.checkCoinCollison();
             this.checkAppleCollison();
             this.checkShootableObject();
+            this.checkCloseBy()
         }, 100);
     }
 
@@ -141,6 +142,21 @@ class World {
             this.energybar.setPercent(this.character.energy, this.energybar.IMAGES_ENERGY
             );
         }
+    }
+
+    checkCloseBy() {
+        this.level.enemies.forEach(enemy => {
+            if (this.character.closeBy(enemy, 275)) {
+                console.log('Gegner in der Nähe')
+                enemy.isSlashing = true;
+            } else {
+                enemy.isSlashing = false;
+            }
+            if (enemy instanceof Endboss && this.character.closeBy(enemy, 1000)) {
+                console.log('Endboss Animation starten')
+                enemy.startEndFight = true;
+            }
+        });
     }
 
     checkCollisonFrame() {

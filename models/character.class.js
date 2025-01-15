@@ -147,7 +147,6 @@ class Character extends MovableObject {
         this.animate();
         this.animateImages();
         this.applyGravity();
-        // this.resetShoot();
         this.offset = this.calculateOffset(this.outerFrame, this.innerFrame)
         this.audioWalking.loop = true;
         this.currentY = this.y;
@@ -198,12 +197,8 @@ class Character extends MovableObject {
                 this.playAnimation(this.IMAGES_FALLING);
             } else if (!this.isAboveGround() && !this.world.keyboard.right && !this.world.keyboard.left && !this.world.keyboard.down && !this.world.keyboard.up && !this.isDead() && !this.isHurt() && !this.isShooting) {
                 this.playAnimation(this.IMAGES_IDLE);
-            } else if (!this.isAboveGround() && this.world.keyboard.right || !this.isAboveGround() && this.world.keyboard.left || this.isShooting) {
+            } else if (!this.isAboveGround() && this.world.keyboard.right || !this.isAboveGround() && this.world.keyboard.left || this.isShooting || !this.isAboveGround() && this.world.keyboard.down || !this.isAboveGround() && this.world.keyboard.up) {
                 this.playAnimation(this.IMAGES_WALKING);
-                console.log('Only Run Animation')
-            } else if (!this.isAboveGround() && this.world.keyboard.down || !this.isAboveGround() && this.world.keyboard.up) {
-                this.playAnimation(this.IMAGES_WALKING);
-                console.log('UP and Down Animation')
             }
         }, 1000 / 30)
     }
