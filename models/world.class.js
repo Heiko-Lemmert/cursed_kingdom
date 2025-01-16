@@ -138,7 +138,7 @@ class World {
             
     
             // Energieverlust und Anzeige aktualisieren
-            // this.character.lostEnergy();
+            // this.character.lostEnergy();                        <----------------------------------------------------- RETURN
             this.energybar.setPercent(this.character.energy, this.energybar.IMAGES_ENERGY
             );
         }

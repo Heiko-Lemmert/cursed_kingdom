@@ -1,12 +1,17 @@
 /* eagle-lake-regular - latin */
 @font-face {
-    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-display: swap;
+    /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
     font-family: 'Eagle Lake';
     font-style: normal;
     font-weight: 400;
-    src: url('../asset/fonts/eagle-lake-v24-latin-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
-  }
-  
+    src: url('../asset/fonts/eagle-lake-v24-latin-regular.woff2') format('woff2');
+    /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+* {
+    margin: 0;
+}
 
 body {
     display: flex;
@@ -14,6 +19,13 @@ body {
     align-items: center;
     flex-direction: column;
     font-family: 'Eagle Lake';
+    background-image: url('asset/img/4_Main_location/Background/golden_pattern.jpg');
+    background-repeat: repeat;
+    background-size: 400px;
+    backdrop-filter: blur(2px);
+    height: 100vh;
+    width: 100vw;
+    color: aliceblue;
 }
 
 h1 {
@@ -22,5 +34,6 @@ h1 {
 
 canvas {
     background-color: black;
+    border: 8px groove rgb(223, 187, 107);
+    border-radius: 15px;
 }
-

@@ -45,18 +45,18 @@ class Ghoul extends MovableObject {
         'asset/img/2_Enemies/Ghoul/PNG/PNG Sequences/Dying/0_Ghoul_Dying_014.png'
     ];
     IMAGES_SLASHING = [
-        'asset/img/2_Enemies/Ghoul/PNG/PNG Sequences/Slashing/0_Ghoul_Slashing_000.png',
-        'asset/img/2_Enemies/Ghoul/PNG/PNG Sequences/Slashing/0_Ghoul_Slashing_001.png',
-        'asset/img/2_Enemies/Ghoul/PNG/PNG Sequences/Slashing/0_Ghoul_Slashing_002.png',
-        'asset/img/2_Enemies/Ghoul/PNG/PNG Sequences/Slashing/0_Ghoul_Slashing_003.png',
-        'asset/img/2_Enemies/Ghoul/PNG/PNG Sequences/Slashing/0_Ghoul_Slashing_004.png',
-        'asset/img/2_Enemies/Ghoul/PNG/PNG Sequences/Slashing/0_Ghoul_Slashing_005.png',
-        'asset/img/2_Enemies/Ghoul/PNG/PNG Sequences/Slashing/0_Ghoul_Slashing_006.png',
-        'asset/img/2_Enemies/Ghoul/PNG/PNG Sequences/Slashing/0_Ghoul_Slashing_007.png',
-        'asset/img/2_Enemies/Ghoul/PNG/PNG Sequences/Slashing/0_Ghoul_Slashing_008.png',
-        'asset/img/2_Enemies/Ghoul/PNG/PNG Sequences/Slashing/0_Ghoul_Slashing_009.png',
-        'asset/img/2_Enemies/Ghoul/PNG/PNG Sequences/Slashing/0_Ghoul_Slashing_010.png',
-        'asset/img/2_Enemies/Ghoul/PNG/PNG Sequences/Slashing/0_Ghoul_Slashing_011.png'
+        'asset/img/2_Enemies/Ghoul/PNG/PNG Sequences/Run Slashing/0_Ghoul_Run Slashing_000.png',
+        'asset/img/2_Enemies/Ghoul/PNG/PNG Sequences/Run Slashing/0_Ghoul_Run Slashing_001.png',
+        'asset/img/2_Enemies/Ghoul/PNG/PNG Sequences/Run Slashing/0_Ghoul_Run Slashing_002.png',
+        'asset/img/2_Enemies/Ghoul/PNG/PNG Sequences/Run Slashing/0_Ghoul_Run Slashing_003.png',
+        'asset/img/2_Enemies/Ghoul/PNG/PNG Sequences/Run Slashing/0_Ghoul_Run Slashing_004.png',
+        'asset/img/2_Enemies/Ghoul/PNG/PNG Sequences/Run Slashing/0_Ghoul_Run Slashing_005.png',
+        'asset/img/2_Enemies/Ghoul/PNG/PNG Sequences/Run Slashing/0_Ghoul_Run Slashing_006.png',
+        'asset/img/2_Enemies/Ghoul/PNG/PNG Sequences/Run Slashing/0_Ghoul_Run Slashing_007.png',
+        'asset/img/2_Enemies/Ghoul/PNG/PNG Sequences/Run Slashing/0_Ghoul_Run Slashing_008.png',
+        'asset/img/2_Enemies/Ghoul/PNG/PNG Sequences/Run Slashing/0_Ghoul_Run Slashing_009.png',
+        'asset/img/2_Enemies/Ghoul/PNG/PNG Sequences/Run Slashing/0_Ghoul_Run Slashing_010.png',
+        'asset/img/2_Enemies/Ghoul/PNG/PNG Sequences/Run Slashing/0_Ghoul_Run Slashing_011.png'
     ];
 
     otherDirection = true;
@@ -87,13 +87,7 @@ class Ghoul extends MovableObject {
         
 
         setInterval(() => {
-            if (this.isDead() && !this.animationFinished) {
-                this.playOnceAnimation(this.IMAGES_DYING);
-            } else if (this.isSlashing) {
-                this.playAnimation(this.IMAGES_SLASHING);
-            } else {
-                this.playAnimation(this.IMAGES_WALKING);
-            }   
+            this.playEnemyAnimation(this)
         }, 100)
     }
 }

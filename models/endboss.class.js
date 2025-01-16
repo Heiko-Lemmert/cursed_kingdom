@@ -25,7 +25,38 @@ class Endboss extends MovableObject {
         'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Walking/0_Death_Knight_Walking_021.png',
         'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Walking/0_Death_Knight_Walking_022.png',
         'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Walking/0_Death_Knight_Walking_023.png'
-    ]
+    ];
+    IMAGES_DYING = [
+        'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Dying/0_Death_Knight_Dying_000.png',
+        'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Dying/0_Death_Knight_Dying_001.png',
+        'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Dying/0_Death_Knight_Dying_002.png',
+        'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Dying/0_Death_Knight_Dying_003.png',
+        'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Dying/0_Death_Knight_Dying_004.png',
+        'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Dying/0_Death_Knight_Dying_005.png',
+        'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Dying/0_Death_Knight_Dying_006.png',
+        'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Dying/0_Death_Knight_Dying_007.png',
+        'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Dying/0_Death_Knight_Dying_008.png',
+        'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Dying/0_Death_Knight_Dying_009.png',
+        'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Dying/0_Death_Knight_Dying_010.png',
+        'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Dying/0_Death_Knight_Dying_011.png',
+        'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Dying/0_Death_Knight_Dying_012.png',
+        'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Dying/0_Death_Knight_Dying_013.png',
+        'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Dying/0_Death_Knight_Dying_014.png'
+    ];
+    IMAGES_SLASHING = [
+        'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Run Slashing/0_Death_Knight_Run Slashing_000.png',
+        'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Run Slashing/0_Death_Knight_Run Slashing_001.png',
+        'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Run Slashing/0_Death_Knight_Run Slashing_002.png',
+        'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Run Slashing/0_Death_Knight_Run Slashing_003.png',
+        'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Run Slashing/0_Death_Knight_Run Slashing_004.png',
+        'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Run Slashing/0_Death_Knight_Run Slashing_005.png',
+        'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Run Slashing/0_Death_Knight_Run Slashing_006.png',
+        'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Run Slashing/0_Death_Knight_Run Slashing_007.png',
+        'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Run Slashing/0_Death_Knight_Run Slashing_008.png',
+        'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Run Slashing/0_Death_Knight_Run Slashing_009.png',
+        'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Run Slashing/0_Death_Knight_Run Slashing_010.png',
+        'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Run Slashing/0_Death_Knight_Run Slashing_011.png'
+    ];
     otherDirection = true;
     innerFrame = {
         y : 130,
@@ -41,6 +72,8 @@ class Endboss extends MovableObject {
         this.height = 500;
         this.width = 500;
         this.loadImages(this.IMAGES_WALKING);
+        this.loadImages(this.IMAGES_DYING);
+        this.loadImages(this.IMAGES_SLASHING);
         this.outerFrame.x = this.x;
         this.outerFrame.y = this.y;
         this.outerFrame.width = this.width;
@@ -56,7 +89,7 @@ class Endboss extends MovableObject {
         }, 1000 / 60)
 
         setInterval(() => {
-            this.playAnimation(this.IMAGES_WALKING)
+            this.playEnemyAnimation(this);
         }, 100)
     }
 }

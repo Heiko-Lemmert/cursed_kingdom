@@ -176,4 +176,14 @@ class MovableObject extends DrawableObjects {
     closeBy(mo, number) {
         return Math.abs(this.x - mo.x) <= number;
     }
+
+    playEnemyAnimation(enemy) {
+        if (enemy.isDead() && !enemy.animationFinished) {
+            enemy.playOnceAnimation(enemy.IMAGES_DYING);
+        } else if (!enemy.isDead() && this.isSlashing) {
+            enemy.playAnimation(enemy.IMAGES_SLASHING);
+        } else if (!enemy.isDead()) {
+            enemy.playAnimation(enemy.IMAGES_WALKING);
+        }  
+    }
 }
