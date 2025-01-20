@@ -20,6 +20,7 @@ class World {
         this.setWorld();
         this.draw();
         this.run();
+        this.importSprites();
     }
 
     setWorld() {
@@ -41,6 +42,7 @@ class World {
         this.energybar.draw(this.ctx);
         this.coinbar.draw(this.ctx);
         this.coinbar.fillText(this.ctx);
+        this.addObjectsToMap(this.level.btn);
         this.ctx.translate(this.camera_x, 0);
 
         this.addToMap(this.character);
@@ -61,7 +63,8 @@ class World {
             this.checkCoinCollison();
             this.checkAppleCollison();
             this.checkShootableObject();
-            this.checkCloseBy()
+            this.checkCloseBy();
+            this.checkClickAction();
         }, 100);
     }
 
@@ -71,16 +74,19 @@ class World {
                 if (this.character.isLandingOn(enemy)) {
                     console.log('Ich lande auf dem Gegner');
                     console.log('Aktuelle Höhe ist', +this.character.y)
-                    this.character.speedY = 10; // Der Charakter wird "zurückprallen".
+                    this.character.speedY = 10; // Der Charakter wird "zurückprallen".f
                     enemy.hit(100); // Gegner besiegen (z. B. mit 100 Schaden).
+                    setTimeout(() => {
+                        this.level.enemies.splice(enemy, 1)
+                    }, 1500)
                 } else {
                     this.character.hit(20); // Schaden für den Charakter, wenn er nicht auf dem Gegner landet.
                     this.healthbar.setPercent(this.character.health, this.healthbar.IMAGES_HEALTH);
                 }
             }
             this.arrows.forEach((arrow) => {
-                if (arrow.isColliding(enemy)) {
-                    enemy.hit(100); // Gegner erlediet schaden durch Pfeil.
+                if (arrow.isColliding(enemy) && !enemy.isDead()) {
+                    enemy.hit(100); // Gegner erleidetd schaden durch Pfeil.
                     this.arrows.splice(arrow, 1); // Pfeil entfernen.
                     setTimeout(() => {
                         this.level.enemies.splice(enemy, 1)
@@ -123,10 +129,10 @@ class World {
             // Setze die Richtung und Postion des Schusses
             const shootX = this.character.otherDirection ? this.character.x : this.character.x + 160;
             const shootY = this.character.y + 125
-    
+
             // Schuss erzeugen
             this.character.shoot(shootX, shootY, this.character.otherDirection);
-    
+
             // Schussanimation starten
             if (this.keyboard.right || this.keyboard.left) {
                 this.character.startShootAnimation(this.character.IMAGES_RUN_SHOOTING);
@@ -135,12 +141,11 @@ class World {
             } else {
                 this.character.startShootAnimation(this.character.IMAGES_SHOOTING);
             }
-            
-    
+
+
             // Energieverlust und Anzeige aktualisieren
             // this.character.lostEnergy();                        <----------------------------------------------------- RETURN
-            this.energybar.setPercent(this.character.energy, this.energybar.IMAGES_ENERGY
-            );
+            this.energybar.setPercent(this.character.energy, this.energybar.IMAGES_ENERGY);
         }
     }
 
@@ -157,6 +162,24 @@ class World {
                 enemy.startEndFight = true;
             }
         });
+    }
+
+    checkClickAction() {
+        this.level.btn.forEach(btn => {
+            // Überprüfe, ob ein Klick innerhalb der Button-Bounds war
+            canvas.addEventListener('click', (event) => {
+                const rect = canvas.getBoundingClientRect();
+                const mouseX = event.clientX - rect.left;
+                const mouseY = event.clientY - rect.top;
+
+                if (mouseX >= btn.x && mouseX <= btn.x + btn.width && mouseY >= btn.y && mouseY <= btn.y + btn.height) {
+                    if (btn.id === 'fullscreen') {
+                         btn.onClick(); // Aktion ausführen
+                    }
+                   
+                }
+            });
+        })
     }
 
     checkCollisonFrame() {
@@ -195,7 +218,9 @@ class World {
         }
         wo.draw(this.ctx);
         wo.drawFrame(this.ctx);
-        wo.drawInnerFrame(this.ctx);
+        if (wo instanceof Character || wo instanceof Skeleton || wo instanceof Ghoul || wo instanceof Endboss || wo instanceof CollectibleObject) {
+            wo.drawInnerFrame(this.ctx);
+        }
         if (wo.otherDirection) {
             this.flipImgBack(wo);
         }
@@ -218,5 +243,9 @@ class World {
     /* Alternative (quick and dirty), um alle Intervalle zu beenden. */
     clearAllIntervals() {
         for (let i = 1; i < 9999; i++) window.clearInterval(i);
+    }
+
+    async importSprites() {
+        sprites = await fetch('models/sprites.json').then(r => r.json());
     }
 }

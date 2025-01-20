@@ -38,6 +38,10 @@ const levelOne = new Level(
     ],
     [
         new Apple(450, 400)
+    ],
+    [
+        new ClickableButton('asset/img/6_UI/btn/Default@Fullscreen.png', 1075, 'fullscreen'),
+        new ClickableButton('asset/img/6_UI/btn/Default@Fullscreen.png', 950, 'miniscreen'),
     ]
 )
 

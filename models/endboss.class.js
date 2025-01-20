@@ -80,7 +80,16 @@ class Endboss extends MovableObject {
         this.outerFrame.height = this.height;
         this.innerFrame.x = this.x + 150;
         this.offset = this.calculateOffset(this.outerFrame, this.innerFrame);
-        this.animate()
+        this.waitForEndFight();
+    }
+
+    waitForEndFight() {
+        let start = setInterval(() => {
+            if (this.startEndFight) {
+                this.animate();
+                clearInterval(start);
+            }
+        }, 100)
     }
 
     animate() { 
@@ -91,5 +100,6 @@ class Endboss extends MovableObject {
         setInterval(() => {
             this.playEnemyAnimation(this);
         }, 100)
+
     }
 }

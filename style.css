@@ -37,3 +37,18 @@ canvas {
     border: 8px groove rgb(223, 187, 107);
     border-radius: 15px;
 }
+
+.controller {
+    content: '';
+    display: inline-block;
+    width: 1200px;
+    height: 400px;
+    background-image: url(/asset/img/6_UI/control/medieval-paper.png);
+    background-size: 1200px;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+.controller p {
+    position: absolute;
+}
