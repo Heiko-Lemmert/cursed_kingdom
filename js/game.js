@@ -67,3 +67,22 @@ window.addEventListener('keyup', (event) => {
             break;
     }
 })
+
+function fullscreen() {
+    let canvas = document.getElementById('canvas');
+    if (canvas.requestFullscreen) {
+        canvas.requestFullscreen();
+    } else if (canvas.mozRequestFullScreen) {
+        canvas.mozRequestFullScreen();
+    } else if (canvas.webkitRequestFullScreen) {
+        canvas.webkitRequestFullScreen();
+    } else if (canvas.msRequestFullscreen) {
+        canvas.msRequestFullscreen();
+    }
+}
+
+window.addEventListener('keydown', function(e) {
+    if(e.keyCode == 32 && e.target == document.body) {
+      e.preventDefault();
+    }
+  });

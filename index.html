@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,14 +29,52 @@
     <script src="./js/game.js"></script>
     <title>Cursed Kingdom</title>
 </head>
+
 <body onload="init()">
     <h1>Cursed Kingdom</h1>
 
     <canvas id="canvas" width="1200" height="600"></canvas>
 
-    <section class="controller">
-        <p>Hallo Welt</p>
-    </section>
-    
+    <main>
+        <div id="parchment"></div>
+        <div id="contain">
+            <p class="inkTitle">Controls</p>
+            <p id="labarum"><img
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Chi_Rho.svg/1200px-Chi_Rho.svg.png">
+            </p>
+            <p>“Um das Schicksal des Verfluchten Königreichs zu wenden, musst du zuerst die Künste der Steuerung
+                meistern. Nur wer den Controller mit Geschick führt, wird die Prüfungen bestehen und als wahrer Held
+                hervorgehen.”</p>
+            <div class="controls">
+                <div class="el-left">
+                    <p>W -> Move Up</p>
+                    <p>A -> Move Left</p>
+                    <p>S -> Move Down</p>
+                    <p>D -> Move Right</p>
+                </div>
+                <div class="el-right">
+                    <p>F -> Shoot Arrow</p>
+                    <p>Space -> Jump</p>
+                </div>
+            </div>
+
+
+            <!-- This is a red wine cachet ... but shh ! -->
+            <p class="cachet"><img src="https://i.postimg.cc/4NBYNqCR/22.png"></p>
+            <div id="signature">König Alrik der Große,<br />Wächter der Alten Pfade, Blut der Ersten Menschen, Bezwinger
+                der Stürme</div>
+        </div>
+    </main>
+
+    <svg>
+        <filter id="wavy2">
+            <feTurbulence x="0" y="0" baseFrequency="0.02" numOctaves="5" seed="1" />
+            <feDisplacementMap in="SourceGraphic" scale="20" />
+        </filter>
+    </svg>
+
+    <!-- <p onclick="fullscreen()">klick mich</p> -->
+
 </body>
+
 </html>
