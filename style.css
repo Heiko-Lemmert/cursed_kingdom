@@ -87,7 +87,7 @@ August 2021 : ok on Chrome v92+, Firefox v90+, Edge v92+
 }
 
 main p {
-    font-size: 2.25em;
+    font-size: 2em;
     color: #7F3300;
     margin-top: .75em;
     text-align: justify;
@@ -98,7 +98,15 @@ main p {
     justify-content: space-between;
 }
 
-.controls p:not(:first-child)::first-letter {
+/* .controls p:not(:first-child)::first-letter {
+    float: left;
+    font: 1.7em/1em Morris;
+    /* a little relief for the first letter
+    text-shadow: 1px 1px 1px black;
+    margin: 0 .5rem;
+} */
+
+.controls p::first-letter {
     float: left;
     font: 1.7em/1em Morris;
     /* a little relief for the first letter*/
@@ -150,4 +158,14 @@ main p {
     text-align: right;
     color: black;
     font-size: 250%;
+}
+
+#description {
+    color: DimGray;
+    line-height: 2em;
+}
+
+#sperator {
+    margin-bottom: 1em;
+    margin-top: 1em;
 }

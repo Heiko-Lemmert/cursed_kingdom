@@ -121,6 +121,7 @@ class Character extends MovableObject {
     speed = 10;
     audioWalking = new Audio('asset/audio/walking3.mp3');
     audioJumping = new Audio('asset/audio/jump.mp3');
+    audioArrow = new Audio('asset/audio/arrow.mp3');
     frameColor = 'blue';
     lastShoot = 0;
     isShooting = false;
@@ -208,7 +209,8 @@ class Character extends MovableObject {
         this.lastShoot = new Date().getTime();
         let arrow = new ShootableObject(x, y, left);
         this.world.arrows.push(arrow);
-
+        this.audioArrow.currentTime = 0;
+        this.audioArrow.play();
     }
 
     lastShootAgo() {

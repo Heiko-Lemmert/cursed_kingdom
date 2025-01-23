@@ -88,6 +88,7 @@ class World {
                 if (arrow.isColliding(enemy) && !enemy.isDead()) {
                     enemy.hit(100); // Gegner erleidetd schaden durch Pfeil.
                     this.arrows.splice(arrow, 1); // Pfeil entfernen.
+                    this.character.audioArrow.pause();
                     setTimeout(() => {
                         this.level.enemies.splice(enemy, 1)
                     }, 1500)
