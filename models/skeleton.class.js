@@ -83,14 +83,8 @@ class Skeleton extends MovableObject {
     }
 
     animate() {
-        setInterval(() => {
-            this.moveLeft();
-        }, 1000 / 60);
-        
-
-        setInterval(() => {
-            this.playEnemyAnimation(this)
-        }, 100)
+        this.setEnemyMove();
+        this.playEnemyAnimation(this)
     }
     
 }

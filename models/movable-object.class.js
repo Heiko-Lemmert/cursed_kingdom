@@ -178,12 +178,24 @@ class MovableObject extends DrawableObjects {
     }
 
     playEnemyAnimation(enemy) {
-        if (enemy.isDead() && !enemy.animationFinished) {
-            enemy.playOnceAnimation(enemy.IMAGES_DYING);
-        } else if (!enemy.isDead() && this.isSlashing) {
-            enemy.playAnimation(enemy.IMAGES_SLASHING);
-        } else if (!enemy.isDead()) {
-            enemy.playAnimation(enemy.IMAGES_WALKING);
-        }  
+        setInterval(() => { 
+            if (enemy.isDead() && !enemy.animationFinished) {
+                enemy.playOnceAnimation(enemy.IMAGES_DYING);
+            } else if (!enemy.isDead() && this.isSlashing) {
+                enemy.playAnimation(enemy.IMAGES_SLASHING);
+            } else if (!enemy.isDead()) {
+                enemy.playAnimation(enemy.IMAGES_WALKING);
+            }  
+        }, 100)
+    }
+
+    setEnemyMove() {
+        let move = setInterval(() => {
+            if (!this.isDead()) {
+               this.moveLeft(); 
+            } else {
+                clearInterval(move)
+            }
+        }, 1000 / 60);
     }
 }

@@ -1,10 +1,12 @@
-class World {
+class World extends Checker {
     character = new Character();
     level = levelOne;
     healthbar = new Heahltbar();
     energybar = new Energybar();
     coinbar = new Coinbar();
+    checker = new Checker();
     arrows = [];
+    btnScreen = [];
     ctx;
     canvas;
     keyboard;
@@ -13,6 +15,7 @@ class World {
     currentEnergy = 0;
 
     constructor(canvas, keyboard) {
+        super();
         this.ctx = canvas.getContext('2d');
         this.ctx.font = '48px Eagle Lake'
         this.canvas = canvas;
@@ -20,12 +23,35 @@ class World {
         this.setWorld();
         this.draw();
         this.run();
-        this.importSprites();
     }
 
     setWorld() {
         this.character.world = this;
+        this.checker.world = this;
+        // this.level.btn.push(new ClickableButton('asset/img/6_UI/btn/Default@Fullscreen.png', 1075, 'fullscreen'))    
     }
+
+    checkClickAction() {
+        this.level.btn.forEach(btn => {
+            // Überprüfe, ob ein Klick innerhalb der Button-Bounds war
+            canvas.addEventListener('click', (event) => {
+                const rect = canvas.getBoundingClientRect();
+                const mouseX = event.clientX - rect.left;
+                const mouseY = event.clientY - rect.top;
+
+                if (mouseX >= btn.x && mouseX <= btn.x + btn.width && mouseY >= btn.y && mouseY <= btn.y + btn.height) {
+                    if (btn.id === 'fullscreen') {
+                        btn.onClick(); // Aktion ausführen
+                         this.level.btn.splice(btn, 1)
+                         // this.level.btn.push(new ClickableButton('asset/img/6_UI/btn/Default@Smallscreen.png', 1075, 'miniscreen'))      
+                         console.log('test') 
+                    }      
+                }
+            });
+        })
+    }
+
+
 
     /**
      * Die Draw() Methode zeichnet mit Hilfe der requestAnimationFrame()-Methode 30-60 mal pro Sekunde alle Objekte und Hintergründe auf die Canvas.
@@ -59,149 +85,15 @@ class World {
 
     run() {
         setInterval(() => {
-            this.checkCollison();
-            this.checkCoinCollison();
-            this.checkAppleCollison();
-            this.checkShootableObject();
-            this.checkCloseBy();
+            this.checker.checkCollison();
+            this.checker.checkCoinCollison();
+            this.checker.checkAppleCollison();
+            this.checker.checkShootableObject();
+            this.checker.checkCloseBy();
             this.checkClickAction();
         }, 100);
     }
 
-    checkCollison() {
-        this.level.enemies.forEach(enemy => {
-            if (this.character.isColliding(enemy) && !enemy.isDead()) {
-                if (this.character.isLandingOn(enemy)) {
-                    console.log('Ich lande auf dem Gegner');
-                    console.log('Aktuelle Höhe ist', +this.character.y)
-                    this.character.speedY = 10; // Der Charakter wird "zurückprallen".f
-                    enemy.hit(100); // Gegner besiegen (z. B. mit 100 Schaden).
-                    setTimeout(() => {
-                        this.level.enemies.splice(enemy, 1)
-                    }, 1500)
-                } else {
-                    this.character.hit(20); // Schaden für den Charakter, wenn er nicht auf dem Gegner landet.
-                    this.healthbar.setPercent(this.character.health, this.healthbar.IMAGES_HEALTH);
-                }
-            }
-            this.arrows.forEach((arrow) => {
-                if (arrow.isColliding(enemy) && !enemy.isDead()) {
-                    enemy.hit(100); // Gegner erleidetd schaden durch Pfeil.
-                    this.arrows.splice(arrow, 1); // Pfeil entfernen.
-                    this.character.audioArrow.pause();
-                    setTimeout(() => {
-                        this.level.enemies.splice(enemy, 1)
-                    }, 1500)
-                }
-            });
-        });
-    }
-
-    checkCoinCollison() {
-        this.level.coins.forEach((collectible, i) => {
-            if (this.character.isColliding(collectible)) {
-                this.level.coins.splice(i, 1)
-                this.coinbar.currentCoins++
-            }
-        });
-    }
-
-    checkAppleCollison() {
-        this.level.apples.forEach((collectible, i) => {
-            if (this.character.isColliding(collectible)) {
-                this.level.apples.splice(i, 1);
-                this.character.increasesEnergy();
-                this.energybar.setPercent(this.character.energy, this.energybar.IMAGES_ENERGY);
-            }
-        });
-    }
-
-    checkShootableObject() {
-        if (
-            this.keyboard.fire && // Taste F wird gedrückt
-            !this.character.isAboveGround() && // Charakter steht auf dem Boden
-            this.character.hasEnergy() && // Charakter hat Energie
-            this.character.lastShootAgo() && // Zeit seit letztem Schuss ist ausreichend
-            !this.character.isShooting // Animation läuft noch nicht
-        ) {
-            this.character.isShooting = true; // Blockiere weiteren Schuss
-            clearInterval(this.character.animationInterval) // Beeende Animations Intervall
-
-            // Setze die Richtung und Postion des Schusses
-            const shootX = this.character.otherDirection ? this.character.x : this.character.x + 160;
-            const shootY = this.character.y + 125
-
-            // Schuss erzeugen
-            this.character.shoot(shootX, shootY, this.character.otherDirection);
-
-            // Schussanimation starten
-            if (this.keyboard.right || this.keyboard.left) {
-                this.character.startShootAnimation(this.character.IMAGES_RUN_SHOOTING);
-                console.log('Run and Shoot Animation')
-                console.log("isShooting:", this.character.isShooting);
-            } else {
-                this.character.startShootAnimation(this.character.IMAGES_SHOOTING);
-            }
-
-
-            // Energieverlust und Anzeige aktualisieren
-            // this.character.lostEnergy();                        <----------------------------------------------------- RETURN
-            this.energybar.setPercent(this.character.energy, this.energybar.IMAGES_ENERGY);
-        }
-    }
-
-    checkCloseBy() {
-        this.level.enemies.forEach(enemy => {
-            if (this.character.closeBy(enemy, 275)) {
-                console.log('Gegner in der Nähe')
-                enemy.isSlashing = true;
-            } else {
-                enemy.isSlashing = false;
-            }
-            if (enemy instanceof Endboss && this.character.closeBy(enemy, 1000)) {
-                console.log('Endboss Animation starten')
-                enemy.startEndFight = true;
-            }
-        });
-    }
-
-    checkClickAction() {
-        this.level.btn.forEach(btn => {
-            // Überprüfe, ob ein Klick innerhalb der Button-Bounds war
-            canvas.addEventListener('click', (event) => {
-                const rect = canvas.getBoundingClientRect();
-                const mouseX = event.clientX - rect.left;
-                const mouseY = event.clientY - rect.top;
-
-                if (mouseX >= btn.x && mouseX <= btn.x + btn.width && mouseY >= btn.y && mouseY <= btn.y + btn.height) {
-                    if (btn.id === 'fullscreen') {
-                         btn.onClick(); // Aktion ausführen
-                    }
-                   
-                }
-            });
-        })
-    }
-
-    checkCollisonFrame() {
-        console.log('Objekt Character - Berechnete Grenzen:');
-        console.log('Left:', this.character.x + this.character.offset.left);
-        console.log('Right:', this.character.x + this.character.width - this.character.offset.right);
-        console.log('Top:', this.character.y + this.character.offset.top);
-        console.log('Bottom:', this.character.y + this.character.height - this.character.offset.bottom);
-
-        console.log('Objekt Enemy - Berechnete Grenzen:');
-        console.log('Left:', this.level.enemies[0].x + this.level.enemies[0].offset.left);
-        console.log('Right:', this.level.enemies[0].x + this.level.enemies[0].width - this.level.enemies[0].offset.right);
-        console.log('Top:', this.level.enemies[0].y + this.level.enemies[0].offset.top);
-        console.log('Bottom:', this.level.enemies[0].y + this.level.enemies[0].height - this.level.enemies[0].offset.bottom);
-
-        console.log('Objekt Coin - Berechnete Grenzen:');
-        console.log('Left:', this.level.coins[0].x + this.level.coins[0].offset.left);
-        console.log('Right:', this.level.coins[0].x + this.level.coins[0].width - this.level.coins[0].offset.right);
-        console.log('Top:', this.level.coins[0].y + this.level.coins[0].offset.top);
-        console.log('Bottom:', this.level.coins[0].y + this.level.coins[0].height - this.level.coins[0].offset.bottom);
-    }
 
     addObjectsToMap(objects) {
         objects.forEach(o => {
@@ -218,10 +110,10 @@ class World {
             this.flipImg(wo);
         }
         wo.draw(this.ctx);
-        wo.drawFrame(this.ctx);
-        if (wo instanceof Character || wo instanceof Skeleton || wo instanceof Ghoul || wo instanceof Endboss || wo instanceof CollectibleObject) {
-            wo.drawInnerFrame(this.ctx);
-        }
+        // wo.drawFrame(this.ctx);
+        // if (wo instanceof Character || wo instanceof Skeleton || wo instanceof Ghoul || wo instanceof Endboss || wo instanceof CollectibleObject) {
+        //     wo.drawInnerFrame(this.ctx);
+        // }
         if (wo.otherDirection) {
             this.flipImgBack(wo);
         }

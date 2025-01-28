@@ -4,7 +4,7 @@ class ClickableButton extends DrawableObjects {
     width = 100;
     height = 100;
     id;
-    isActivated = false;
+    isActivated;
 
     constructor(image, x, id) {
         super();

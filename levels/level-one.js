@@ -3,11 +3,11 @@ fillBackgroundArr();
 
 const levelOne = new Level(
     [
-        new Skeleton(600),
-        new Ghoul(1500),
-        new Skeleton(2000),
-        new Ghoul(2500),
-        new Endboss(),
+        // new Skeleton(600),
+        // new Ghoul(1500),
+        // new Skeleton(2000),
+        // new Ghoul(2500),
+        // new Endboss(),
     ],
     [
         new Cloud(),
@@ -40,8 +40,8 @@ const levelOne = new Level(
         new Apple(450, 400)
     ],
     [
-        new ClickableButton('asset/img/6_UI/btn/Default@Fullscreen.png', 1075, 'fullscreen'),
-        new ClickableButton('asset/img/6_UI/btn/Default@Fullscreen.png', 950, 'miniscreen'),
+        // new ClickableButton('asset/img/6_UI/btn/Default@Fullscreen.png', 1075, 'fullscreen'),
+        // new ClickableButton('asset/img/6_UI/btn/Default@Fullscreen.png', 950, 'miniscreen'),
     ]
 )
 
