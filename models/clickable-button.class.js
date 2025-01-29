@@ -15,5 +15,6 @@ class ClickableButton extends DrawableObjects {
 
     onClick(action) {
         console.log(this.id);
+        fullscreen();
     }
 }

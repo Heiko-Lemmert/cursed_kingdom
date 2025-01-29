@@ -6,7 +6,7 @@ class World extends Checker {
     coinbar = new Coinbar();
     checker = new Checker();
     arrows = [];
-    btnScreen = [];
+    screenBtn = new ClickableButton('asset/img/6_UI/btn/Default@Fullscreen.png', 1075, 'fullscreen');
     ctx;
     canvas;
     keyboard;
@@ -23,33 +23,55 @@ class World extends Checker {
         this.setWorld();
         this.draw();
         this.run();
+        this.setScreenSize();
     }
 
     setWorld() {
         this.character.world = this;
         this.checker.world = this;
-        // this.level.btn.push(new ClickableButton('asset/img/6_UI/btn/Default@Fullscreen.png', 1075, 'fullscreen'))    
+        // this.level.btn.push(new ClickableButton('asset/img/6_UI/btn/Default@Fullscreen.png', 1075, 'fullscreen'))   
+        // this.level.btn.push(new ClickableButton('asset/img/6_UI/btn/Default@Smallscreen.png', 875, 'miniscreen'))  
     }
 
-    checkClickAction() {
-        this.level.btn.forEach(btn => {
-            // Überprüfe, ob ein Klick innerhalb der Button-Bounds war
-            canvas.addEventListener('click', (event) => {
-                const rect = canvas.getBoundingClientRect();
-                const mouseX = event.clientX - rect.left;
-                const mouseY = event.clientY - rect.top;
-
-                if (mouseX >= btn.x && mouseX <= btn.x + btn.width && mouseY >= btn.y && mouseY <= btn.y + btn.height) {
-                    if (btn.id === 'fullscreen') {
-                        btn.onClick(); // Aktion ausführen
-                         this.level.btn.splice(btn, 1)
-                         // this.level.btn.push(new ClickableButton('asset/img/6_UI/btn/Default@Smallscreen.png', 1075, 'miniscreen'))      
-                         console.log('test') 
-                    }      
+    setScreenSize() {
+        this.canvas.addEventListener('click', (event) => {
+            const rect = canvas.getBoundingClientRect();
+            const mouseX = event.clientX - rect.left;
+            const mouseY = event.clientY - rect.top;
+    
+            const btn = this.screenBtn; // Dynamische Referenz zur Laufzeit
+    
+            if (mouseX >= btn.x && mouseX <= btn.x + btn.width && mouseY >= btn.y && mouseY <= btn.y + btn.height) {
+                if (btn.id === 'fullscreen') {
+                    btn.onClick(); // Aktion ausführen
+                    this.screenBtn = new ClickableButton('asset/img/6_UI/btn/Default@Smallscreen.png', 1075, 'smallscreen');  
+                } else if (btn.id === 'smallscreen') {
+                    btn.onClick(); // Aktion ausführen
+                    this.screenBtn = new ClickableButton('asset/img/6_UI/btn/Default@Fullscreen.png', 1075, 'fullscreen');  
                 }
-            });
-        })
+            }
+        });
     }
+
+    // setScreenSize() {
+    //     let btn = this.screenBtn;
+    //     this.canvas.addEventListener('click', (event) => {
+    //         const rect = canvas.getBoundingClientRect();
+    //         const mouseX = event.clientX - rect.left;
+    //         const mouseY = event.clientY - rect.top;
+
+    //         if (mouseX >= btn.x && mouseX <= btn.x + btn.width && mouseY >= btn.y && mouseY <= btn.y + btn.height) {
+    //             if (btn.id === 'fullscreen') {
+    //                 btn.onClick(); // Aktion ausführen
+    //                 this.screenBtn = new ClickableButton('asset/img/6_UI/btn/Default@Smallscreen.png', 1075, 'smallscreen');  
+    //             }  
+    //             if (btn.id === 'smallscreen') {
+    //                 btn.onClick(); // Aktion ausführen
+    //                 this.screenBtn = new ClickableButton('asset/img/6_UI/btn/Default@Fullscreen.png', 1075, 'fullscreen');  
+    //             }  
+    //         }
+    //     });
+    // };
 
 
 
@@ -69,6 +91,7 @@ class World extends Checker {
         this.coinbar.draw(this.ctx);
         this.coinbar.fillText(this.ctx);
         this.addObjectsToMap(this.level.btn);
+        this.screenBtn.draw(this.ctx);
         this.ctx.translate(this.camera_x, 0);
 
         this.addToMap(this.character);
@@ -90,7 +113,7 @@ class World extends Checker {
             this.checker.checkAppleCollison();
             this.checker.checkShootableObject();
             this.checker.checkCloseBy();
-            this.checkClickAction();
+            // this.checkClickAction();
         }, 100);
     }
 
