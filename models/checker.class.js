@@ -118,4 +118,26 @@ class Checker {
         console.log('Bottom:', this.world.level.coins[0].y + this.world.level.coins[0].height - this.world.level.coins[0].offset.bottom);
     }
 
+    checkClickableButton() {
+        this.world.canvas.addEventListener('click', (event) => {
+            const rect = canvas.getBoundingClientRect();
+            const mouseX = (event.clientX - rect.left) * (this.world.canvas.width / rect.width);
+            const mouseY = (event.clientY - rect.top) * (this.world.canvas.height / rect.height);
+
+            const btn = this.world.screenBtn; // Dynamische Referenz zur Laufzeit
+
+            if (mouseX >= btn.x && mouseX <= btn.x + btn.width && mouseY >= btn.y && mouseY <= btn.y + btn.height) {
+                if (btn.id === 'fullscreen') {
+                    console.log('full')
+                    btn.onClick(1); // Aktion ausführen
+                    this.world.screenBtn = new ClickableButton('asset/img/6_UI/btn/Default@Smallscreen.png', 1075, 'smallscreen');
+                } else if (btn.id === 'smallscreen') {
+                    console.log('small')
+                    btn.onClick(2); // Aktion ausführen
+                    this.world.screenBtn = new ClickableButton('asset/img/6_UI/btn/Default@Fullscreen.png', 1075, 'fullscreen');
+                }
+            }
+        });
+    }
+
 }

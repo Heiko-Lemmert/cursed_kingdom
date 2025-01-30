@@ -4,15 +4,15 @@ class Level {
     backgrounds;
     coins;
     apples;
-    btn;
     levelEndX = 7200;
+    bgAudio;
 
-    constructor(enemies, clouds, backgrounds, coins, apples, btn) {
+    constructor(enemies, clouds, backgrounds, coins, apples, bgAudio) {
         this.enemies = enemies;
         this.clouds = clouds;
         this.backgrounds = backgrounds;
         this.coins = coins;
         this.apples = apples;
-        this.btn = btn;
+        this.bgAudio = bgAudio;
     }
 }

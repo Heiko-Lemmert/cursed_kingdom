@@ -4,7 +4,6 @@ class ClickableButton extends DrawableObjects {
     width = 100;
     height = 100;
     id;
-    isActivated;
 
     constructor(image, x, id) {
         super();
@@ -14,7 +13,10 @@ class ClickableButton extends DrawableObjects {
     }
 
     onClick(action) {
-        console.log(this.id);
-        fullscreen();
+        if (action == 1) {
+            fullscreen();
+        } else if (action == 2) {
+            exitFullscreen();
+        }
     }
 }

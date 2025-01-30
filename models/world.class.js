@@ -23,56 +23,14 @@ class World extends Checker {
         this.setWorld();
         this.draw();
         this.run();
-        this.setScreenSize();
+        this.level.bgAudio.loop = true;
     }
 
     setWorld() {
         this.character.world = this;
         this.checker.world = this;
-        // this.level.btn.push(new ClickableButton('asset/img/6_UI/btn/Default@Fullscreen.png', 1075, 'fullscreen'))   
-        // this.level.btn.push(new ClickableButton('asset/img/6_UI/btn/Default@Smallscreen.png', 875, 'miniscreen'))  
+        this.coinbar.ctx = this;
     }
-
-    setScreenSize() {
-        this.canvas.addEventListener('click', (event) => {
-            const rect = canvas.getBoundingClientRect();
-            const mouseX = event.clientX - rect.left;
-            const mouseY = event.clientY - rect.top;
-    
-            const btn = this.screenBtn; // Dynamische Referenz zur Laufzeit
-    
-            if (mouseX >= btn.x && mouseX <= btn.x + btn.width && mouseY >= btn.y && mouseY <= btn.y + btn.height) {
-                if (btn.id === 'fullscreen') {
-                    btn.onClick(); // Aktion ausführen
-                    this.screenBtn = new ClickableButton('asset/img/6_UI/btn/Default@Smallscreen.png', 1075, 'smallscreen');  
-                } else if (btn.id === 'smallscreen') {
-                    btn.onClick(); // Aktion ausführen
-                    this.screenBtn = new ClickableButton('asset/img/6_UI/btn/Default@Fullscreen.png', 1075, 'fullscreen');  
-                }
-            }
-        });
-    }
-
-    // setScreenSize() {
-    //     let btn = this.screenBtn;
-    //     this.canvas.addEventListener('click', (event) => {
-    //         const rect = canvas.getBoundingClientRect();
-    //         const mouseX = event.clientX - rect.left;
-    //         const mouseY = event.clientY - rect.top;
-
-    //         if (mouseX >= btn.x && mouseX <= btn.x + btn.width && mouseY >= btn.y && mouseY <= btn.y + btn.height) {
-    //             if (btn.id === 'fullscreen') {
-    //                 btn.onClick(); // Aktion ausführen
-    //                 this.screenBtn = new ClickableButton('asset/img/6_UI/btn/Default@Smallscreen.png', 1075, 'smallscreen');  
-    //             }  
-    //             if (btn.id === 'smallscreen') {
-    //                 btn.onClick(); // Aktion ausführen
-    //                 this.screenBtn = new ClickableButton('asset/img/6_UI/btn/Default@Fullscreen.png', 1075, 'fullscreen');  
-    //             }  
-    //         }
-    //     });
-    // };
-
 
 
     /**
@@ -90,7 +48,6 @@ class World extends Checker {
         this.energybar.draw(this.ctx);
         this.coinbar.draw(this.ctx);
         this.coinbar.fillText(this.ctx);
-        this.addObjectsToMap(this.level.btn);
         this.screenBtn.draw(this.ctx);
         this.ctx.translate(this.camera_x, 0);
 
@@ -107,13 +64,14 @@ class World extends Checker {
     }
 
     run() {
+        this.level.bgAudio.play();
+        this.checker.checkClickableButton();
         setInterval(() => {
             this.checker.checkCollison();
             this.checker.checkCoinCollison();
             this.checker.checkAppleCollison();
             this.checker.checkShootableObject();
             this.checker.checkCloseBy();
-            // this.checkClickAction();
         }, 100);
     }
 

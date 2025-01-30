@@ -68,7 +68,13 @@ window.addEventListener('keyup', (event) => {
     }
 })
 
-function fullscreen() {
+window.addEventListener('keydown', function(e) {
+    if(e.keyCode == 32 && e.target == document.body) {
+      e.preventDefault();
+    }
+  });
+
+  function fullscreen() {
     let canvas = document.getElementById('canvas');
     if (canvas.requestFullscreen) {
         canvas.requestFullscreen();
@@ -81,8 +87,14 @@ function fullscreen() {
     }
 }
 
-window.addEventListener('keydown', function(e) {
-    if(e.keyCode == 32 && e.target == document.body) {
-      e.preventDefault();
+function exitFullscreen() {
+    if (document.exitFullscreen) {
+        document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+    } else if (document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+    } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
     }
-  });
+}
