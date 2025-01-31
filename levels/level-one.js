@@ -7,7 +7,7 @@ const levelOne = new Level(
         // new Ghoul(1500),
         // new Skeleton(2000),
         // new Ghoul(2500),
-        // new Endboss(),
+        new Endboss(),
     ],
     [
         new Cloud(),
@@ -45,7 +45,7 @@ const levelOne = new Level(
 function fillBackgroundArr() {
     let xpostion = -1200;
     let bridgeImg = 'bridge';
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < 10; i++) {
         backgrounds.push(new BackgroundObject(`asset/img/5_Levels/SKY-BRIDGE/Backgrounds/tower.png`, 0, xpostion, 310));
         backgrounds.push(new BackgroundObject(`asset/img/5_Levels/SKY-BRIDGE/Backgrounds/${bridgeImg}.png`, 300, xpostion, 300));
         backgrounds.push(new BackgroundObject(`asset/img/5_Levels/SKY-BRIDGE/Backgrounds/grass.png`, 280, xpostion, 300));

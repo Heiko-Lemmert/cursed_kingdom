@@ -13,7 +13,7 @@ function init() {
 
 window.addEventListener('keydown', event => {
     switch (event.keyCode) {
-        case 87:
+        case 87:  
             // console.log('Up is pressend')
             keyboard.up = true;
             break;
@@ -69,7 +69,7 @@ window.addEventListener('keyup', (event) => {
 })
 
 window.addEventListener('keydown', function(e) {
-    if(e.keyCode == 32 && e.target == document.body) {
+    if(e.keyCode == 32 && e.target == document.body || e.keyCode == 27 && e.target == document.body) {
       e.preventDefault();
     }
   });

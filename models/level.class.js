@@ -4,7 +4,7 @@ class Level {
     backgrounds;
     coins;
     apples;
-    levelEndX = 7200;
+    levelEndX = 9600;
     bgAudio;
 
     constructor(enemies, clouds, backgrounds, coins, apples, bgAudio) {

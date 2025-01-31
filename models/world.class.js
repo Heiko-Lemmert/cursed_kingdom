@@ -7,6 +7,7 @@ class World extends Checker {
     checker = new Checker();
     arrows = [];
     screenBtn = new ClickableButton('asset/img/6_UI/btn/Default@Fullscreen.png', 1075, 'fullscreen');
+    volumeBtn = new ClickableButton('asset/img/6_UI/btn/Default@Sound_On.png', 965, 'volume-on');
     ctx;
     canvas;
     keyboard;
@@ -49,6 +50,7 @@ class World extends Checker {
         this.coinbar.draw(this.ctx);
         this.coinbar.fillText(this.ctx);
         this.screenBtn.draw(this.ctx);
+        this.volumeBtn.draw(this.ctx);
         this.ctx.translate(this.camera_x, 0);
 
         this.addToMap(this.character);
@@ -72,6 +74,7 @@ class World extends Checker {
             this.checker.checkAppleCollison();
             this.checker.checkShootableObject();
             this.checker.checkCloseBy();
+            this.checker.checkFullscreen();
         }, 100);
     }
 

@@ -1,8 +1,8 @@
 class ClickableButton extends DrawableObjects {
     x;
     y = 10;
-    width = 100;
-    height = 100;
+    width = 75;
+    height = 75;
     id;
 
     constructor(image, x, id) {
@@ -17,6 +17,10 @@ class ClickableButton extends DrawableObjects {
             fullscreen();
         } else if (action == 2) {
             exitFullscreen();
+        } else if (action == 3) {
+            volumeMute()
+        } else if (action == 4) {
+            volumeLoud()
         }
     }
 }

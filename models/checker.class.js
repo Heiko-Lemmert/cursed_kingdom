@@ -6,7 +6,7 @@ class Checker {
             if (this.world.character.isColliding(enemy) && !enemy.isDead()) {
                 if (this.world.character.isLandingOn(enemy)) {
                     console.log('Ich lande auf dem Gegner');
-                    console.log('Aktuelle Höhe ist', + this.world.character.y)
+                    console.log('Aktuelle Höhe ist', +this.world.character.y)
                     this.world.character.speedY = 10; // Der Charakter wird "zurückprallen".f
                     enemy.hit(100); // Gegner besiegen (z. B. mit 100 Schaden).
                     setTimeout(() => {
@@ -78,7 +78,7 @@ class Checker {
 
 
             // Energieverlust und Anzeige aktualisieren
-            // this.world.character.lostEnergy();                        <----------------------------------------------------- RETURN
+            // this.world.character.lostEnergy();                        <----------------------------------------------------------------------------- RETURN
             this.world.energybar.setPercent(this.world.character.energy, this.world.energybar.IMAGES_ENERGY);
         }
     }
@@ -86,13 +86,11 @@ class Checker {
     checkCloseBy() {
         this.world.level.enemies.forEach(enemy => {
             if (this.world.character.closeBy(enemy, 275)) {
-                console.log('Gegner in der Nähe')
                 enemy.isSlashing = true;
             } else {
                 enemy.isSlashing = false;
             }
             if (enemy instanceof Endboss && this.world.character.closeBy(enemy, 1000)) {
-                console.log('Endboss Animation starten')
                 enemy.startEndFight = true;
             }
         });
@@ -123,21 +121,47 @@ class Checker {
             const rect = canvas.getBoundingClientRect();
             const mouseX = (event.clientX - rect.left) * (this.world.canvas.width / rect.width);
             const mouseY = (event.clientY - rect.top) * (this.world.canvas.height / rect.height);
+            const screenBtn = this.world.screenBtn;
+            const volumeBtn = this.world.volumeBtn;
 
-            const btn = this.world.screenBtn; // Dynamische Referenz zur Laufzeit
-
-            if (mouseX >= btn.x && mouseX <= btn.x + btn.width && mouseY >= btn.y && mouseY <= btn.y + btn.height) {
-                if (btn.id === 'fullscreen') {
-                    console.log('full')
-                    btn.onClick(1); // Aktion ausführen
-                    this.world.screenBtn = new ClickableButton('asset/img/6_UI/btn/Default@Smallscreen.png', 1075, 'smallscreen');
-                } else if (btn.id === 'smallscreen') {
-                    console.log('small')
-                    btn.onClick(2); // Aktion ausführen
-                    this.world.screenBtn = new ClickableButton('asset/img/6_UI/btn/Default@Fullscreen.png', 1075, 'fullscreen');
-                }
+            if (this.checkBtn(mouseX, mouseY, screenBtn)) {
+                this.setScreenBtn(screenBtn);
+            }
+            if (this.checkBtn(mouseX, mouseY, volumeBtn)) {
+                this.setVolumeBtn(volumeBtn);
             }
         });
     }
 
+    checkBtn(mouseX, mouseY, btn) {
+        return mouseX >= btn.x && mouseX <= btn.x + btn.width && mouseY >= btn.y && mouseY <= btn.y + btn.height
+    }
+
+    setScreenBtn(screenBtn) {
+        if (screenBtn.id === 'fullscreen') {
+            screenBtn.onClick(1);
+            this.world.screenBtn = new ClickableButton('asset/img/6_UI/btn/Default@Smallscreen.png', 1075, 'smallscreen');
+        } else if (screenBtn.id === 'smallscreen') {
+            screenBtn.onClick(2);
+            this.world.screenBtn = new ClickableButton('asset/img/6_UI/btn/Default@Fullscreen.png', 1075, 'fullscreen');
+        }
+    }
+
+    checkFullscreen() {
+        if (!document.fullscreenElement && this.world.screenBtn.id === 'smallscreen') {
+            this.world.screenBtn = new ClickableButton('asset/img/6_UI/btn/Default@Fullscreen.png', 1075, 'fullscreen');
+        } else if (document.fullscreenElement && this.world.screenBtn.id === 'fullscreen') {
+            this.world.screenBtn = new ClickableButton('asset/img/6_UI/btn/Default@Smallscreen.png', 1075, 'smallscreen');
+        }
+    }
+
+    setVolumeBtn(volumeBtn) {
+        if (volumeBtn.id === 'volume-on') {
+            this.world.volumeBtn = new ClickableButton('asset/img/6_UI/btn/Default@Sound_Off.png', 965, 'volume-off');
+            this.world.level.bgAudio.volume = 0
+        } else if (volumeBtn.id === 'volume-off') {
+            this.world.volumeBtn = new ClickableButton('asset/img/6_UI/btn/Default@Sound_On.png', 965, 'volume-on');
+            this.world.level.bgAudio.volume = 1
+        }
+    }
 }
