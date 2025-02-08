@@ -15,8 +15,8 @@ class Coin extends CollectibleObject {
 
     constructor(x, y) {
         super().loadImage(this.IMAGES_COIN[0]);
-        this.x = x;
-        this.y = y;
+        this.x = x + Math.random() * 1000;
+        this.y = y + Math.random() * 150;
         this.outerFrame.x = x;
         this.outerFrame.y = y;
         this.innerFrame.x = x;

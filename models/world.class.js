@@ -1,6 +1,7 @@
 class World extends Checker {
-    character = new Character();
     level = levelOne;
+    music = new Music(this.level.bgAudio);
+    character = new Character(this.music);
     healthbar = new Heahltbar();
     energybar = new Energybar();
     coinbar = new Coinbar();
@@ -14,6 +15,8 @@ class World extends Checker {
     camera_x = 0;
     currentCoins = 0;
     currentEnergy = 0;
+    bgMusic = this.music.findAudioSrc('backgroundMusic');
+
 
     constructor(canvas, keyboard) {
         super();
@@ -24,13 +27,13 @@ class World extends Checker {
         this.setWorld();
         this.draw();
         this.run();
-        this.level.bgAudio.loop = true;
+        this.bgMusic.loop = true;
+        this.bgMusic.volume = 0.1;
     }
 
     setWorld() {
         this.character.world = this;
         this.checker.world = this;
-        this.coinbar.ctx = this;
     }
 
 
@@ -66,7 +69,7 @@ class World extends Checker {
     }
 
     run() {
-        this.level.bgAudio.play();
+        // this.bgMusic.play() <--------------------------------------------------------------- Return
         this.checker.checkClickableButton();
         setInterval(() => {
             this.checker.checkCollison();
@@ -122,7 +125,5 @@ class World extends Checker {
         for (let i = 1; i < 9999; i++) window.clearInterval(i);
     }
 
-    async importSprites() {
-        sprites = await fetch('models/sprites.json').then(r => r.json());
-    }
+
 }

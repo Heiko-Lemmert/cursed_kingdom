@@ -3,10 +3,10 @@ fillBackgroundArr();
 
 const levelOne = new Level(
     [
-        // new Skeleton(600),
-        // new Ghoul(1500),
-        // new Skeleton(2000),
-        // new Ghoul(2500),
+        new Skeleton(600),
+        new Ghoul(1500),
+        new Skeleton(2000),
+        new Ghoul(2500),
         new Endboss(),
     ],
     [
@@ -14,12 +14,33 @@ const levelOne = new Level(
     ],
     backgrounds,
     [
-        // First Section
+        /* // First Section
         new Coin(1000, 200),
         new Coin(1080, 140),
         new Coin(1160, 80),
         new Coin(1240, 140),
         new Coin(1320, 200),
+
+        // Two Section 
+        new Coin(3000, 200),
+        new Coin(3080, 140),
+        new Coin(3160, 80),
+        new Coin(3240, 140),
+        new Coin(3320, 200),
+
+        // Three Section
+        new Coin(5000, 200),
+        new Coin(5080, 140),
+        new Coin(5160, 80),
+        new Coin(5240, 140),
+        new Coin(5320, 200),*/
+
+        // First Section
+        new Coin(1000, 25),
+        new Coin(1150, 25),
+        new Coin(1300, 25),
+        new Coin(1450, 25),
+        new Coin(1600, 25),
 
         // Two Section 
         new Coin(3000, 200),

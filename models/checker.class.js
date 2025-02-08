@@ -19,7 +19,7 @@ class Checker {
             }
             this.world.arrows.forEach((arrow) => {
                 if (arrow.isColliding(enemy) && !enemy.isDead()) {
-                    enemy.hit(100); // Gegner erleidetd schaden durch Pfeil.
+                    enemy.hit(100); // Gegner erleidet schaden durch Pfeil.
                     this.world.arrows.splice(arrow, 1); // Pfeil entfernen.
                     this.world.character.audioArrow.pause();
                     setTimeout(() => {
@@ -31,8 +31,10 @@ class Checker {
     }
 
     checkCoinCollison() {
+        let coinAudio = this.world.music.findAudioSrc('collectedCoin');
         this.world.level.coins.forEach((collectible, i) => {
             if (this.world.character.isColliding(collectible)) {
+                coinAudio.play()
                 this.world.level.coins.splice(i, 1)
                 this.world.coinbar.currentCoins++
             }
@@ -78,7 +80,7 @@ class Checker {
 
 
             // Energieverlust und Anzeige aktualisieren
-            // this.world.character.lostEnergy();                        <----------------------------------------------------------------------------- RETURN
+            this.world.character.lostEnergy();
             this.world.energybar.setPercent(this.world.character.energy, this.world.energybar.IMAGES_ENERGY);
         }
     }
@@ -137,6 +139,15 @@ class Checker {
         return mouseX >= btn.x && mouseX <= btn.x + btn.width && mouseY >= btn.y && mouseY <= btn.y + btn.height
     }
 
+
+    checkFullscreen() {
+        if (!document.fullscreenElement && this.world.screenBtn.id === 'smallscreen') {
+            this.world.screenBtn = new ClickableButton('asset/img/6_UI/btn/Default@Fullscreen.png', 1075, 'fullscreen');
+        } else if (document.fullscreenElement && this.world.screenBtn.id === 'fullscreen') {
+            this.world.screenBtn = new ClickableButton('asset/img/6_UI/btn/Default@Smallscreen.png', 1075, 'smallscreen');
+        }
+    }
+
     setScreenBtn(screenBtn) {
         if (screenBtn.id === 'fullscreen') {
             screenBtn.onClick(1);
@@ -147,21 +158,13 @@ class Checker {
         }
     }
 
-    checkFullscreen() {
-        if (!document.fullscreenElement && this.world.screenBtn.id === 'smallscreen') {
-            this.world.screenBtn = new ClickableButton('asset/img/6_UI/btn/Default@Fullscreen.png', 1075, 'fullscreen');
-        } else if (document.fullscreenElement && this.world.screenBtn.id === 'fullscreen') {
-            this.world.screenBtn = new ClickableButton('asset/img/6_UI/btn/Default@Smallscreen.png', 1075, 'smallscreen');
-        }
-    }
-
     setVolumeBtn(volumeBtn) {
         if (volumeBtn.id === 'volume-on') {
             this.world.volumeBtn = new ClickableButton('asset/img/6_UI/btn/Default@Sound_Off.png', 965, 'volume-off');
-            this.world.level.bgAudio.volume = 0
+            this.world.music.muteVolume();
         } else if (volumeBtn.id === 'volume-off') {
             this.world.volumeBtn = new ClickableButton('asset/img/6_UI/btn/Default@Sound_On.png', 965, 'volume-on');
-            this.world.level.bgAudio.volume = 1
+            this.world.music.setVolume();
         }
     }
 }
