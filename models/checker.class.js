@@ -4,7 +4,7 @@ class Checker {
     checkCollison() {
         this.world.level.enemies.forEach(enemy => {
             if (this.world.character.isColliding(enemy) && !enemy.isDead()) {
-                if (this.world.character.isLandingOn(enemy)) {
+                if (this.world.character.isJumping && this.world.character.isLandingOn(enemy)) {
                     console.log('Ich lande auf dem Gegner');
                     console.log('Aktuelle Höhe ist', +this.world.character.y)
                     this.world.character.speedY = 10; // Der Charakter wird "zurückprallen".f

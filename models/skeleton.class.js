@@ -72,6 +72,7 @@ class Skeleton extends MovableObject {
     constructor(x) {
         super().loadImage(this.IMAGES_WALKING[0]);
         this.x = x + Math.random() * 500;
+        this.y = this.y + Math.random() * 150;
         this.speed = 0.25 + Math.random() * 0.25
         this.innerFrame.x = this.x + 60;
         this.outerFrame.x = this.x;
