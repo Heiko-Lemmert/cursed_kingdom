@@ -57,6 +57,20 @@ class Lich extends MovableObject {
         'asset/img/2_Enemies/Lich/PNG/PNG Sequences/Run Slashing/0_Lich_Run Slashing_010.png',
         'asset/img/2_Enemies/Lich/PNG/PNG Sequences/Run Slashing/0_Lich_Run Slashing_011.png'
     ];
+    IMAGES_HURT = [
+        'asset/img/2_Enemies/Lich/PNG/PNG Sequences/Hurt/0_Lich_Hurt_000.png',
+        'asset/img/2_Enemies/Lich/PNG/PNG Sequences/Hurt/0_Lich_Hurt_001.png',
+        'asset/img/2_Enemies/Lich/PNG/PNG Sequences/Hurt/0_Lich_Hurt_002.png',
+        'asset/img/2_Enemies/Lich/PNG/PNG Sequences/Hurt/0_Lich_Hurt_003.png',
+        'asset/img/2_Enemies/Lich/PNG/PNG Sequences/Hurt/0_Lich_Hurt_004.png',
+        'asset/img/2_Enemies/Lich/PNG/PNG Sequences/Hurt/0_Lich_Hurt_005.png',
+        'asset/img/2_Enemies/Lich/PNG/PNG Sequences/Hurt/0_Lich_Hurt_006.png',
+        'asset/img/2_Enemies/Lich/PNG/PNG Sequences/Hurt/0_Lich_Hurt_007.png',
+        'asset/img/2_Enemies/Lich/PNG/PNG Sequences/Hurt/0_Lich_Hurt_008.png',
+        'asset/img/2_Enemies/Lich/PNG/PNG Sequences/Hurt/0_Lich_Hurt_009.png',
+        'asset/img/2_Enemies/Lich/PNG/PNG Sequences/Hurt/0_Lich_Hurt_010.png',
+        'asset/img/2_Enemies/Lich/PNG/PNG Sequences/Hurt/0_Lich_Hurt_011.png'
+    ]
 
 
 
@@ -67,6 +81,7 @@ class Lich extends MovableObject {
         width : 120,
         height : 150
     };
+    world;
     
 
     constructor(x) {
@@ -80,11 +95,22 @@ class Lich extends MovableObject {
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_DYING);
         this.loadImages(this.IMAGES_SLASHING);
+        this.loadImages(this.IMAGES_HURT);
         this.animate();
+        this.dropEnergy();
     }
 
     animate() {
         this.setEnemyMove();
         this.playEnemyAnimation(this)
+    }
+
+    dropEnergy() {
+       let dropEnergy = setInterval(() => {
+            if (this.isDead()) {
+                 this.world.apples.push(new Apple(this.x, this.y));
+                    clearInterval(dropEnergy);
+            }
+        }, 100);
     }
 }

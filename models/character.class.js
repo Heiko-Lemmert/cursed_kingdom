@@ -231,14 +231,12 @@ startShootAnimation(images) {
             // Animation abgeschlossen
             clearInterval(this.animationInterval); // Beende Schuss Intervall
             this.animateImages(); // Starte animation der anderen Bilder
-            this.isShooting = false; // Erlaube erneutes Schießen
-            console.log("Schussanimation beendet");
+            this.isShooting = false; // Erlaube erneutes Schießenf
         } else {
             // Zeige das nächste Bild der Animation
             const path = images[i];
             this.img = this.imageCache[path];
             this.currentOnceImages++;
-            console.log(this.currentOnceImages)
         }
     }, 1000 / 30); // 60 FPS
 }

@@ -23,7 +23,7 @@ class DrawableObjects {
     }
 
     drawFrame(ctx) {
-        if (this instanceof Character || this instanceof Skeleton || this instanceof Ghoul || this instanceof Endboss || this instanceof CollectibleObject || this instanceof ClickableButton) {
+        if (this instanceof Character || this instanceof Skeleton || this instanceof Ghoul  || this instanceof Lich || this instanceof Endboss || this instanceof CollectibleObject || this instanceof ClickableButton) {
             ctx.beginPath();
             ctx.lineWidth = '5';
             ctx.strokeStyle = this.frameColor;

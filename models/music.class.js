@@ -9,7 +9,6 @@ class Music {
 
 
     constructor(soundfile) {
-        console.log(this.sounds)
         this.setBackgroundMusic(soundfile)
     }
 

@@ -31,12 +31,12 @@ class MovableObject extends DrawableObjects {
         bottom: 0
     };
     currentY;
-    isJumping = false;
+    chaisJumping = false;
     isSlashing = false;
 
     applyGravity() {
         setInterval(() => {
-            if (this.isJumping) { // this.isAboveGround() || this.speedY > 0
+            if (this.isJumping) {
                 this.y -= this.speedY;
                 this.innerFrame.y -= this.speedY;
                 this.speedY -= this.acceleration;
@@ -163,36 +163,38 @@ class MovableObject extends DrawableObjects {
         if (this.energy === 100) {
             return;
         } else {
-            this.energy += 20;
+            this.energy = 100;
         }
     }
 
-/**
- * 
- * @param {*} mo is a Movable Object
- * @param {*} number this is the distance between the objects
- * @returns 
- */
+    /**
+     * 
+     * @param {*} mo is a Movable Object
+     * @param {*} number this is the distance between the objects
+     * @returns 
+     */
     closeBy(mo, number) {
         return Math.abs(this.x - mo.x) <= number;
     }
 
     playEnemyAnimation(enemy) {
-        setInterval(() => { 
+        setInterval(() => {
             if (enemy.isDead() && !enemy.animationFinished) {
                 enemy.playOnceAnimation(enemy.IMAGES_DYING);
+            } else if (!enemy.isDead() && enemy.isHurt()) {
+                enemy.playAnimation(enemy.IMAGES_HURT);
             } else if (!enemy.isDead() && this.isSlashing) {
                 enemy.playAnimation(enemy.IMAGES_SLASHING);
             } else if (!enemy.isDead()) {
                 enemy.playAnimation(enemy.IMAGES_WALKING);
-            }  
+            }
         }, 100)
     }
 
     setEnemyMove() {
         let move = setInterval(() => {
             if (!this.isDead()) {
-               this.moveLeft(); 
+                this.moveLeft();
             } else {
                 clearInterval(move)
             }

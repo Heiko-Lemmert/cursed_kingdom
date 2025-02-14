@@ -13,6 +13,7 @@ const levelOne = new Level(
         new Skeleton(4000),
         new Ghoul(5000),
         new Skeleton(5500),
+        new Lich(6000),
         new Ghoul(6000),
         new Skeleton(6500),
         new Ghoul(7000),
@@ -23,27 +24,6 @@ const levelOne = new Level(
     ],
     backgrounds,
     [
-        /* // First Section
-        new Coin(1000, 200),
-        new Coin(1080, 140),
-        new Coin(1160, 80),
-        new Coin(1240, 140),
-        new Coin(1320, 200),
-
-        // Two Section 
-        new Coin(3000, 200),
-        new Coin(3080, 140),
-        new Coin(3160, 80),
-        new Coin(3240, 140),
-        new Coin(3320, 200),
-
-        // Three Section
-        new Coin(5000, 200),
-        new Coin(5080, 140),
-        new Coin(5160, 80),
-        new Coin(5240, 140),
-        new Coin(5320, 200),*/
-
         // First Section
         new Coin(1000, 25),
         new Coin(1150, 25),

@@ -2,29 +2,42 @@ class Checker {
     world;
 
     checkCollison() {
-        this.world.level.enemies.forEach(enemy => {
+        this.world.level.enemies.forEach((enemy, i) => {
             if (this.world.character.isColliding(enemy) && !enemy.isDead()) {
                 if (this.world.character.isJumping && this.world.character.isLandingOn(enemy)) {
-                    console.log('Ich lande auf dem Gegner');
-                    console.log('Aktuelle Höhe ist', +this.world.character.y)
-                    this.world.character.speedY = 10; // Der Charakter wird "zurückprallen".f
+                    this.world.character.speedY = 10; // Der Charakter wird "zurückprallen".
                     enemy.hit(100); // Gegner besiegen (z. B. mit 100 Schaden).
                     setTimeout(() => {
-                        this.world.level.enemies.splice(enemy, 1)
+                        this.world.level.enemies.splice(i, 1)
                     }, 1500)
+                    console.log(i)
                 } else {
                     this.world.character.hit(20); // Schaden für den Charakter, wenn er nicht auf dem Gegner landet.
                     this.world.healthbar.setPercent(this.world.character.health, this.world.healthbar.IMAGES_HEALTH);
                 }
             }
+        });
+    }
+
+    checkArrowCollison() {
+        this.world.level.enemies.forEach((enemy, i) => {
             this.world.arrows.forEach((arrow) => {
                 if (arrow.isColliding(enemy) && !enemy.isDead()) {
-                    enemy.hit(100); // Gegner erleidet schaden durch Pfeil.
+                    if (enemy instanceof Endboss) {
+                        enemy.hit(20);
+                        this.world.healthbarEndboss.setPercent(enemy.health, this.world.healthbarEndboss.IMAGES_HEALTH);
+                    } else if (enemy instanceof Lich) {
+                        enemy.hit(50);
+                    } else {
+                        enemy.hit(100); // Gegner erleidet schaden durch Pfeil.
+                    }
                     this.world.arrows.splice(arrow, 1); // Pfeil entfernen.
                     this.world.character.audioArrow.pause();
-                    setTimeout(() => {
-                        this.world.level.enemies.splice(enemy, 1)
-                    }, 1500)
+                    if (enemy.isDead()) {
+                        setTimeout(() => {
+                            this.world.level.enemies.splice(i, 1)
+                        }, 1500)
+                    }
                 }
             });
         });
@@ -42,9 +55,9 @@ class Checker {
     }
 
     checkAppleCollison() {
-        this.world.level.apples.forEach((collectible, i) => {
+        this.world.apples.forEach((collectible, i) => {
             if (this.world.character.isColliding(collectible)) {
-                this.world.level.apples.splice(i, 1);
+                this.world.apples.splice(i, 1);
                 this.world.character.increasesEnergy();
                 this.world.energybar.setPercent(this.world.character.energy, this.world.energybar.IMAGES_ENERGY);
             }
@@ -72,8 +85,6 @@ class Checker {
             // Schussanimation starten
             if (this.world.keyboard.right || this.world.keyboard.left) {
                 this.world.character.startShootAnimation(this.world.character.IMAGES_RUN_SHOOTING);
-                console.log('Run and Shoot Animation')
-                console.log("isShooting:", this.world.character.isShooting);
             } else {
                 this.world.character.startShootAnimation(this.world.character.IMAGES_SHOOTING);
             }
@@ -94,6 +105,7 @@ class Checker {
             }
             if (enemy instanceof Endboss && this.world.character.closeBy(enemy, 1000)) {
                 enemy.startEndFight = true;
+                this.world.isEndFight = true;
             }
         });
     }

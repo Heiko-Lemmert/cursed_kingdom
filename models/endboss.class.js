@@ -57,6 +57,20 @@ class Endboss extends MovableObject {
         'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Run Slashing/0_Death_Knight_Run Slashing_010.png',
         'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Run Slashing/0_Death_Knight_Run Slashing_011.png'
     ];
+    IMAGES_HURT = [
+        'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Hurt/0_Death_Knight_Hurt_000.png',
+        'asset/img/2_Enemies//Death_Knight/PNG/PNG Sequences/Hurt/0_Death_Knight_Hurt_001.png',
+        'asset/img/2_Enemies//Death_Knight/PNG/PNG Sequences/Hurt/0_Death_Knight_Hurt_002.png',
+        'asset/img/2_Enemies//Death_Knight/PNG/PNG Sequences/Hurt/0_Death_Knight_Hurt_003.png',
+        'asset/img/2_Enemies//Death_Knight/PNG/PNG Sequences/Hurt/0_Death_Knight_Hurt_004.png',
+        'asset/img/2_Enemies//Death_Knight/PNG/PNG Sequences/Hurt/0_Death_Knight_Hurt_005.png',
+        'asset/img/2_Enemies//Death_Knight/PNG/PNG Sequences/Hurt/0_Death_Knight_Hurt_006.png',
+        'asset/img/2_Enemies//Death_Knight/PNG/PNG Sequences/Hurt/0_Death_Knight_Hurt_007.png',
+        'asset/img/2_Enemies//Death_Knight/PNG/PNG Sequences/Hurt/0_Death_Knight_Hurt_008.png',
+        'asset/img/2_Enemies//Death_Knight/PNG/PNG Sequences/Hurt/0_Death_Knight_Hurt_009.png',
+        'asset/img/2_Enemies//Death_Knight/PNG/PNG Sequences/Hurt/0_Death_Knight_Hurt_010.png',
+        'asset/img/2_Enemies//Death_Knight/PNG/PNG Sequences/Hurt/0_Death_Knight_Hurt_011.png'
+    ]
     otherDirection = true;
     innerFrame = {
         y : 130,
@@ -74,6 +88,7 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_DYING);
         this.loadImages(this.IMAGES_SLASHING);
+        this.loadImages(this.IMAGES_HURT);
         this.outerFrame.x = this.x;
         this.outerFrame.y = this.y;
         this.outerFrame.width = this.width;

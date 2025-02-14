@@ -8,10 +8,10 @@ class Heahltbar extends Status {
         'asset/img/6_UI/stats/healthbar/heart-gamebar-100.png',
     ]
 
-    constructor() {
+    constructor(x) {
         super().loadImages(this.IMAGES_HEALTH);
         this.setPercent(this.percent, this.IMAGES_HEALTH);
-        this.x = 25;
+        this.x = x;
     }
 
     

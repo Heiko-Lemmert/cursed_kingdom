@@ -2,11 +2,13 @@ class World extends Checker {
     level = levelOne;
     music = new Music(this.level.bgAudio);
     character = new Character(this.music);
-    healthbar = new Heahltbar();
+    healthbar = new Heahltbar(10);
+    healthbarEndboss = new Heahltbar(850);
     energybar = new Energybar();
     coinbar = new Coinbar();
     checker = new Checker();
     arrows = [];
+    apples = [];
     screenBtn = new ClickableButton('asset/img/6_UI/btn/Default@Fullscreen.png', 1075, 'fullscreen');
     volumeBtn = new ClickableButton('asset/img/6_UI/btn/Default@Sound_On.png', 965, 'volume-on');
     ctx;
@@ -16,6 +18,7 @@ class World extends Checker {
     currentCoins = 0;
     currentEnergy = 0;
     bgMusic = this.music.findAudioSrc('backgroundMusic');
+    isEndFight = false;
 
 
     constructor(canvas, keyboard) {
@@ -34,6 +37,12 @@ class World extends Checker {
     setWorld() {
         this.character.world = this;
         this.checker.world = this;
+        this.level.enemies.forEach(enemy => {
+            if (enemy instanceof Lich) {
+                enemy.world = this;
+            }
+        });
+    
     }
 
 
@@ -49,6 +58,9 @@ class World extends Checker {
         this.ctx.translate(-this.camera_x, 0);
         // --- Space for fixed Objects
         this.healthbar.draw(this.ctx);
+        if (this.isEndFight) {
+            this.healthbarEndboss.draw(this.ctx);
+        }
         this.energybar.draw(this.ctx);
         this.coinbar.draw(this.ctx);
         this.coinbar.fillText(this.ctx);
@@ -60,7 +72,7 @@ class World extends Checker {
         this.addObjectsToMap(this.arrows)
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.coins);
-        this.addObjectsToMap(this.level.apples);
+        this.addObjectsToMap(this.apples);
         this.ctx.translate(-this.camera_x, 0);
         let self = this;
         requestAnimationFrame(() => { // Mit dieser Funktion wird die Draw() 30-60 mal pro Sekunde ausgeführt
@@ -73,6 +85,7 @@ class World extends Checker {
         this.checker.checkClickableButton();
         setInterval(() => {
             this.checker.checkCollison();
+            this.checker.checkArrowCollison();
             this.checker.checkCoinCollison();
             this.checker.checkAppleCollison();
             this.checker.checkShootableObject();
