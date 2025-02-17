@@ -4,7 +4,7 @@ fillBackgroundArr();
 const levelOne = new Level(
     [
         new Skeleton(1000),
-        new Lich(1000),
+        new Lich(2000),
         new Ghoul(1500),
         new Skeleton(2000),
         new Ghoul(2500),
@@ -44,6 +44,13 @@ const levelOne = new Level(
         new Coin(5300, 25),
         new Coin(5450, 25),
         new Coin(5600, 25),
+
+        // Three Section
+        new Coin(6000, 25),
+        new Coin(6150, 25),
+        new Coin(6300, 25),
+        new Coin(6450, 25),
+        new Coin(6600, 25),
 
     ],
     [

@@ -69,16 +69,14 @@ class DrawableObjects {
         this.currentImages++
     }
 
-    playOnceAnimation(images, interval) {
+    playOnceAnimation(images) {
         // Abbruchbedingung: Wenn die Animation abgeschlossen ist, bleibt das letzte Bild stehen
         if (this.animationFinished) return;
     
         let i = this.currentOnceImages;
         if (i >= images.length) { // Animation abgeschlossen
-            console.log("Animation abgeschlossen"); // Debug
             this.animationFinished = true;
             this.img = this.imageCache[images[images.length - 1]]; // Letztes Bild anzeigen
-            clearInterval(interval) // Beendet den einkommender Intervall
         } else {
             let path = images[i];
             this.img = this.imageCache[path];

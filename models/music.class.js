@@ -9,7 +9,8 @@ class Music {
 
 
     constructor(soundfile) {
-        this.setBackgroundMusic(soundfile)
+        this.setBackgroundMusic(soundfile);
+        this.loadMuteStatus();
     }
 
     setBackgroundMusic(soundfile) {
@@ -24,19 +25,30 @@ class Music {
         this.sounds.forEach(sound => {
             sound.file.volume = 0;
         })
+        localStorage.setItem('mute', 'true');
     }
 
     setVolume() {
         this.sounds.forEach(sound => {
             if(sound.name === 'backgroundMusic') {
-                sound.file.volume = 0.1;
+                sound.file.volume = 0.05;
             } else {
                 sound.file.volume = 1;
             }         
         })
+        localStorage.setItem('mute', 'false');
     }
 
     findAudioSrc(audioName) {
         return this.sounds.find(sound => sound.name === audioName).file
+    }
+
+    loadMuteStatus() {
+        const isMuted = localStorage.getItem('mute') === 'true';
+        if (isMuted) {
+            this.muteVolume();
+        } else {
+            this.setVolume();
+        }
     }
 }

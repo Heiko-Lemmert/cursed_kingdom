@@ -10,7 +10,7 @@ class World extends Checker {
     arrows = [];
     apples = [];
     screenBtn = new ClickableButton('asset/img/6_UI/btn/Default@Fullscreen.png', 1075, 'fullscreen');
-    volumeBtn = new ClickableButton('asset/img/6_UI/btn/Default@Sound_On.png', 965, 'volume-on');
+    volumeBtn;
     ctx;
     canvas;
     keyboard;
@@ -28,10 +28,11 @@ class World extends Checker {
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.setWorld();
+        this.setVolumeBtnImage();
         this.draw();
         this.run();
+        // this.stopGame();
         this.bgMusic.loop = true;
-        this.bgMusic.volume = 0.1;
     }
 
     setWorld() {
@@ -42,7 +43,14 @@ class World extends Checker {
                 enemy.world = this;
             }
         });
-    
+    }
+
+    setVolumeBtnImage() {
+        if (localStorage.getItem('mute') === 'true') {
+            this.volumeBtn = new ClickableButton('asset/img/6_UI/btn/Default@Sound_Off.png', 965, 'volume-off');
+        } else {
+            this.volumeBtn = new ClickableButton('asset/img/6_UI/btn/Default@Sound_On.png', 965, 'volume-on');
+        }
     }
 
 
@@ -81,7 +89,7 @@ class World extends Checker {
     }
 
     run() {
-        // this.bgMusic.play() <--------------------------------------------------------------- Return
+        this.bgMusic.play();
         this.checker.checkClickableButton();
         setInterval(() => {
             this.checker.checkCollison();
@@ -133,10 +141,19 @@ class World extends Checker {
         this.ctx.restore();
     }
 
+    stopGame() {
+        setInterval(() => {
+            if (this.character.isDead()) {
+                this.bgMusic.pause();
+                this.clearAllIntervals();
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            }
+        }, 100);
+    }
+
     /* Alternative (quick and dirty), um alle Intervalle zu beenden. */
     clearAllIntervals() {
         for (let i = 1; i < 9999; i++) window.clearInterval(i);
     }
-
 
 }
