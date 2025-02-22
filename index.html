@@ -4,17 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/style.css">
     <!-- Favicons -->
-    <link rel="icon" type="image/png" href="/asset/img/4_Main_location/favicon/favicon-96x96.png"
-        sizes="96x96" />
+    <link rel="icon" type="image/png" href="/asset/img/4_Main_location/favicon/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/asset/img/4_Main_location/favicon/favicon.svg" />
     <link rel="shortcut icon" href="/asset/img/4_Main_location/favicon/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180"
-        href="/asset/img/4_Main_location/favicon/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/asset/img/4_Main_location/favicon/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="Cursed Kingdom" />
     <link rel="manifest" href="/asset/img/4_Main_location/favicon/site.webmanifest" />
     <!-- Scripts -->
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="./models/checker.class.js"></script>
     <script src="./models/world.class.js"></script>
     <script src="./models/drawable-objects.class.js"></script>
@@ -39,56 +39,99 @@
     <script src="./models/clickable-button.class.js"></script>
     <script src="./models/music.class.js"></script>
     <script src="./levels/level-one.js"></script>
-    <!-- <script src="./js/music.js"></script> -->
     <script src="./js/game.js"></script>
     <title>Cursed Kingdom</title>
 </head>
 
 <body onload="init()">
-    <div class="ribbon">Cursed Kingdom</div>
-
-    <canvas id="canvas" width="1200" height="600"></canvas>
-
-    <main>
-        <div id="parchment"></div>
-        <div id="contain">
-            <p class="inkTitle">Controls</p>
-            <p id="labarum"><img
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Chi_Rho.svg/1200px-Chi_Rho.svg.png">
-            </p>
-            <p id="description">“To turn the fate of the Cursed Kingdom, you must first master the art of control. Only
-                those who wield
-                the controller with skill will pass the tests and emerge as a true hero.”</p>
-            <hr id="sperator">
-            <div class="controls">
-                <div class="el-left">
-                    <p>W -> Move Up</p>
-                    <p>A -> Move Left</p>
-                    <p>S -> Move Down</p>
-                    <p>D -> Move Right</p>
-                </div>
-                <div class="el-right">
-                    <p>F -> Shoot Arrow</p>
-                    <p>Space -> Jump</p>
+    <header>
+        <nav class="navbar navbar-expand-lg bg-secondary-subtle">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="./index.html"><img src="/asset/img/4_Main_location/favicon/favicon.svg"
+                        alt=""></a>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="./index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="offcanvas" aria-controls="offcanvas"
+                                href="#offcanvas">Controls</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Privacy Police</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Impressum</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
-
-
-            <!-- This is a red wine cachet ... but shh ! -->
-            <p class="cachet"><img src="https://i.postimg.cc/4NBYNqCR/22.png"></p>
-            <div id="signature">King Alrik the Great,
-                <br />Guardian of the Old Paths, Blood of the First Men, Conqueror of Storms</div>
+        </nav>
+    </header>
+    <!-- <div class="ribbon">Cursed Kingdom</div> -->
+    <main class="game-container">
+        <div class="start-screen d-none">
+            <img src="./asset/img/4_Main_location/screens/start-screen.png" class="img-fluid" alt="start-screen">
+            <div class="inner-div">
+                <h1 class="text-center">Cursed Kingdom</h1>
+                <h2 class="text-center">The Old Paths</h2>
+                <button class="btn btn-primary btn-lg" onclick="startGame()">Start Game</button>
+                <button class="btn btn-secondary btn-lg" data-bs-toggle="offcanvas" aria-controls="offcanvas"
+                    href="#offcanvas">Controls</button>
+            </div>
+        </div>
+        <div class="game-screen">
+            <canvas id="canvas" width="1200" height="600"></canvas>
+        </div>
+        <div class="end-screen d-none">
+            <img src="./asset/img/4_Main_location/screens/end-screen.png" class="img-fluid" alt="end-screen">
         </div>
     </main>
 
-    <svg>
-        <filter id="wavy2">
-            <feTurbulence x="0" y="0" baseFrequency="0.02" numOctaves="5" seed="1" />
-            <feDisplacementMap in="SourceGraphic" scale="20" />
-        </filter>
-    </svg>
+    <!-- Section Offcanvas -->
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasLabel">
+        <div class="offcanvas-header">
+            <!-- <h5 class="offcanvas-title" id="offcanvasLabel">Offcanvas</h5> -->
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+                aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div id="parchment"></div>
+            <div id="contain">
+                <p class="inkTitle">Controls</p>
+                <p id="labarum"><img src="./asset/img/4_Main_location/parchment/chi_rho.png">
+                </p>
+                <p id="description">“To turn the fate of the Cursed Kingdom, you must first master the art of control.
+                    Only
+                    those who wield
+                    the controller with skill will pass the tests and emerge as a true hero.”</p>
+                <hr id="sperator">
+                <div class="controls">
+                    <div class="el-left">
+                        <p>W / Arrow Up -> Move Up</p>
+                        <p>A / Arrow Left-> Move Left</p>
+                        <p>S / Arrow Down-> Move Down</p>
+                        <p>D / Arrow Right-> Move Right</p>
+                    </div>
+                    <div class="el-right">
+                        <p>F -> Shoot Arrow</p>
+                        <p>Space -> Jump</p>
+                    </div>
+                </div>
 
-    <!-- <p onclick="fullscreen()">klick mich</p> -->
+                <p class="cachet"><img src="./asset/img/4_Main_location/parchment/seal.png"></p>
+                <div id="signature">King Alrik the Great,
+                    <br />Guardian of the Old Paths, Blood of the First Men, Conqueror of Storms</div>
+            </div>
+            <svg>
+                <filter id="wavy2">
+                    <feTurbulence x="0" y="0" baseFrequency="0.02" numOctaves="5" seed="1" />
+                    <feDisplacementMap in="SourceGraphic" scale="20" />
+                </filter>
+            </svg>
+        </div>
+    </div>
 
 </body>
 
