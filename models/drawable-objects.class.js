@@ -4,6 +4,7 @@ class DrawableObjects {
     currentImages = 0;
     animationFinished = false;
     currentOnceImages = 0;
+    isGameReady = false;
 
     loadImage(path) {
         this.img = new Image();

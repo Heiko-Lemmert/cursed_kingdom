@@ -220,6 +220,12 @@ lastShootAgo() {
     return timepassed > 1;
 }
 
+/**
+ * Starts the shooting animation by cycling through the provided images at a rate of 30 frames per second.
+ * Once the animation is complete, it clears the interval, starts the animation of other images, and allows shooting again.
+ *
+ * @param {string[]} images - An array of image paths to be used in the shooting animation.
+ */
 startShootAnimation(images) {
     this.currentOnceImages = 0;
 

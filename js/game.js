@@ -5,10 +5,7 @@ let sprites;
 
 function init() {
     canvas = document.getElementById('canvas');
-    world = new World(canvas, keyboard);
-
-    // console.log('My Character is', world.character)
-    // console.log('The First Coin is:', world.level.coins[0])f
+   //world = new World(canvas, keyboard);
 }
 
 window.addEventListener('keydown', event => {
@@ -111,4 +108,9 @@ function exitFullscreen() {
     } else if (document.msExitFullscreen) {
         document.msExitFullscreen();
     }
+}
+
+function startGame() {
+    world = new World(canvas, keyboard);
+    document.getElementById('start-screen').classList.add('d-none');
 }

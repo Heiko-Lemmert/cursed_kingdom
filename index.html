@@ -71,22 +71,22 @@
     </header>
     <!-- <div class="ribbon">Cursed Kingdom</div> -->
     <main class="game-container">
-        <div class="start-screen d-none">
-            <img src="./asset/img/4_Main_location/screens/start-screen.png" class="img-fluid" alt="start-screen">
-            <div class="inner-div">
-                <h1 class="text-center">Cursed Kingdom</h1>
-                <h2 class="text-center">The Old Paths</h2>
-                <button class="btn btn-primary btn-lg" onclick="startGame()">Start Game</button>
-                <button class="btn btn-secondary btn-lg" data-bs-toggle="offcanvas" aria-controls="offcanvas"
-                    href="#offcanvas">Controls</button>
+            <div id="start-screen">
+                <img src="./asset/img/4_Main_location/screens/start-screen.png" class="img-fluid" alt="start-screen">
+                <div class="inner-div">
+                    <h1 class="text-center">Cursed Kingdom</h1>
+                    <h2 class="text-center">The Old Paths</h2>
+                    <button class="btn btn-primary btn-lg" onclick="startGame()">Start Game</button>
+                    <button class="btn btn-secondary btn-lg" data-bs-toggle="offcanvas" aria-controls="offcanvas"
+                        href="#offcanvas">Controls</button>
+                </div>
             </div>
-        </div>
-        <div class="game-screen">
-            <canvas id="canvas" width="1200" height="600"></canvas>
-        </div>
-        <div class="end-screen d-none">
-            <img src="./asset/img/4_Main_location/screens/end-screen.png" class="img-fluid" alt="end-screen">
-        </div>
+            <div class="game-screen">
+                <canvas id="canvas" width="1200" height="600"></canvas>
+            </div>
+            <div class="end-screen d-none">
+                <img src="./asset/img/4_Main_location/screens/end-screen.png" class="img-fluid" alt="end-screen">
+            </div>
     </main>
 
     <!-- Section Offcanvas -->

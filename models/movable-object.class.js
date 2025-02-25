@@ -177,6 +177,27 @@ class MovableObject extends DrawableObjects {
         return Math.abs(this.x - mo.x) <= number;
     }
 
+    /**
+     * Plays the appropriate animation for the given enemy based on its state.
+     * 
+     * This function sets up an interval that checks the state of the enemy every 100 milliseconds
+     * and plays the corresponding animation:
+     * - If the enemy is dead and the animation has not finished, it plays the dying animation once.
+     * - If the enemy is hurt but not dead, it plays the hurt animation.
+     * - If the enemy is not dead and is slashing, it plays the slashing animation.
+     * - If the enemy is not dead and not in any special state, it plays the walking animation.
+     * 
+     * @param {Object} enemy - The enemy object for which the animation should be played.
+     * @param {Function} enemy.isDead - Method to check if the enemy is dead.
+     * @param {Function} enemy.isHurt - Method to check if the enemy is hurt.
+     * @param {Function} enemy.playOnceAnimation - Method to play an animation once.
+     * @param {Function} enemy.playAnimation - Method to play a looping animation.
+     * @param {Array} enemy.IMAGES_DYING - Array of images for the dying animation.
+     * @param {Array} enemy.IMAGES_HURT - Array of images for the hurt animation.
+     * @param {Array} enemy.IMAGES_SLASHING - Array of images for the slashing animation.
+     * @param {Array} enemy.IMAGES_WALKING - Array of images for the walking animation.
+     * @param {boolean} enemy.animationFinished - Flag indicating if the dying animation has finished.
+     */
     playEnemyAnimation(enemy) {
         setInterval(() => {
             if (enemy.isDead() && !enemy.animationFinished) {
@@ -191,6 +212,12 @@ class MovableObject extends DrawableObjects {
         }, 100)
     }
 
+    /**
+     * Sets the enemy's movement to the left at a consistent interval.
+     * The movement will stop if the enemy is dead.
+     * 
+     * @method
+     */
     setEnemyMove() {
         let move = setInterval(() => {
             if (!this.isDead()) {
