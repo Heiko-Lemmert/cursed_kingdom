@@ -99,6 +99,7 @@ class World extends Checker {
             this.checker.checkShootableObject();
             this.checker.checkCloseBy();
             this.checker.checkFullscreen();
+            this.setGameStatus();
         }, 100);
     }
 

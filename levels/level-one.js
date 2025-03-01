@@ -20,7 +20,10 @@ const levelOne = new Level(
         new Endboss(),
     ],
     [
-        new Cloud(),
+        new Cloud(1000),
+        new Cloud(3000),
+        new Cloud(5000),
+        new Cloud(7000),
     ],
     backgrounds,
     [
@@ -52,9 +55,6 @@ const levelOne = new Level(
         new Coin(6450, 25),
         new Coin(6600, 25),
 
-    ],
-    [
-        new Apple(450, 400)
     ],
     new Audio('asset/audio/medieval-life.mp3')
 )

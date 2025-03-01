@@ -3,16 +3,14 @@ class Level {
     clouds;
     backgrounds;
     coins;
-    apples;
     levelEndX = 9600;
     bgAudio;
 
-    constructor(enemies, clouds, backgrounds, coins, apples, bgAudio) {
+    constructor(enemies, clouds, backgrounds, coins, bgAudio) {
         this.enemies = enemies;
         this.clouds = clouds;
         this.backgrounds = backgrounds;
         this.coins = coins;
-        this.apples = apples;
         this.bgAudio = bgAudio;
     }
 }

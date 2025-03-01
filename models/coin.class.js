@@ -28,7 +28,9 @@ class Coin extends CollectibleObject {
 
     animate() {
         setInterval(() => {
-            this.playAnimation(this.IMAGES_COIN)
+            if (this.isGameReady) {
+               this.playAnimation(this.IMAGES_COIN) 
+            } 
         }, 1000 / 7);
     }
 }

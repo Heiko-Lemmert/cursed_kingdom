@@ -156,7 +156,8 @@ class Character extends MovableObject {
 
 animate() {
     setInterval(() => {
-        this.audioWalking.pause();
+        if (this.isGameReady) {
+            this.audioWalking.pause();
         if (this.world.keyboard.right && this.mapEndPoint()) {
             if (!this.isAboveGround()) this.audioWalking.play();
             this.moveRight();
@@ -180,6 +181,7 @@ animate() {
         }
         this.world.camera_x = -this.x + 50;
         this.world.addObjectsToMap;
+        }
     }, 1000 / 60)
 
     setInterval(() => {

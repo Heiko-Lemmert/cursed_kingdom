@@ -3,15 +3,17 @@ class Cloud extends MovableObject {
     width = 1200;
     height = 280;
 
-    constructor() {
+    constructor(x) {
         super().loadImage('asset/img/5_Levels/SKY-BRIDGE/Backgrounds/clouds.png');
-        this.x = Math.random() * 500;
+        this.x = x + Math.random() * 500;
         this.animate();
     }
 
     animate() {
         setInterval(() => {
-            this.moveLeft()
+            if (this.isGameReady) {
+                this.moveLeft();
+            }
         }, 1000 / 60)
     }
 }

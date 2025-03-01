@@ -9,7 +9,6 @@ function init() {
 }
 
 window.addEventListener('keydown', event => {
-    console.log(event.keyCode)
     switch (event.keyCode) {
         case 87:  
             keyboard.up = true;

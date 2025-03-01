@@ -200,14 +200,16 @@ class MovableObject extends DrawableObjects {
      */
     playEnemyAnimation(enemy) {
         setInterval(() => {
-            if (enemy.isDead() && !enemy.animationFinished) {
-                enemy.playOnceAnimation(enemy.IMAGES_DYING);
-            } else if (!enemy.isDead() && enemy.isHurt()) {
-                enemy.playAnimation(enemy.IMAGES_HURT);
-            } else if (!enemy.isDead() && this.isSlashing) {
-                enemy.playAnimation(enemy.IMAGES_SLASHING);
-            } else if (!enemy.isDead()) {
-                enemy.playAnimation(enemy.IMAGES_WALKING);
+            if (enemy.isGameReady) { 
+                if (enemy.isDead() && !enemy.animationFinished) {
+                    enemy.playOnceAnimation(enemy.IMAGES_DYING);
+                } else if (!enemy.isDead() && enemy.isHurt()) {
+                    enemy.playAnimation(enemy.IMAGES_HURT);
+                } else if (!enemy.isDead() && this.isSlashing) {
+                    enemy.playAnimation(enemy.IMAGES_SLASHING);
+                } else if (!enemy.isDead()) {
+                    enemy.playAnimation(enemy.IMAGES_WALKING);
+                }
             }
         }, 100)
     }
@@ -220,9 +222,9 @@ class MovableObject extends DrawableObjects {
      */
     setEnemyMove() {
         let move = setInterval(() => {
-            if (!this.isDead()) {
+            if (!this.isDead() && this.isGameReady) {
                 this.moveLeft();
-            } else {
+            } else if (this.isDead()) {
                 clearInterval(move)
             }
         }, 1000 / 60);

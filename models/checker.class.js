@@ -70,7 +70,8 @@ class Checker {
             !this.world.character.isAboveGround() && // Charakter steht auf dem Boden
             this.world.character.hasEnergy() && // Charakter hat Energie
             this.world.character.lastShootAgo() && // Zeit seit letztem Schuss ist ausreichend
-            !this.world.character.isShooting // Animation läuft noch nicht
+            !this.world.character.isShooting && // Animation läuft noch nicht
+            this.world.character.isGameReady
         ) {
             this.world.character.isShooting = true; // Blockiere weiteren Schuss
             clearInterval(this.world.character.animationInterval) // Beeende Animations Intervall
@@ -88,7 +89,6 @@ class Checker {
             } else {
                 this.world.character.startShootAnimation(this.world.character.IMAGES_SHOOTING);
             }
-
 
             // Energieverlust und Anzeige aktualisieren
             this.world.character.lostEnergy();
@@ -178,5 +178,48 @@ class Checker {
             this.world.volumeBtn = new ClickableButton('asset/img/6_UI/btn/Default@Sound_On.png', 965, 'volume-on');
             this.world.music.setVolume();
         }
+    }
+
+    // setGameSatus() {
+    //     if (offcanvas.classList.contains('show')) {
+    //         this.character.isGameReady = false;
+    //     } else {
+    //         this.character.isGameReady = true;
+    //     }
+    //     this.level.enemies.forEach(enemy => {
+    //         if (offcanvas.classList.contains('show')) {
+    //             enemy.isGameReady = false;
+    //         } else {
+    //             enemy.isGameReady = true;
+    //         }
+    //     });
+    //     this.level.clouds.forEach(cloud => {
+    //         if (offcanvas.classList.contains('show')) {
+    //             cloud.isGameReady = false;
+    //         } else {
+    //             cloud.isGameReady = true;
+    //         }
+    //     });
+    //     this.level.coins.forEach(coin => {
+    //         if (offcanvas.classList.contains('show')) {
+    //             coin.isGameReady = false;
+    //         } else {
+    //             coin.isGameReady = true;
+    //         }
+    //     });
+    // }
+
+    setGameStatus() {
+        const isGamePaused = offcanvas.classList.contains('show');
+        
+        this.character.isGameReady = isGamePaused === false ? true : false;
+    
+        const gameElements = [
+            ...this.level.enemies, 
+            ...this.level.clouds, 
+            ...this.level.coins
+        ];
+    
+        gameElements.forEach(element => element.isGameReady = isGamePaused === false ? true : false);
     }
 }
