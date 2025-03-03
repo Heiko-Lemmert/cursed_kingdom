@@ -100,6 +100,7 @@ class World extends Checker {
             this.checker.checkCloseBy();
             this.checker.checkFullscreen();
             this.setGameStatus();
+            this.checkEnemyRemover();
         }, 100);
     }
 

@@ -7,10 +7,6 @@ class Checker {
                 if (this.world.character.isJumping && this.world.character.isLandingOn(enemy)) {
                     this.world.character.speedY = 10; // Der Charakter wird "zurückprallen".
                     enemy.hit(100); // Gegner besiegen (z. B. mit 100 Schaden).
-                    setTimeout(() => {
-                        this.world.level.enemies.splice(i, 1)
-                    }, 1500)
-                    console.log(i)
                 } else {
                     this.world.character.hit(20); // Schaden für den Charakter, wenn er nicht auf dem Gegner landet.
                     this.world.healthbar.setPercent(this.world.character.health, this.world.healthbar.IMAGES_HEALTH);
@@ -29,18 +25,26 @@ class Checker {
                     } else if (enemy instanceof Lich) {
                         enemy.hit(50);
                     } else {
-                        enemy.hit(100); // Gegner erleidet schaden durch Pfeil.
+                        enemy.hit(100);
                     }
-                    this.world.arrows.splice(arrow, 1); // Pfeil entfernen.
+                    this.world.arrows.splice(arrow, 1);
                     this.world.character.audioArrow.pause();
-                    if (enemy.isDead()) {
-                        setTimeout(() => {
-                            this.world.level.enemies.splice(i, 1)
-                        }, 1500)
-                    }
+                    // if (enemy.animationFinished) {
+                    //     setTimeout(() => {
+                    //         this.world.level.enemies.splice(i, 1)
+                    //     }, 0)
+                    // }
                 }
             });
         });
+    }
+
+    checkEnemyRemover() {
+        this.level.enemies.forEach((enemy, i) => { 
+            if (enemy.isDead() && enemy.animationFinished) {
+                this.level.enemies.splice(i, 1)
+            }
+        }); 
     }
 
     checkCoinCollison() {

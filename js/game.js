@@ -2,18 +2,24 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 let sprites;
+let title;
+let description;
+let explanation;
 
 function init() {
     canvas = document.getElementById('canvas');
-   //world = new World(canvas, keyboard);
+    //world = new World(canvas, keyboard);
+    title = document.getElementById('title');
+    description = document.getElementById('description');
+    explanation = document.getElementById('explanation');
 }
 
 window.addEventListener('keydown', event => {
     switch (event.keyCode) {
-        case 87:  
+        case 87:
             keyboard.up = true;
             break;
-        case 38:  
+        case 38:
             keyboard.up = true;
             break;
         case 83:
@@ -63,10 +69,10 @@ window.addEventListener('keyup', (event) => {
         case 39:
             keyboard.right = false;
             break;
-        case 65:     
+        case 65:
             keyboard.left = false;
             break;
-        case 37:     
+        case 37:
             keyboard.left = false;
             break;
         case 32:
@@ -78,13 +84,13 @@ window.addEventListener('keyup', (event) => {
     }
 })
 
-window.addEventListener('keydown', function(e) {
-    if(e.keyCode == 32 && e.target == document.body || e.keyCode == 27 && e.target == document.body || e.keyCode == 40 && e.target == document.body || e.keyCode == 38 && e.target == document.body || e.keyCode == 37 && e.target == document.body || e.keyCode == 39 && e.target == document.body) {
-      e.preventDefault();
+window.addEventListener('keydown', function (e) {
+    if (e.keyCode == 32 && e.target == document.body || e.keyCode == 27 && e.target == document.body || e.keyCode == 40 && e.target == document.body || e.keyCode == 38 && e.target == document.body || e.keyCode == 37 && e.target == document.body || e.keyCode == 39 && e.target == document.body) {
+        e.preventDefault();
     }
-  });
+});
 
-  function fullscreen() {
+function fullscreen() {
     let canvas = document.getElementById('canvas');
     if (canvas.requestFullscreen) {
         canvas.requestFullscreen();
@@ -113,3 +119,47 @@ function startGame() {
     world = new World(canvas, keyboard);
     document.getElementById('start-screen').classList.add('d-none');
 }
+
+function generateHTML(string) {
+    if (string === 'controls') {
+        generateControlHTML();
+    }
+    if (string === 'instructions') {
+        generateInstructionHTML();
+    }
+}
+
+function generateControlHTML() {
+    title.innerText = `Controls`;
+    description.innerText = `
+        “To turn the fate of the Cursed Kingdom, you must first master the art of control.
+        Only those who wield the controller with skill will pass the tests and emerge as a true hero.”`;
+    explanation.innerHTML = `
+        <div class="el-left">
+            <p>W / Arrow Up -> Move Up</p>
+            <p>A / Arrow Left-> Move Left</p>
+            <p>S / Arrow Down-> Move Down</p>
+            <p>D / Arrow Right-> Move Right</p>
+        </div>
+        <div class="el-right">
+            <p>F -> Shoot Arrow</p>
+            <p>Space -> Jump</p>
+        </div>
+        `;
+}
+
+function generateInstructionHTML() {
+    title.innerText = `Instructions`;
+    description.innerText = `
+        “The Cursed Kingdom is a dangerous place. Only those who are prepared will survive.
+        Read the instructions carefully and you will have a chance to save the kingdom.”`;
+    explanation.innerHTML = `
+        <p>1. Collect coins to increase your score.</p>
+        <p>2. Avoid the enemies and their attacks.</p>
+        <p>3. Collect apples to regain health.</p>
+        <p>4. Defeat the endboss to save the kingdom.</p>
+        <p>5. Use the arrows to defeat the enemies.</p>
+        `;
+}
+
+document.addEventListener('DOMContentLoaded', init);

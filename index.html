@@ -43,7 +43,7 @@
     <title>Cursed Kingdom</title>
 </head>
 
-<body onload="init()">
+<body>
     <header>
         <nav class="navbar navbar-expand-lg bg-secondary-subtle">
             <div class="container-fluid">
@@ -56,7 +56,11 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" data-bs-toggle="offcanvas" aria-controls="offcanvas"
-                                href="#offcanvas">Controls</a>
+                                href="#offcanvas" onclick="generateHTML('controls')">Controls</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="offcanvas" aria-controls="offcanvas"
+                                href="#offcanvas" onclick="generateHTML('instructions')">Instructions</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Privacy Police</a>
@@ -98,25 +102,16 @@
         <div class="offcanvas-body">
             <div id="parchment"></div>
             <div id="contain">
-                <p class="inkTitle">Controls</p>
-                <p id="labarum"><img src="./asset/img/4_Main_location/parchment/chi_rho.png">
+                <p id="title" class="inkTitle">
+                    <!-- HTML Rendering -->
                 </p>
-                <p id="description">“To turn the fate of the Cursed Kingdom, you must first master the art of control.
-                    Only
-                    those who wield
-                    the controller with skill will pass the tests and emerge as a true hero.”</p>
+                <p id="labarum"><img src="./asset/img/4_Main_location/parchment/chi_rho.png"></p>
+                <p id="description">
+                    <!-- HTML Rendering -->
+                </p>
                 <hr id="sperator">
-                <div class="controls">
-                    <div class="el-left">
-                        <p>W / Arrow Up -> Move Up</p>
-                        <p>A / Arrow Left-> Move Left</p>
-                        <p>S / Arrow Down-> Move Down</p>
-                        <p>D / Arrow Right-> Move Right</p>
-                    </div>
-                    <div class="el-right">
-                        <p>F -> Shoot Arrow</p>
-                        <p>Space -> Jump</p>
-                    </div>
+                <div id="explanation" class="controls">
+                    <!-- HTML Rendering -->
                 </div>
 
                 <p class="cachet"><img src="./asset/img/4_Main_location/parchment/seal.png"></p>
