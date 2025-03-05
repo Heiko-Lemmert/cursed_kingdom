@@ -37,7 +37,6 @@ class World extends Checker {
 
     setWorld() {
         this.character.world = this;
-        this.checker.world = this;
         this.level.enemies.forEach(enemy => {
             if (enemy instanceof Lich) {
                 enemy.world = this;
@@ -90,15 +89,15 @@ class World extends Checker {
 
     run() {
         this.bgMusic.play();
-        this.checker.checkClickableButton();
+        this.checkClickableButton();
         setInterval(() => {
-            this.checker.checkCollison();
-            this.checker.checkArrowCollison();
-            this.checker.checkCoinCollison();
-            this.checker.checkAppleCollison();
-            this.checker.checkShootableObject();
-            this.checker.checkCloseBy();
-            this.checker.checkFullscreen();
+            this.checkCollison();
+            this.checkArrowCollison();
+            this.checkCoinCollison();
+            this.checkAppleCollison();
+            this.checkShootableObject();
+            this.checkCloseBy();
+            this.checkFullscreen();
             this.setGameStatus();
             this.checkEnemyRemover();
         }, 100);

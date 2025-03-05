@@ -176,18 +176,16 @@ August 2021 : ok on Chrome v92+, Firefox v90+, Edge v92+
 
 .controls {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    gap: 1em;
 }
 
-/* .controls p:not(:first-child)::first-letter {
-    float: left;
-    font: 1.7em/1em Morris;
-    /* a little relief for the first letter
-    text-shadow: 1px 1px 1px black;
-    margin: 0 .5rem;
-} */
+.el-left,
+.el-right {
+    flex: 1;
+}
 
-.controls p::first-letter {
+#explanation p::first-letter {
     float: left;
     font: 1.7em/1em Morris;
     /* a little relief for the first letter*/

@@ -135,16 +135,18 @@ function generateControlHTML() {
         “To turn the fate of the Cursed Kingdom, you must first master the art of control.
         Only those who wield the controller with skill will pass the tests and emerge as a true hero.”`;
     explanation.innerHTML = `
+    <div class="controls">
         <div class="el-left">
-            <p>W / Arrow Up -> Move Up</p>
-            <p>A / Arrow Left-> Move Left</p>
-            <p>S / Arrow Down-> Move Down</p>
-            <p>D / Arrow Right-> Move Right</p>
+            <p>W / &uarr; ~ Move Up</p>
+            <p>A / &larr; ~ Move Left</p>
+            <p>S / &darr; ~ Move Down</p>
+            <p>D / &rarr; ~ Move Right</p>
         </div>
         <div class="el-right">
-            <p>F -> Shoot Arrow</p>
-            <p>Space -> Jump</p>
+            <p>F ~ Shoot Arrow</p>
+            <p>Space ~ Jump</p>
         </div>
+    </div>
         `;
 }
 
@@ -156,9 +158,10 @@ function generateInstructionHTML() {
     explanation.innerHTML = `
         <p>1. Collect coins to increase your score.</p>
         <p>2. Avoid the enemies and their attacks.</p>
-        <p>3. Collect apples to regain health.</p>
+        <p>3. Collect apples to regain Energy.</p>
         <p>4. Defeat the endboss to save the kingdom.</p>
-        <p>5. Use the arrows to defeat the enemies.</p>
+        <p>5. Use the arrows or jumping to defeat the enemies.</p>
+        <p>6. ATTENTION: Be careful with the Arrows... sometimes you need more than one to kill an enemy.</p>
         `;
 }
 
