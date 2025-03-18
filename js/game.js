@@ -5,10 +5,12 @@ let sprites;
 let title;
 let description;
 let explanation;
+let originalWidth = 1200; // Ursprüngliche Canvas-Breite
+let originalHeight = 675; // Ursprüngliche Canvas-Höhe
+let scale = 1; // Skalierungsfaktor
 
 function init() {
     canvas = document.getElementById('canvas');
-    //world = new World(canvas, keyboard);
     title = document.getElementById('title');
     description = document.getElementById('description');
     explanation = document.getElementById('explanation');
@@ -101,6 +103,7 @@ function fullscreen() {
     } else if (canvas.msRequestFullscreen) {
         canvas.msRequestFullscreen();
     }
+    resizeCanvas();
 }
 
 function exitFullscreen() {
@@ -114,6 +117,27 @@ function exitFullscreen() {
         document.msExitFullscreen();
     }
 }
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    // Berechne Skalierungsfaktor basierend auf ursprünglichen Dimensionen
+    let scaleX = canvas.width / originalWidth;
+    let scaleY = canvas.height / originalHeight;
+    canvas.classList.add('fullCanvas');
+    
+    // Nutze den kleineren Skalierungsfaktor, um Verzerrungen zu vermeiden
+    scale = Math.min(scaleX, scaleY);
+
+    // Setze den Transformations-Scale
+    world.ctx.setTransform(scale, 0, 0, scale, 0, 0);
+    world.ctx.font = '48px Eagle Lake';
+    world.screenBtn.x = 1775 ;
+    world.volumeBtn.x = 1675;
+    }
+
+// Canvas auch bei Fenstergröße ändern anpassen
+window.addEventListener('resize', resizeCanvas);
 
 function startGame() {
     world = new World(canvas, keyboard);

@@ -63,9 +63,9 @@ function fillBackgroundArr() {
     let xpostion = -1200;
     let bridgeImg = 'bridge';
     for (let i = 0; i < 10; i++) {
-        backgrounds.push(new BackgroundObject(`asset/img/5_Levels/SKY-BRIDGE/Backgrounds/tower.png`, 0, xpostion, 310));
-        backgrounds.push(new BackgroundObject(`asset/img/5_Levels/SKY-BRIDGE/Backgrounds/${bridgeImg}.png`, 300, xpostion, 300));
-        backgrounds.push(new BackgroundObject(`asset/img/5_Levels/SKY-BRIDGE/Backgrounds/grass.png`, 280, xpostion, 300));
+        backgrounds.push(new BackgroundObject(`asset/img/5_Levels/SKY-BRIDGE/Backgrounds/tower.png`, 0, xpostion, 348)); // 310 -> 370
+        backgrounds.push(new BackgroundObject(`asset/img/5_Levels/SKY-BRIDGE/Backgrounds/${bridgeImg}.png`, 338, xpostion, 338)); // 300 300 -> 360 360
+        backgrounds.push(new BackgroundObject(`asset/img/5_Levels/SKY-BRIDGE/Backgrounds/grass.png`, 318, xpostion, 338)); // 280  300 -> 340 360
         bridgeImg = bridgeImg === 'bridge' ? 'bridge-180' : 'bridge';
         xpostion += 1200;
     }

@@ -24,7 +24,7 @@ class World extends Checker {
     constructor(canvas, keyboard) {
         super();
         this.ctx = canvas.getContext('2d');
-        this.ctx.font = '48px Eagle Lake'
+        this.ctx.font = '48px Eagle Lake';
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.setWorld();

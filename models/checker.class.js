@@ -141,6 +141,7 @@ class Checker {
             if (this.checkBtn(mouseX, mouseY, volumeBtn)) {
                 this.setVolumeBtn(volumeBtn);
             }
+            console.log('X:' + mouseX, 'Y:' + mouseY);
         });
     }
 
