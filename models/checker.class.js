@@ -3,10 +3,10 @@ class Checker {
         this.level.enemies.forEach((enemy, i) => {
             if (this.character.isColliding(enemy) && !enemy.isDead()) {
                 if (this.character.isJumping && this.character.isLandingOn(enemy)) {
-                    this.character.speedY = 10; // Der Charakter wird "zurückprallen".
-                    enemy.hit(100); // Gegner besiegen (z. B. mit 100 Schaden).
+                    this.character.speedY = 10; 
+                    enemy.hit(100); 
                 } else {
-                    this.character.hit(20); // Schaden für den Charakter, wenn er nicht auf dem Gegner landet.
+                    this.character.hit(20); 
                     this.healthbar.setPercent(this.character.health, this.healthbar.IMAGES_HEALTH);
                 }
             }
@@ -146,11 +146,17 @@ class Checker {
     }
 
     checkBtn(mouseX, mouseY, btn) {
-        return mouseX >= btn.x && mouseX <= btn.x + btn.width && mouseY >= btn.y && mouseY <= btn.y + btn.height
+        if (btn.id !== 'fullscreen') {
+            return mouseX >= btn.x * scale && mouseX <= (btn.x + btn.width) * scale && mouseY >= btn.y * scale && mouseY <= (btn.y + btn.height) * scale;
+        } else {
+            return mouseX >= btn.x && mouseX <= btn.x + btn.width && mouseY >= btn.y && mouseY <= btn.y + btn.height;
+        }
+        
     }
 
     checkFullscreen() {
         if (!document.fullscreenElement && this.screenBtn.id === 'smallscreen') {
+            exitFullscreen();
             this.screenBtn = new ClickableButton('asset/img/6_UI/btn/Default@Fullscreen.png', 1075, 'fullscreen');
         } else if (document.fullscreenElement && this.screenBtn.id === 'fullscreen') {
             this.screenBtn = new ClickableButton('asset/img/6_UI/btn/Default@Smallscreen.png', 1075, 'smallscreen');

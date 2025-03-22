@@ -110,7 +110,7 @@ class MovableObject extends DrawableObjects {
      * @returns The object is not at the map startpoint
      */
     mapStartPoint() {
-        return this.x > 0
+        return this.x > 0;
     }
 
     /**
@@ -118,7 +118,7 @@ class MovableObject extends DrawableObjects {
      * @returns The object is located at the top of the bridge
      */
     bridgeTopPoint() {
-        return this.y > 150
+        return this.y > 180;
     }
 
     /**
@@ -126,7 +126,7 @@ class MovableObject extends DrawableObjects {
      * @returns The object is located at the bottom of the bridge
      */
     bridgeBottomPoint() {
-        return this.y < 330
+        return this.y < 400;
     }
 
     /**
@@ -169,7 +169,7 @@ class MovableObject extends DrawableObjects {
 
     /**
      * 
-     * @param {*} mo is a Movable Object
+     * @param {*} mo is a Movable Object (e.g.: Enemy)
      * @param {*} number this is the distance between the objects
      * @returns 
      */

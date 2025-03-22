@@ -16,6 +16,6 @@ class Coinbar extends Status {
     }
 
     fillText(ctx) {
-        ctx.fillText('x ' + this.currentCoins, 300, 60, 1000);
+        ctx.fillText('x ' + this.currentCoins, 300, 60);
     }
 }

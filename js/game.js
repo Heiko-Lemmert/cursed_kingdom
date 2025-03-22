@@ -1,3 +1,4 @@
+const fontStyle = '48px Eagle Lake';
 let canvas;
 let world;
 let keyboard = new Keyboard();
@@ -5,9 +6,11 @@ let sprites;
 let title;
 let description;
 let explanation;
-let originalWidth = 1200; // Ursprüngliche Canvas-Breite
-let originalHeight = 675; // Ursprüngliche Canvas-Höhe
-let scale = 1; // Skalierungsfaktor
+let originalWidth = 1200; 
+let originalHeight = 675;
+let scale = 1;
+let resizeWidth = 1920;
+let resizeHeight = 1080;
 
 function init() {
     canvas = document.getElementById('canvas');
@@ -116,28 +119,37 @@ function exitFullscreen() {
     } else if (document.msExitFullscreen) {
         document.msExitFullscreen();
     }
+    resizeCanvas();
 }
 
 function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    // Berechne Skalierungsfaktor basierend auf ursprünglichen Dimensionen
+    if (world.screenBtn.id == 'fullscreen') {
+        maximizeCanvas();
+    }
+    if (world.screenBtn.id === 'smallscreen') {
+        minimizeCanvas();
+    }
+}
+
+function maximizeCanvas() {
+    canvas.width = resizeWidth;
+    canvas.height = resizeHeight;
     let scaleX = canvas.width / originalWidth;
     let scaleY = canvas.height / originalHeight;
     canvas.classList.add('fullCanvas');
-    
-    // Nutze den kleineren Skalierungsfaktor, um Verzerrungen zu vermeiden
     scale = Math.min(scaleX, scaleY);
-
-    // Setze den Transformations-Scale
     world.ctx.setTransform(scale, 0, 0, scale, 0, 0);
-    world.ctx.font = '48px Eagle Lake';
-    world.screenBtn.x = 1775 ;
-    world.volumeBtn.x = 1675;
-    }
+    world.ctx.font = fontStyle;
+}
 
-// Canvas auch bei Fenstergröße ändern anpassen
-window.addEventListener('resize', resizeCanvas);
+function minimizeCanvas() {
+    canvas.width = originalWidth;
+    canvas.height = originalHeight;
+    canvas.classList.remove('fullCanvas');
+    scale = 1;
+    world.ctx.setTransform(scale, 0, 0, scale, 0, 0);
+    world.ctx.font = fontStyle;
+}
 
 function startGame() {
     world = new World(canvas, keyboard);
