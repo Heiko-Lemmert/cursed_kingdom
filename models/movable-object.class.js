@@ -74,7 +74,6 @@ class MovableObject extends DrawableObjects {
     }
 
     currentPosition() {
-        // Speichert die aktuelle Y-Position als Ausgangspunkt für den Sprung
         if (!this.isJumping) {
             this.currentY = this.y;
         }
@@ -86,8 +85,6 @@ class MovableObject extends DrawableObjects {
             this.speedY = 20;
         }
     }
-
-    // This Section is for different Rules
 
     /**
      * 

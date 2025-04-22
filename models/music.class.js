@@ -4,7 +4,7 @@ class Music {
         {name: 'characterWalking', file: new Audio('asset/audio/walking3.mp3')},
         {name: 'characterJumping', file: new Audio('asset/audio/jump.mp3')},
         {name: 'characterShooting', file: new Audio('asset/audio/arrow.mp3')},
-        {name: 'collectedCoin', file: new Audio('/asset/audio/collectedCoin.mp3')}   
+        {name: 'collectedCoin', file: new Audio('asset/audio/collectedCoin.mp3')}   
     ];
 
 

@@ -1,20 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/style.css">
     <!-- Favicons -->
-    <link rel="icon" type="image/png" href="/asset/img/4_Main_location/favicon/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="/asset/img/4_Main_location/favicon/favicon.svg" />
-    <link rel="shortcut icon" href="/asset/img/4_Main_location/favicon/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/asset/img/4_Main_location/favicon/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" href="./asset/img/4_Main_location/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="./asset/img/4_Main_location/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="./asset/img/4_Main_location/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./asset/img/4_Main_location/favicon/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="Cursed Kingdom" />
-    <link rel="manifest" href="/asset/img/4_Main_location/favicon/site.webmanifest" />
+    <link rel="manifest" href="./asset/img/4_Main_location/favicon/site.webmanifest" />
     <!-- Scripts -->
-    <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
     <script src="./models/checker.class.js"></script>
     <script src="./models/world.class.js"></script>
     <script src="./models/drawable-objects.class.js"></script>
@@ -47,7 +47,7 @@
     <header>
         <nav class="navbar navbar-expand-lg navcolor">
             <div class="container-fluid">
-                <a class="navbar-brand" href="./index.html"><img src="/asset/img/4_Main_location/favicon/favicon.svg"
+                <a class="navbar-brand" href="./index.html"><img src="./asset/img/4_Main_location/favicon/favicon.svg"
                         alt=""></a>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -55,12 +55,12 @@
                             <a class="nav-link" aria-current="page" href="./index.html">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="offcanvas" aria-controls="offcanvas"
-                                href="#offcanvas" onclick="generateHTML('controls')">Controls</a>
+                            <a class="nav-link" data-bs-toggle="offcanvas" aria-controls="offcanvas" href="#offcanvas"
+                                onclick="generateHTML('controls')">Controls</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="offcanvas" aria-controls="offcanvas"
-                                href="#offcanvas" onclick="generateHTML('instructions')">Instructions</a>
+                            <a class="nav-link" data-bs-toggle="offcanvas" aria-controls="offcanvas" href="#offcanvas"
+                                onclick="generateHTML('instructions')">Instructions</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Privacy Police</a>
@@ -73,26 +73,44 @@
             </div>
         </nav>
     </header>
-    <!-- <div class="ribbon">Cursed Kingdom</div> -->
     <main class="game-container">
-            <div id="start-screen">
-                <img src="./asset/img/4_Main_location/screens/start-screen.png" class="img-fluid" alt="start-screen">
-                <div class="inner-div">
-                    <h1 class="text-center">Cursed Kingdom</h1>
-                    <h2 class="text-center">The Old Paths</h2>
-                    <button class="btn btn-primary btn-lg" onclick="startGame()">Start Game</button>
-                    <button class="btn btn-secondary btn-lg" data-bs-toggle="offcanvas" aria-controls="offcanvas"
-                        href="#offcanvas" onclick="generateHTML('controls')">Controls</button>
-                    <button class="btn btn-secondary btn-lg" data-bs-toggle="offcanvas" aria-controls="offcanvas"
-                        href="#offcanvas" onclick="generateHTML('instructions')">Instructions</button>
-                </div>
+        <div id="start-screen">
+            <img src="./asset/img/4_Main_location/screens/start-screen.png" class="img-fluid" alt="start-screen">
+            <div class="inner-div">
+                <h1 class="text-center">Cursed Kingdom</h1>
+                <h2 class="text-center">The Old Paths</h2>
+                <button class="btn btn-primary btn-lg" onclick="startGame()">Start Game</button>
+                <button class="btn btn-secondary btn-lg" data-bs-toggle="offcanvas" aria-controls="offcanvas"
+                    href="#offcanvas" onclick="generateHTML('controls')">Controls</button>
+                <button class="btn btn-secondary btn-lg" data-bs-toggle="offcanvas" aria-controls="offcanvas"
+                    href="#offcanvas" onclick="generateHTML('instructions')">Instructions</button>
             </div>
-            <div class="game-screen">
-                <canvas id="canvas" width="1200" height="675"></canvas>
+        </div>
+        <div class="game-screen">
+            <canvas id="canvas" width="1200" height="675"></canvas>
+        </div>
+        <div class="d-none" id="won-screen">
+            <img src="./asset/img/4_Main_location/screens/won-screen.png" class="img-fluid" alt="won-screen">
+            <div class="inner-div">
+                <h1 class="text-center">You`r Won</h1>
+                <button class="btn btn-primary btn-lg" onclick="startGame()">New Game</button>
+                <button class="btn btn-secondary btn-lg" data-bs-toggle="offcanvas" aria-controls="offcanvas"
+                    href="#offcanvas" onclick="generateHTML('controls')">Controls</button>
+                <button class="btn btn-secondary btn-lg" data-bs-toggle="offcanvas" aria-controls="offcanvas"
+                    href="#offcanvas" onclick="generateHTML('instructions')">Instructions</button>
             </div>
-            <div class="end-screen d-none">
-                <img src="./asset/img/4_Main_location/screens/end-screen.png" class="img-fluid" alt="end-screen">
+        </div>
+        <div class="d-none" id="lost-screen">
+            <img src="./asset/img/4_Main_location/screens/lost-screen.png" class="img-fluid" alt="won-screen">
+            <div class="inner-div">
+                <h1 class="text-center">You`r Lost</h1>
+                <button class="btn btn-primary btn-lg" onclick="startGame()">New Game</button>
+                <button class="btn btn-secondary btn-lg" data-bs-toggle="offcanvas" aria-controls="offcanvas"
+                    href="#offcanvas" onclick="generateHTML('controls')">Controls</button>
+                <button class="btn btn-secondary btn-lg" data-bs-toggle="offcanvas" aria-controls="offcanvas"
+                    href="#offcanvas" onclick="generateHTML('instructions')">Instructions</button>
             </div>
+        </div>
     </main>
 
     <!-- Section Offcanvas -->
@@ -128,7 +146,6 @@
             </svg>
         </div>
     </div>
-
 </body>
 
 </html>

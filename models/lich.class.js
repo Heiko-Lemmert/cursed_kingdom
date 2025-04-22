@@ -1,6 +1,6 @@
 class Lich extends MovableObject {
     IMAGES_WALKING = [
-        '/asset/img/2_Enemies/Lich/PNG/PNG Sequences/Walking/0_Lich_Walking_000.png',
+        'asset/img/2_Enemies/Lich/PNG/PNG Sequences/Walking/0_Lich_Walking_000.png',
         'asset/img/2_Enemies/Lich/PNG/PNG Sequences/Walking/0_Lich_Walking_001.png',
         'asset/img/2_Enemies/Lich/PNG/PNG Sequences/Walking/0_Lich_Walking_002.png',
         'asset/img/2_Enemies/Lich/PNG/PNG Sequences/Walking/0_Lich_Walking_003.png',

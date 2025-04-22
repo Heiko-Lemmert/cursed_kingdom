@@ -2,7 +2,6 @@ const fontStyle = '48px Eagle Lake';
 let canvas;
 let world;
 let keyboard = new Keyboard();
-let sprites;
 let title;
 let description;
 let explanation;
@@ -154,6 +153,15 @@ function minimizeCanvas() {
 function startGame() {
     world = new World(canvas, keyboard);
     document.getElementById('start-screen').classList.add('d-none');
+}
+
+function showEndScreen() {
+    world.clearAllIntervals();
+    if (world.gameLost) {
+        document.getElementById('lost-screen').classList.remove('d-none');
+    } else if (world.gameWon) {
+        document.getElementById('won-screen').classList.remove('d-none');
+    }
 }
 
 function generateHTML(string) {

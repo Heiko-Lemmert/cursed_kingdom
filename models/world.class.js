@@ -19,6 +19,8 @@ class World extends Checker {
     currentEnergy = 0;
     bgMusic = this.music.findAudioSrc('backgroundMusic');
     isEndFight = false;
+    gameWon = false;
+    gameLost = false;
 
 
     constructor(canvas, keyboard) {
@@ -98,8 +100,9 @@ class World extends Checker {
             this.checkShootableObject();
             this.checkCloseBy();
             this.checkFullscreen();
-            this.setGameStatus();
+            this.setPauseStatus();
             this.checkEnemyRemover();
+            this.setGameStatus();
         }, 100);
     }
 

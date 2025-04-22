@@ -183,7 +183,7 @@ class Checker {
         }
     }
 
-    setGameStatus() {
+    setPauseStatus() {
         const isGamePaused = offcanvas.classList.contains('show');
         
         this.character.isGameReady = isGamePaused === false ? true : false;
@@ -195,5 +195,18 @@ class Checker {
         ];
     
         gameElements.forEach(element => element.isGameReady = isGamePaused === false ? true : false);
+    }
+
+    setGameStatus() {
+        if (this.character.isDead()) {
+            this.gameLost = true;
+            showEndScreen();
+        }
+        this.level.enemies.forEach(enemy => {
+            if (enemy instanceof Endboss && enemy.isDead()) {
+                this.gameWon = true;
+                showEndScreen();
+            }  
+        });
     }
 }

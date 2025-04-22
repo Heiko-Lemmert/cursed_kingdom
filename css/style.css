@@ -3,6 +3,7 @@
     /* CSS HEX */
     --gold-metallic: #e0ba6aff;
     --raisin-black: #1d1d22ff;
+    --woodsmoke: #121213;
     --giants-orange: #ff521bff;
     --azure-web: #FCFFFC;
     --persian-green: #1b998bff;
@@ -53,12 +54,14 @@ body {
 }
 
 .navcolor {
-    background-color: var(--azure-web);
+    background-color: var(--woodsmoke);
 }
 
 .nav-link {
     color: var(--giants-orange);
 }
+
+
 
 .offcanvas {
     opacity: 1;
@@ -86,11 +89,15 @@ main {
     flex-direction: column;
 }
 
-#start-screen {
+#start-screen,
+#lost-screen,
+#won-screen {
     z-index: 999;
 }
 
-#start-screen img {
+#start-screen img,
+#lost-screen img,
+#won-screen img {
     width: 100%;
     height: 100%;
     border-radius: 15px;
@@ -98,7 +105,8 @@ main {
 
 #start-screen,
 #game-screen,
-#end-screen {
+#lost-screen,
+#won-screen {
     width: 1200px;
     height: 675px;
     position: absolute;
@@ -266,33 +274,4 @@ August 2021 : ok on Chrome v92+, Firefox v90+, Edge v92+
 #sperator {
     margin-bottom: 1em;
     margin-top: 1em;
-}
-
-/* HTML: <div class="ribbon">Your text content</div> */
-.ribbon {
-    font-size: 32px;
-    font-weight: bold;
-    color: #fff;
-    margin: 20px 0;
-}
-
-.ribbon {
-    --s: 2.8em;
-    /* the ribbon size */
-    --d: .8em;
-    /* the depth */
-    --c: 1.8em;
-    /* the cutout part */
-
-    padding: 0 calc(var(--s) + .5em) var(--d);
-    line-height: 1.8;
-    background:
-        conic-gradient(at left var(--s) bottom var(--d),
-            #0000 25%, #0008 0 37.5%, #0004 0) 0 /50% 100% no-repeat,
-        conic-gradient(at right var(--s) bottom var(--d),
-            #0004 62.5%, #0008 0 75%, #0000 0) 100%/50% 100% no-repeat;
-    clip-path: polygon(0 var(--d), var(--s) var(--d), var(--s) 0, calc(100% - var(--s)) 0, calc(100% - var(--s)) var(--d), 100% var(--d), calc(100% - var(--c)) calc(50% + var(--d)/2), 100% 100%, calc(100% - var(--s) - var(--d)) 100%, calc(100% - var(--s) - var(--d)) calc(100% - var(--d)), calc(var(--s) + var(--d)) calc(100% - var(--d)), calc(var(--s) + var(--d)) 100%, 0 100%, var(--c) calc(50% + var(--d)/2));
-    background-color: #CC333F;
-    /* the main color */
-    width: fit-content;
 }
