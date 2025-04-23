@@ -200,12 +200,12 @@ class Checker {
     setGameStatus() {
         if (this.character.isDead()) {
             this.gameLost = true;
-            showEndScreen();
+            stopGame();
         }
         this.level.enemies.forEach(enemy => {
             if (enemy instanceof Endboss && enemy.isDead()) {
                 this.gameWon = true;
-                showEndScreen();
+                stopGame();
             }  
         });
     }

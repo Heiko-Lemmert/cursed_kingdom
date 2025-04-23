@@ -1,65 +1,67 @@
-let backgrounds = [];
-fillBackgroundArr();
+function createLevelOne() {
+    let backgrounds = [];
+    fillBackgroundArr(backgrounds);
 
-const levelOne = new Level(
-    [
-        new Skeleton(1000),
-        new Lich(2000),
-        new Ghoul(1500),
-        new Skeleton(2000),
-        new Ghoul(2500),
-        new Skeleton(3000),
-        new Ghoul(3500),
-        new Skeleton(4000),
-        new Ghoul(5000),
-        new Skeleton(5500),
-        new Lich(6000),
-        new Ghoul(6000),
-        new Skeleton(6500),
-        new Ghoul(7000),
-        new Endboss(),
-    ],
-    [
-        new Cloud(1000),
-        new Cloud(3000),
-        new Cloud(5000),
-        new Cloud(7000),
-    ],
-    backgrounds,
-    [
-        // First Section
-        new Coin(1000, 25),
-        new Coin(1150, 25),
-        new Coin(1300, 25),
-        new Coin(1450, 25),
-        new Coin(1600, 25),
+    return new Level(
+        [
+            new Skeleton(1000),
+            new Lich(2000),
+            new Ghoul(1500),
+            new Skeleton(2000),
+            new Ghoul(2500),
+            new Skeleton(3000),
+            new Ghoul(3500),
+            new Skeleton(4000),
+            new Ghoul(5000),
+            new Skeleton(5500),
+            new Lich(6000),
+            new Ghoul(6000),
+            new Skeleton(6500),
+            new Ghoul(7000),
+            new Endboss(),
+        ],
+        [
+            new Cloud(1000),
+            new Cloud(3000),
+            new Cloud(5000),
+            new Cloud(7000),
+        ],
+        backgrounds,
+        [
+            // First Section
+            new Coin(1000, 25),
+            new Coin(1150, 25),
+            new Coin(1300, 25),
+            new Coin(1450, 25),
+            new Coin(1600, 25),
 
-        // Two Section 
-        new Coin(3000, 25),
-        new Coin(3150, 25),
-        new Coin(3300, 25),
-        new Coin(3450, 25),
-        new Coin(3600, 25),
+            // Two Section 
+            new Coin(3000, 25),
+            new Coin(3150, 25),
+            new Coin(3300, 25),
+            new Coin(3450, 25),
+            new Coin(3600, 25),
 
-        // Three Section
-        new Coin(5000, 25),
-        new Coin(5150, 25),
-        new Coin(5300, 25),
-        new Coin(5450, 25),
-        new Coin(5600, 25),
+            // Three Section
+            new Coin(5000, 25),
+            new Coin(5150, 25),
+            new Coin(5300, 25),
+            new Coin(5450, 25),
+            new Coin(5600, 25),
 
-        // Three Section
-        new Coin(6000, 25),
-        new Coin(6150, 25),
-        new Coin(6300, 25),
-        new Coin(6450, 25),
-        new Coin(6600, 25),
+            // Three Section
+            new Coin(6000, 25),
+            new Coin(6150, 25),
+            new Coin(6300, 25),
+            new Coin(6450, 25),
+            new Coin(6600, 25),
 
-    ],
-    new Audio('asset/audio/medieval-life.mp3')
-)
+        ],
+        new Audio('asset/audio/medieval-life.mp3')
+    )
+}
 
-function fillBackgroundArr() {
+function fillBackgroundArr(backgrounds) {
     let xpostion = -1200;
     let bridgeImg = 'bridge';
     for (let i = 0; i < 10; i++) {

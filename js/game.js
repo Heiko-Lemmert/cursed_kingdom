@@ -5,7 +5,7 @@ let keyboard = new Keyboard();
 let title;
 let description;
 let explanation;
-let originalWidth = 1200; 
+let originalWidth = 1200;
 let originalHeight = 675;
 let scale = 1;
 let resizeWidth = 1920;
@@ -151,12 +151,20 @@ function minimizeCanvas() {
 }
 
 function startGame() {
-    world = new World(canvas, keyboard);
-    document.getElementById('start-screen').classList.add('d-none');
+        world = new World(canvas, keyboard);
+        document.getElementById('start-screen').classList.add('d-none');
 }
 
-function showEndScreen() {
+function restartGame() {
+        world = new World(canvas, keyboard);
+        document.getElementById('lost-screen').classList.add('d-none');
+        document.getElementById('won-screen').classList.add('d-none');
+}
+
+function stopGame() {
     world.clearAllIntervals();
+    world.bgMusic.pause();
+    world.bgMusic.currentTime = 0;
     if (world.gameLost) {
         document.getElementById('lost-screen').classList.remove('d-none');
     } else if (world.gameWon) {

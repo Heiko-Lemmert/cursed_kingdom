@@ -33,6 +33,7 @@ class MovableObject extends DrawableObjects {
     currentY;
     chaisJumping = false;
     isSlashing = false;
+    iAmDead = false;
 
     applyGravity() {
         setInterval(() => {
@@ -133,8 +134,9 @@ class MovableObject extends DrawableObjects {
     hit(damage) {
         this.health -= damage;
         this.lastHit = new Date().getTime();
-        if (this.health < 0) {
+        if (this.health <= 0) {
             this.health = 0
+            this.iAmDead = true;
         }
     }
 

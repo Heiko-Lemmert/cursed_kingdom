@@ -1,5 +1,5 @@
 class World extends Checker {
-    level = levelOne;
+    level = createLevelOne();
     music = new Music(this.level.bgAudio);
     character = new Character(this.music);
     healthbar = new Heahltbar(10);
@@ -33,7 +33,6 @@ class World extends Checker {
         this.setVolumeBtnImage();
         this.draw();
         this.run();
-        // this.stopGame();
         this.bgMusic.loop = true;
     }
 
@@ -143,16 +142,6 @@ class World extends Checker {
         wo.x = wo.x * -1;
         wo.innerFrame.flippedX = wo.width - (wo.innerFrame.x + wo.innerFrame.width);
         this.ctx.restore();
-    }
-
-    stopGame() {
-        setInterval(() => {
-            if (this.character.isDead()) {
-                this.bgMusic.pause();
-                this.clearAllIntervals();
-                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-            }
-        }, 100);
     }
 
     /* Alternative (quick and dirty), um alle Intervalle zu beenden. */

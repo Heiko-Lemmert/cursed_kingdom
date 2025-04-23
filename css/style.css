@@ -146,6 +146,7 @@ canvas {
     backdrop-filter: brightness(75%);
     padding: 10px 5px;
     border-radius: 10px;
+    min-width: 500px;
 }
 
 .inner-div h1,
