@@ -79,7 +79,7 @@ class Endboss extends MovableObject {
     };
     startEndFight = false;
 
-    constructor() {
+    constructor(music) {
         super().loadImage(this.IMAGES_WALKING[0]);
         this.x = 9000;
         this.y = 40;
@@ -97,6 +97,8 @@ class Endboss extends MovableObject {
         this.innerFrame.x = this.x + 150;
         this.offset = this.calculateOffset(this.outerFrame, this.innerFrame);
         this.waitForEndFight();
+        this.audioHit = music.findAudioSrc('enemyHit');
+        this.audioGrowl = music.findAudioSrc('enemyGrowl');
     }
 
     waitForEndFight() {

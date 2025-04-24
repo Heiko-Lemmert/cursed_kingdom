@@ -1,24 +1,24 @@
-function createLevelOne() {
+function createLevelOne(music) {
     let backgrounds = [];
     fillBackgroundArr(backgrounds);
 
     return new Level(
         [
-            new Skeleton(1000),
-            new Lich(2000),
-            new Ghoul(1500),
-            new Skeleton(2000),
-            new Ghoul(2500),
-            new Skeleton(3000),
-            new Ghoul(3500),
-            new Skeleton(4000),
-            new Ghoul(5000),
-            new Skeleton(5500),
-            new Lich(6000),
-            new Ghoul(6000),
-            new Skeleton(6500),
-            new Ghoul(7000),
-            new Endboss(),
+            new Skeleton(1000, music),
+            new Lich(2000, music),
+            new Ghoul(1500, music),
+            new Skeleton(2000, music),
+            new Ghoul(2500, music),
+            new Skeleton(3000, music),
+            new Ghoul(3500, music),
+            new Skeleton(4000, music),
+            new Ghoul(5000, music),
+            new Skeleton(5500, music),
+            new Lich(6000, music),
+            new Ghoul(6000, music),
+            new Skeleton(6500, music),
+            new Ghoul(7000, music),
+            new Endboss(music),
         ],
         [
             new Cloud(1000),

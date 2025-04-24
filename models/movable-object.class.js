@@ -33,7 +33,8 @@ class MovableObject extends DrawableObjects {
     currentY;
     chaisJumping = false;
     isSlashing = false;
-    iAmDead = false;
+    audioHit;
+    audioGrowl;
 
     applyGravity() {
         setInterval(() => {
@@ -136,7 +137,6 @@ class MovableObject extends DrawableObjects {
         this.lastHit = new Date().getTime();
         if (this.health <= 0) {
             this.health = 0
-            this.iAmDead = true;
         }
     }
 

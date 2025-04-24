@@ -1,13 +1,15 @@
 class Checker {
     checkCollison() {
         this.level.enemies.forEach((enemy, i) => {
-            if (this.character.isColliding(enemy) && !enemy.isDead()) {
+            if (this.character.isColliding(enemy) && !enemy.isDead() && this.character.lastHitAgo()) {
                 if (this.character.isJumping && this.character.isLandingOn(enemy)) {
-                    this.character.speedY = 10; 
-                    enemy.hit(100); 
+                    this.character.speedY = 10;
+                    enemy.hit(100);
+                    enemy.audioHit.play();
                 } else {
-                    this.character.hit(20); 
+                    this.character.hit(20);
                     this.healthbar.setPercent(this.character.health, this.healthbar.IMAGES_HEALTH);
+                    this.character.audioHit.play();
                 }
             }
         });
@@ -27,17 +29,18 @@ class Checker {
                     }
                     this.arrows.splice(arrow, 1);
                     this.character.audioArrow.pause();
+                    enemy.audioHit.play();
                 }
             });
         });
     }
 
     checkEnemyRemover() {
-        this.level.enemies.forEach((enemy, i) => { 
+        this.level.enemies.forEach((enemy, i) => {
             if (enemy.isDead() && enemy.animationFinished) {
                 this.level.enemies.splice(i, 1)
             }
-        }); 
+        });
     }
 
     checkCoinCollison() {
@@ -95,10 +98,12 @@ class Checker {
 
     checkCloseBy() {
         this.level.enemies.forEach(enemy => {
-            if (this.character.closeBy(enemy, 275)) {
+            if (this.character.closeBy(enemy, 275) && !enemy.isDead()) {
                 enemy.isSlashing = true;
+                enemy.audioGrowl.play();
             } else {
                 enemy.isSlashing = false;
+                //enemy.audioGrowl.pause();
             }
             if (enemy instanceof Endboss && this.character.closeBy(enemy, 1000)) {
                 enemy.startEndFight = true;
@@ -151,7 +156,7 @@ class Checker {
         } else {
             return mouseX >= btn.x && mouseX <= btn.x + btn.width && mouseY >= btn.y && mouseY <= btn.y + btn.height;
         }
-        
+
     }
 
     checkFullscreen() {
@@ -185,20 +190,20 @@ class Checker {
 
     setPauseStatus() {
         const isGamePaused = offcanvas.classList.contains('show');
-        
+
         this.character.isGameReady = isGamePaused === false ? true : false;
-    
+
         const gameElements = [
-            ...this.level.enemies, 
-            ...this.level.clouds, 
+            ...this.level.enemies,
+            ...this.level.clouds,
             ...this.level.coins
         ];
-    
+
         gameElements.forEach(element => element.isGameReady = isGamePaused === false ? true : false);
     }
 
     setGameStatus() {
-        if (this.character.isDead()) {
+        if (this.character.isDead() && this.character.animationFinished) {
             this.gameLost = true;
             stopGame();
         }
@@ -206,7 +211,7 @@ class Checker {
             if (enemy instanceof Endboss && enemy.isDead()) {
                 this.gameWon = true;
                 stopGame();
-            }  
+            }
         });
     }
 }

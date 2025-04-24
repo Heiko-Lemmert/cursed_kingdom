@@ -152,6 +152,7 @@ class Character extends MovableObject {
         this.audioWalking = music.findAudioSrc('characterWalking');
         this.audioJumping = music.findAudioSrc('characterJumping');
         this.audioArrow = music.findAudioSrc('characterShooting');
+        this.audioHit = music.findAudioSrc('characterHit');
     }
 
 animate() {
@@ -218,6 +219,12 @@ shoot(x, y, left) {
 
 lastShootAgo() {
     let timepassed = new Date().getTime() - this.lastShoot; // Differenz in ms
+    timepassed = timepassed / 1000 // Differenz in s
+    return timepassed > 1;
+}
+
+lastHitAgo() {
+    let timepassed = new Date().getTime() - this.lastHit; // Differenz in ms
     timepassed = timepassed / 1000 // Differenz in s
     return timepassed > 1;
 }

@@ -69,7 +69,7 @@ class Skeleton extends MovableObject {
     };
     
 
-    constructor(x) {
+    constructor(x, music) {
         super().loadImage(this.IMAGES_WALKING[0]);
         this.x = x + Math.random() * 500;
         this.y = this.y + Math.random() * 150;
@@ -81,6 +81,8 @@ class Skeleton extends MovableObject {
         this.loadImages(this.IMAGES_DYING);
         this.loadImages(this.IMAGES_SLASHING);
         this.animate();
+        this.audioHit = music.findAudioSrc('enemyHit');
+        this.audioGrowl = music.findAudioSrc('enemyGrowl');
     }
 
     animate() {

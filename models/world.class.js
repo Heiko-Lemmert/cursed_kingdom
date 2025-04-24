@@ -1,6 +1,6 @@
 class World extends Checker {
-    level = createLevelOne();
-    music = new Music(this.level.bgAudio);
+    music = new Music();
+    level = createLevelOne(this.music);
     character = new Character(this.music);
     healthbar = new Heahltbar(10);
     healthbarEndboss = new Heahltbar(850);
@@ -17,7 +17,7 @@ class World extends Checker {
     camera_x = 0;
     currentCoins = 0;
     currentEnergy = 0;
-    bgMusic = this.music.findAudioSrc('backgroundMusic');
+    bgMusic;
     isEndFight = false;
     gameWon = false;
     gameLost = false;
@@ -29,6 +29,8 @@ class World extends Checker {
         this.ctx.font = fontStyle;
         this.canvas = canvas;
         this.keyboard = keyboard;
+        this.music.setBackgroundMusic(this.level.bgAudio);
+        this.bgMusic = this.music.findAudioSrc('backgroundMusic');
         this.setWorld();
         this.setVolumeBtnImage();
         this.draw();
@@ -89,7 +91,7 @@ class World extends Checker {
     }
 
     run() {
-        this.bgMusic.play();
+        // this.bgMusic.play();
         this.checkClickableButton();
         setInterval(() => {
             this.checkCollison();

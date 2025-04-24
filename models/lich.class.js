@@ -84,7 +84,7 @@ class Lich extends MovableObject {
     world;
     
 
-    constructor(x) {
+    constructor(x, music) {
         super().loadImage(this.IMAGES_WALKING[0]);
         this.x = x + Math.random() * 500;
         this.y = this.y + Math.random() * 150;
@@ -98,6 +98,8 @@ class Lich extends MovableObject {
         this.loadImages(this.IMAGES_HURT);
         this.animate();
         this.dropEnergy();
+        this.audioHit = music.findAudioSrc('enemyHit');
+        this.audioGrowl = music.findAudioSrc('enemyGrowl');
     }
 
     animate() {
