@@ -6,8 +6,13 @@ class Music {
         {name: 'characterShooting', file: new Audio('asset/audio/arrow.mp3')},
         {name: 'characterHit', file: new Audio('asset/audio/hit.mp3')},
         {name: 'collectedCoin', file: new Audio('asset/audio/collectedCoin.mp3')},
-        {name: 'enemyHit', file: new Audio('asset/audio/monsterHit.mp3')},
-        {name: 'enemyGrowl', file: new Audio('asset/audio/monsterGrowl.mp3')},   
+        {name: 'lichHit', file: new Audio('asset/audio/monsterHit.mp3')},
+        {name: 'skeletonHit', file: new Audio('asset/audio/monsterHit2.mp3')},
+        {name: 'ghoulHit', file: new Audio('asset/audio/monsterHit3.mp3')},
+        {name: 'enemyGrowl', file: new Audio('asset/audio/monsterGrowl.mp3')},  
+        {name: 'endbossHit', file: new Audio('asset/audio/bossHit.mp3')},
+        {name: 'endbossWisper', file: new Audio('asset/audio/bossWisper.mp3')},  
+        {name: 'endbossGrowl', file: new Audio('asset/audio/bossGrowl.mp3')},  
     ];
 
 
@@ -39,7 +44,7 @@ class Music {
         this.sounds.forEach(sound => {
             if (sound.file && typeof sound.file.volume === 'number') {
                 if (sound.name === 'backgroundMusic') {
-                    sound.file.volume = 0.05;
+                    sound.file.volume = 0.2;
                 } else {
                     sound.file.volume = 1;
                 }

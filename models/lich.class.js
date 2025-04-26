@@ -98,7 +98,7 @@ class Lich extends MovableObject {
         this.loadImages(this.IMAGES_HURT);
         this.animate();
         this.dropEnergy();
-        this.audioHit = music.findAudioSrc('enemyHit');
+        this.audioHit = music.findAudioSrc('lichHit');
         this.audioGrowl = music.findAudioSrc('enemyGrowl');
     }
 

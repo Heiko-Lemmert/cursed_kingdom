@@ -81,7 +81,7 @@ class Skeleton extends MovableObject {
         this.loadImages(this.IMAGES_DYING);
         this.loadImages(this.IMAGES_SLASHING);
         this.animate();
-        this.audioHit = music.findAudioSrc('enemyHit');
+        this.audioHit = music.findAudioSrc('skeletonHit');
         this.audioGrowl = music.findAudioSrc('enemyGrowl');
     }
 

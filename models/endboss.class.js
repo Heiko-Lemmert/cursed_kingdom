@@ -78,6 +78,7 @@ class Endboss extends MovableObject {
         height : 325
     };
     startEndFight = false;
+    audioWisper;
 
     constructor(music) {
         super().loadImage(this.IMAGES_WALKING[0]);
@@ -97,8 +98,9 @@ class Endboss extends MovableObject {
         this.innerFrame.x = this.x + 150;
         this.offset = this.calculateOffset(this.outerFrame, this.innerFrame);
         this.waitForEndFight();
-        this.audioHit = music.findAudioSrc('enemyHit');
-        this.audioGrowl = music.findAudioSrc('enemyGrowl');
+        this.audioHit = music.findAudioSrc('endbossHit');
+        this.audioGrowl = music.findAudioSrc('endbossGrowl');
+        this.audioWisper = music.findAudioSrc('endbossWisper');
     }
 
     waitForEndFight() {

@@ -103,11 +103,12 @@ class Checker {
                 enemy.audioGrowl.play();
             } else {
                 enemy.isSlashing = false;
-                //enemy.audioGrowl.pause();
             }
             if (enemy instanceof Endboss && this.character.closeBy(enemy, 1000)) {
-                enemy.startEndFight = true;
                 this.isEndFight = true;
+                this.bgMusic.pause();
+                enemy.startEndFight = true;
+                enemy.audioWisper.play();
             }
         });
     }
@@ -213,5 +214,14 @@ class Checker {
                 stopGame();
             }
         });
+    }
+
+    checkMusicStatus() {
+        if (localStorage.getItem('mute') === 'false' && !this.isEndFight && !this.gameWon && !this.gameLost
+        ) {
+            this.bgMusic.play();
+        } else {
+            this.bgMusic.pause();
+        }
     }
 }

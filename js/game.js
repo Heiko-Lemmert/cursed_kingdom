@@ -162,14 +162,20 @@ function restartGame() {
 }
 
 function stopGame() {
+    stopMusic();
     world.clearAllIntervals();
-    world.bgMusic.pause();
-    world.bgMusic.currentTime = 0;
     if (world.gameLost) {
         document.getElementById('lost-screen').classList.remove('d-none');
     } else if (world.gameWon) {
         document.getElementById('won-screen').classList.remove('d-none');
     }
+}
+
+function stopMusic() {
+    world.music.sounds.forEach(sound => {
+        sound.file.pause();
+        sound.currentTime = 0;
+    });
 }
 
 function generateHTML(string) {

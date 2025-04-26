@@ -79,7 +79,7 @@ class Ghoul extends MovableObject {
         this.loadImages(this.IMAGES_DYING);
         this.loadImages(this.IMAGES_SLASHING);
         this.animate();
-        this.audioHit = music.findAudioSrc('enemyHit');
+        this.audioHit = music.findAudioSrc('ghoulHit');
         this.audioGrowl = music.findAudioSrc('enemyGrowl');
     }
 

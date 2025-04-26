@@ -31,11 +31,12 @@ class World extends Checker {
         this.keyboard = keyboard;
         this.music.setBackgroundMusic(this.level.bgAudio);
         this.bgMusic = this.music.findAudioSrc('backgroundMusic');
+        this.bgMusic.loop = true;
+        this.bgMusic.volume = 0.2;
         this.setWorld();
         this.setVolumeBtnImage();
         this.draw();
         this.run();
-        this.bgMusic.loop = true;
     }
 
     setWorld() {
@@ -91,7 +92,6 @@ class World extends Checker {
     }
 
     run() {
-        // this.bgMusic.play();
         this.checkClickableButton();
         setInterval(() => {
             this.checkCollison();
@@ -104,6 +104,7 @@ class World extends Checker {
             this.setPauseStatus();
             this.checkEnemyRemover();
             this.setGameStatus();
+            this.checkMusicStatus();
         }, 100);
     }
 
