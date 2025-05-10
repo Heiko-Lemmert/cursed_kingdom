@@ -113,6 +113,9 @@ main {
     top: 49.5%;
     left: 50%;
     transform: translate(-50%, -50%);
+    background-color: black;
+  border: 8px groove rgb(223, 187, 107);
+  border-radius: 15px;
 }
 
 canvas {
@@ -275,4 +278,114 @@ August 2021 : ok on Chrome v92+, Firefox v90+, Edge v92+
 #sperator {
     margin-bottom: 1em;
     margin-top: 1em;
+}
+
+#rotate-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.9);
+    color: white;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    z-index: 9999;
+    font-size: 2rem;
+    padding: 1rem;
+}
+
+#rotate-overlay .rotate-message {
+    max-width: 90%;
+}
+
+/* ===== Default Styles ===== */
+canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* ===== Smartphones (bis 600px breit) und Tablets (601px – 900px) Hochformat ===== */
+@media only screen and (max-width: 900px) and (orientation: portrait) {
+    canvas {
+        display: none;
+    }
+
+    #rotate-overlay {
+        display: flex;
+    }
+
+    #start-screen,
+    #game-screen,
+    #lost-screen,
+    #won-screen {
+        display: none
+        
+    }
+}
+
+/* ===== Smartphones Querformat (bis 900px breit, max 480px hoch) ===== */
+@media only screen and (max-width: 900px) and (max-height: 480px) and (orientation: landscape) {
+    canvas {
+        width: 100vw !important;
+        height: 100vh !important;
+    }
+
+    header {
+        display: none;
+    }
+
+    .game-container {
+        display: block;
+    }
+
+    #start-screen,
+    #game-screen,
+    #lost-screen,
+    #won-screen {
+        width: 100vw;
+        height: 100vh;
+        position: initial;
+        transform: initial;
+    }
+
+}
+
+/* ===== Kleine Laptops (901px – 1200px) ===== */
+@media only screen and (min-width: 901px) and (max-width: 1200px) {
+    canvas {
+        width: 100%;
+        height: calc(90vh - var(--header-height));
+        margin: 0 auto;
+    }
+
+    #start-screen,
+    #game-screen,
+    #lost-screen,
+    #won-screen {
+        width: 98%;
+        height: calc(88vh - var(--header-height));
+        margin: 0 auto;
+    }
+}
+
+/* ===== Desktops (1201px – 1800px) ===== */
+@media only screen and (min-width: 1201px) and (max-width: 1800px) {
+    canvas {
+        width: 100%;
+        height: calc(90vh - var(--header-height));
+        margin: 0 auto;
+    }
+
+    #start-screen,
+    #game-screen,
+    #lost-screen,
+    #won-screen {
+        width: 80%;
+        height: calc(90vh - var(--header-height));
+        margin: 0 auto;
+    }
 }

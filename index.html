@@ -86,8 +86,8 @@
                     href="#offcanvas" onclick="generateHTML('instructions')">Instructions</button>
             </div>
         </div>
-        <div class="game-screen">
-            <canvas id="canvas" width="1200" height="675"></canvas>
+        <div id="game-screen">
+            <canvas id="canvas" width="1200" height="675"></canvas> 
         </div>
         <div class="d-none" id="won-screen">
             <img src="./asset/img/4_Main_location/screens/won-screen.png" class="img-fluid" alt="won-screen">
@@ -145,6 +145,9 @@
                 </filter>
             </svg>
         </div>
+    </div>
+    <div id="rotate-overlay">
+        <div class="rotate-message">Bitte Gerät drehen 🔄</div>
     </div>
 </body>
 
