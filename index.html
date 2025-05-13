@@ -86,7 +86,7 @@
                     href="#offcanvas" onclick="generateHTML('instructions')">Instructions</button>
             </div>
         </div>
-        <div id="game-screen">
+        <div id="game-screen" class="d-none">
             <canvas id="canvas" width="1200" height="675"></canvas> 
         </div>
         <div class="d-none" id="won-screen">
@@ -148,6 +148,14 @@
     </div>
     <div id="rotate-overlay">
         <div class="rotate-message">Bitte Gerät drehen 🔄</div>
+    </div>
+    <div id="touch-controls">
+        <button id="btn-left" class="touch-btn">⬅️</button>
+        <button id="btn-right" class="touch-btn">➡️</button>
+        <button id="btn-up" class="touch-btn">⬆️</button>
+        <button id="btn-down" class="touch-btn">⬇️</button>
+        <button id="btn-jump" class="touch-btn">⤴️</button>
+        <button id="btn-fire" class="touch-btn">🔥</button>
     </div>
 </body>
 

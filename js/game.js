@@ -153,6 +153,7 @@ function minimizeCanvas() {
 function startGame() {
         world = new World(canvas, keyboard);
         document.getElementById('start-screen').classList.add('d-none');
+        document.getElementById('game-screen').classList.remove('d-none');
 }
 
 function restartGame() {
@@ -223,4 +224,34 @@ function generateInstructionHTML() {
         `;
 }
 
-document.addEventListener('DOMContentLoaded', init);
+function initTouchControls() {
+    const btnLeft = document.getElementById('btn-left');
+    const btnRight = document.getElementById('btn-right');
+    const btnUp = document.getElementById('btn-up');
+    const btnDown = document.getElementById('btn-down');
+    const btnJump = document.getElementById('btn-jump');
+    const btnFire = document.getElementById('btn-fire');
+
+    btnLeft.addEventListener('touchstart', () => keyboard.left = true);
+    btnLeft.addEventListener('touchend', () => keyboard.left = false);
+
+    btnRight.addEventListener('touchstart', () => keyboard.right = true);
+    btnRight.addEventListener('touchend', () => keyboard.right = false);
+
+    btnUp.addEventListener('touchstart', () => keyboard.up = true);
+    btnUp.addEventListener('touchend', () => keyboard.up = false);
+
+    btnDown.addEventListener('touchstart', () => keyboard.down = true);
+    btnDown.addEventListener('touchend', () => keyboard.down = false);
+
+    btnJump.addEventListener('touchstart', () => keyboard.space = true);
+    btnJump.addEventListener('touchend', () => keyboard.space = false);
+
+    btnFire.addEventListener('touchstart', () => keyboard.fire = true);
+    btnFire.addEventListener('touchend', () => keyboard.fire = false);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    init();
+    initTouchControls();
+});
