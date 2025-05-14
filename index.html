@@ -40,6 +40,8 @@
     <script src="./models/music.class.js"></script>
     <script src="./levels/level-one.js"></script>
     <script src="./js/game.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+    <script>eruda.init();</script> -->
     <title>Cursed Kingdom</title>
 </head>
 
@@ -79,10 +81,10 @@
             <div class="inner-div">
                 <h1 class="text-center">Cursed Kingdom</h1>
                 <h2 class="text-center">The Old Paths</h2>
-                <button class="btn btn-primary btn-lg" onclick="startGame()">Start Game</button>
-                <button class="btn btn-secondary btn-lg" data-bs-toggle="offcanvas" aria-controls="offcanvas"
+                <button id="btn-start" class="btn btn-primary btn-lg">Start Game</button>
+                <button id="btn-control-1" class="btn btn-secondary btn-lg" data-bs-toggle="offcanvas" aria-controls="offcanvas"
                     href="#offcanvas" onclick="generateHTML('controls')">Controls</button>
-                <button class="btn btn-secondary btn-lg" data-bs-toggle="offcanvas" aria-controls="offcanvas"
+                <button id="btn-instruction-1" class="btn btn-secondary btn-lg" data-bs-toggle="offcanvas" aria-controls="offcanvas"
                     href="#offcanvas" onclick="generateHTML('instructions')">Instructions</button>
             </div>
         </div>
@@ -93,10 +95,10 @@
             <img src="./asset/img/4_Main_location/screens/won-screen.png" class="img-fluid" alt="won-screen">
             <div class="inner-div">
                 <h1 class="text-center">You Won</h1>
-                <button class="btn btn-primary btn-lg" onclick="restartGame()">Restart Game</button>
-                <button class="btn btn-secondary btn-lg" data-bs-toggle="offcanvas" aria-controls="offcanvas"
+                <button  id="btn-restart-1" class="btn btn-primary btn-lg">Restart Game</button>
+                <butto id="btn-control-2" class="btn btn-secondary btn-lg" data-bs-toggle="offcanvas" aria-controls="offcanvas"
                     href="#offcanvas" onclick="generateHTML('controls')">Controls</button>
-                <button class="btn btn-secondary btn-lg" data-bs-toggle="offcanvas" aria-controls="offcanvas"
+                <button id="btn-instruction-2" class="btn btn-secondary btn-lg" data-bs-toggle="offcanvas" aria-controls="offcanvas"
                     href="#offcanvas" onclick="generateHTML('instructions')">Instructions</button>
             </div>
         </div>
@@ -104,10 +106,10 @@
             <img src="./asset/img/4_Main_location/screens/lost-screen.png" class="img-fluid" alt="won-screen">
             <div class="inner-div">
                 <h1 class="text-center">You Lost</h1>
-                <button class="btn btn-primary btn-lg" onclick="restartGame()">Restart Game</button>
-                <button class="btn btn-secondary btn-lg" data-bs-toggle="offcanvas" aria-controls="offcanvas"
+                <button id="btn-restart-2" class="btn btn-primary btn-lg">Restart Game</button>
+                <button id="btn-control-3" class="btn btn-secondary btn-lg" data-bs-toggle="offcanvas" aria-controls="offcanvas"
                     href="#offcanvas" onclick="generateHTML('controls')">Controls</button>
-                <button class="btn btn-secondary btn-lg" data-bs-toggle="offcanvas" aria-controls="offcanvas"
+                <button id="btn-instruction-3" class="btn btn-secondary btn-lg" data-bs-toggle="offcanvas" aria-controls="offcanvas"
                     href="#offcanvas" onclick="generateHTML('instructions')">Instructions</button>
             </div>
         </div>
@@ -151,7 +153,7 @@
     </div>
     <div id="touch-controls">
         <button id="btn-left" class="touch-btn">⬅️</button>
-        <button id="btn-right" class="touch-btn">➡️</button>
+        <button id="btn-right" class="touch-btn"></button>
         <button id="btn-up" class="touch-btn">⬆️</button>
         <button id="btn-down" class="touch-btn">⬇️</button>
         <button id="btn-jump" class="touch-btn">⤴️</button>

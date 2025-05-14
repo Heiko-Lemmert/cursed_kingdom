@@ -10,6 +10,7 @@ let originalHeight = 675;
 let scale = 1;
 let resizeWidth = 1920;
 let resizeHeight = 1080;
+let isMobile = false;
 
 function init() {
     canvas = document.getElementById('canvas');
@@ -18,75 +19,60 @@ function init() {
     explanation = document.getElementById('explanation');
 }
 
-window.addEventListener('keydown', event => {
+// Refactored key press handling to properly update the keyboard object
+window.addEventListener('keydown', (event) => {
     switch (event.keyCode) {
-        case 87:
-            keyboard.up = true;
-            break;
-        case 38:
-            keyboard.up = true;
-            break;
-        case 83:
-            keyboard.down = true;
-            break;
-        case 40:
-            keyboard.down = true;
-            break;
-        case 68:
-            keyboard.right = true;
-            break;
-        case 39:
-            keyboard.right = true;
-            break;
-        case 65:
+        case 37: // Left arrow
+        case 65: // 'A'
             keyboard.left = true;
             break;
-        case 37:
-            keyboard.left = true;
+        case 39: // Right arrow
+        case 68: // 'D'
+            keyboard.right = true;
             break;
-        case 32:
+        case 38: // Up arrow
+        case 87: // 'W'
+            keyboard.up = true;
+            break;
+        case 40: // Down arrow
+        case 83: // 'S'
+            keyboard.down = true;
+            break;
+        case 32: // Space
             keyboard.space = true;
             break;
-        case 70:
+        case 70: // 'F'
             keyboard.fire = true;
             break;
     }
-})
+});
 
 window.addEventListener('keyup', (event) => {
     switch (event.keyCode) {
-        case 87:
-            keyboard.up = false;
-            break;
-        case 38:
-            keyboard.up = false;
-            break;
-        case 83:
-            keyboard.down = false;
-            break;
-        case 40:
-            keyboard.down = false;
-            break;
-        case 68:
-            keyboard.right = false;
-            break;
-        case 39:
-            keyboard.right = false;
-            break;
-        case 65:
+        case 37: // Left arrow
+        case 65: // 'A'
             keyboard.left = false;
             break;
-        case 37:
-            keyboard.left = false;
+        case 39: // Right arrow
+        case 68: // 'D'
+            keyboard.right = false;
             break;
-        case 32:
+        case 38: // Up arrow
+        case 87: // 'W'
+            keyboard.up = false;
+            break;
+        case 40: // Down arrow
+        case 83: // 'S'
+            keyboard.down = false;
+            break;
+        case 32: // Space
             keyboard.space = false;
             break;
-        case 70:
+        case 70: // 'F'
             keyboard.fire = false;
             break;
     }
-})
+});
 
 window.addEventListener('keydown', function (e) {
     if (e.keyCode == 32 && e.target == document.body || e.keyCode == 27 && e.target == document.body || e.keyCode == 40 && e.target == document.body || e.keyCode == 38 && e.target == document.body || e.keyCode == 37 && e.target == document.body || e.keyCode == 39 && e.target == document.body) {
@@ -231,27 +217,81 @@ function initTouchControls() {
     const btnDown = document.getElementById('btn-down');
     const btnJump = document.getElementById('btn-jump');
     const btnFire = document.getElementById('btn-fire');
+    const btnStart = document.getElementById('btn-start');
+    const btnRestart = document.getElementById('btn-restart-1');
+    const btnRestart2 = document.getElementById('btn-restart-2');
 
-    btnLeft.addEventListener('touchstart', () => keyboard.left = true);
-    btnLeft.addEventListener('touchend', () => keyboard.left = false);
+    // Improved touch handling to ensure better responsiveness
+    const handleTouch = (el, onStart, onEnd) => {
+        if (!el) return;
+        el.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            onStart();
+        }, { passive: false });
+        el.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            onEnd();
+        }, { passive: false });
+        el.addEventListener('click', (e) => {
+            e.preventDefault();
+            onStart();
+            setTimeout(onEnd, 100); // Simulate touchend for click
+        });
+    };
 
-    btnRight.addEventListener('touchstart', () => keyboard.right = true);
-    btnRight.addEventListener('touchend', () => keyboard.right = false);
+    // Apply improved touch handling to all buttons
+    handleTouch(btnLeft, () => keyboard.left = true, () => keyboard.left = false);
+    handleTouch(btnRight, () => keyboard.right = true, () => keyboard.right = false);
+    handleTouch(btnUp, () => keyboard.up = true, () => keyboard.up = false);
+    handleTouch(btnDown, () => keyboard.down = true, () => keyboard.down = false);
+    handleTouch(btnJump, () => keyboard.space = true, () => keyboard.space = false);
+    handleTouch(btnFire, () => keyboard.fire = true, () => keyboard.fire = false);
 
-    btnUp.addEventListener('touchstart', () => keyboard.up = true);
-    btnUp.addEventListener('touchend', () => keyboard.up = false);
+    // Ensure touch buttons are not highlighted or selected
+    const preventHighlight = (el) => {
+        if (!el) return;
+        el.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+        }, { passive: false });
+    };
 
-    btnDown.addEventListener('touchstart', () => keyboard.down = true);
-    btnDown.addEventListener('touchend', () => keyboard.down = false);
+    // Apply to all touch buttons
+    preventHighlight(btnLeft);
+    preventHighlight(btnRight);
+    preventHighlight(btnUp);
+    preventHighlight(btnDown);
+    preventHighlight(btnJump);
+    preventHighlight(btnFire);
+    preventHighlight(btnStart);
+    preventHighlight(btnRestart);
+    preventHighlight(btnRestart2);
 
-    btnJump.addEventListener('touchstart', () => keyboard.space = true);
-    btnJump.addEventListener('touchend', () => keyboard.space = false);
+    const addTouchAndClick = (el, fn) => {
+        if (!el) return;
+        el.addEventListener('click', fn);
+        el.addEventListener('touchstart', (e) => {
+            console.log('Touchstart funktioniert!');
+            e.preventDefault();
+            fn();
+        }, { passive: false });
+    };
 
-    btnFire.addEventListener('touchstart', () => keyboard.fire = true);
-    btnFire.addEventListener('touchend', () => keyboard.fire = false);
+    addTouchAndClick(btnStart, startGame);
+    addTouchAndClick(btnRestart, restartGame);
+    addTouchAndClick(btnRestart2, restartGame);
+}
+
+function getScreenSize() {
+    screenWidth = screen.width;
+    screenOrientation = screen.orientation;
+
+    if (screenWidth < 1194 && screenOrientation.type === 'landscape-primary') {
+        isMobile = true;
+    }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     init();
     initTouchControls();
+    getScreenSize();
 });

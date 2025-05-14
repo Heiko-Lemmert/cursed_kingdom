@@ -85,14 +85,12 @@ class World extends Checker {
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.apples);
         this.ctx.translate(-this.camera_x, 0);
-        let self = this;
-        requestAnimationFrame(() => { // Mit dieser Funktion wird die Draw() 30-60 mal pro Sekunde ausgeführt
-            self.draw();
-        })
     }
 
     run() {
         this.checkClickableButton();
+
+        // Reduce the frequency of logical checks to every 200ms
         setInterval(() => {
             this.checkCollison();
             this.checkArrowCollison();
@@ -105,7 +103,14 @@ class World extends Checker {
             this.checkEnemyRemover();
             this.setGameStatus();
             this.checkMusicStatus();
-        }, 100);
+        }, 200);
+
+        // Ensure draw() is optimized and runs independently
+        const update = () => {
+            this.draw();
+            requestAnimationFrame(update);
+        };
+        update();
     }
 
 
