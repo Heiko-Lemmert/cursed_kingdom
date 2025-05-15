@@ -4,7 +4,8 @@
  */
 function getPath() {
     let path = window.location.pathname;
-    let page = path.split("/").pop();
+    let page = path.split('/').pop();
+    console.log(page);
 
     setClass(page);
 }
@@ -15,7 +16,7 @@ function getPath() {
  * @param {string} page - The name of the current HTML page (e.g., 'index.html')
  */
 function setClass(page) {
-    if (page === 'index.html') {
+    if (page === 'index.html' || isStringEmpty(page)) {
         document.body.classList.add('overflow-hidden');
     } else if (page === 'imprint.html') {
         document.body.classList.add('overflow-initial');
@@ -24,6 +25,10 @@ function setClass(page) {
         document.body.classList.add('overflow-initial');
         document.getElementById('parchment').classList.add('ph-terms');
     }
+}
+
+function isStringEmpty(str) {
+    return (!str || str.length === 0);
 }
 
 window.addEventListener('DOMContentLoaded', getPath)

@@ -182,7 +182,9 @@ function stopGame() {
     if (world.gameLost) {
         document.getElementById('lost-screen').classList.remove('d-none');
     } else if (world.gameWon) {
-        document.getElementById('won-screen').classList.remove('d-none');
+        setTimeout(() => {
+            document.getElementById('won-screen').classList.remove('d-none');
+        }, 1000);
     }
     document.getElementById('touch-controls').classList.add('d-none');
 }
