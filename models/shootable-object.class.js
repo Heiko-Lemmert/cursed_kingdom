@@ -1,3 +1,7 @@
+/**
+ * Represents a projectile (arrow) that can be shot in the game
+ * @extends MovableObject
+ */
 class ShootableObject extends MovableObject {
     height = 75;
     width = 75;
@@ -5,6 +9,12 @@ class ShootableObject extends MovableObject {
     speed = 1;
     arrowSpeed = 25;
 
+    /**
+     * Creates a new arrow projectile
+     * @param {number} x - Starting X-coordinate position
+     * @param {number} y - Starting Y-coordinate position
+     * @param {boolean} otherDirection - Direction of arrow flight (true for left, false for right)
+     */
     constructor(x, y, otherDirection) {
         super();
         this.x = x;
@@ -14,6 +24,10 @@ class ShootableObject extends MovableObject {
         this.onFly();
     }
 
+    /**
+     * Initiates arrow flight movement
+     * Updates position based on direction at 60fps
+     */
     onFly() {
         if (this.otherDirection) {
             setInterval(() => {
@@ -24,6 +38,5 @@ class ShootableObject extends MovableObject {
                 this.x += this.arrowSpeed;
             }, 1000 / 60);
         }
-
     }
 }

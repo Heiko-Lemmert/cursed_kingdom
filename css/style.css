@@ -45,7 +45,6 @@ body {
     backdrop-filter: blur(2px);
     color: aliceblue;
     height: 100vh;
-    overflow: hidden;
 }
 
 .navbar-brand img {
@@ -61,7 +60,13 @@ body {
     color: var(--giants-orange);
 }
 
+.nav-link:hover {
+    color: var(--persian-green);
+}
 
+.nav-link:focus {
+    color: var(--persian-green);
+}
 
 .offcanvas {
     opacity: 1;
@@ -118,6 +123,29 @@ main {
   border-radius: 15px;
 }
 
+.btn-home {
+    background-color: var(--gold-metallic);
+    color: var(--raisin-black);
+}
+
+.btn-start {
+    background-color: var(--giants-orange);
+    color: white;
+}
+
+.btn-home:hover,
+.btn-start:hover {
+    background-color: var(--persian-green);
+    color: white;
+}
+
+.btn-home:active,
+.btn-start:active {
+    background-color: var(--persian-green) !important;
+    color: white;
+    border: 2px dotted var(--woodsmoke) !important;
+}
+
 .fullCanvas {
     border-radius: 0;
     border: none !important;
@@ -160,6 +188,14 @@ https://stackoverflow.com/questions/14585101/old-paper-background-texture-with-j
 
 August 2021 : ok on Chrome v92+, Firefox v90+, Edge v92+
 */
+
+.ph-terms {
+    height: 2900px !important;
+}
+
+.ph-imprint {
+    height: 1000px !important;
+}
 
 #parchment {
     position: absolute;
@@ -274,6 +310,96 @@ August 2021 : ok on Chrome v92+, Firefox v90+, Edge v92+
     margin-top: 1em;
 }
 
+
+/* Imprint page styles */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.content h2 {
+    color: var(--persian-green);
+    font-size: 1.5em;
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+}
+
+.content h3 {
+    color: var(--giants-orange);
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    font-size: 1.2em;
+}
+
+.content p {
+    color: var(--raisin-black);
+    font-size: 1.2em;
+    line-height: 1.6;
+}
+
+.content a {
+    color: var(--giants-orange);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.content a:hover {
+    color: var(--persian-green);
+}
+
+/* Privacy Policy styles */
+.content .index {
+    list-style: none;
+    padding-left: 0;
+}
+
+.content .index-link {
+    color: var(--giants-orange);
+    text-decoration: none;
+}
+
+.content .index-link:hover {
+    color: var(--persian-green);
+}
+
+.content ul:not(.index) {
+    color: var(--raisin-black);
+    margin-left: 1.5rem;
+}
+
+.content strong {
+    color: var(--persian-green);
+}
+
+.content .seal {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.content .seal a {
+    color: var(--persian-green);
+    font-size: 0.9em;
+    text-decoration: none;
+}
+
+.content .seal a:hover {
+    color: var(--giants-orange);
+}
+
+#parchment .content {
+    color: var(--raisin-black);
+    font-size: 1.1em;
+    line-height: 1.6;
+}
+
+.overflow-initial {
+    overflow: initial;
+}
+
+.overflow-hidden {
+    overflow: hidden;
+}
+
 #rotate-overlay {
     position: fixed;
     top: 0;
@@ -337,7 +463,7 @@ canvas {
 }
 
 /* ===== Smartphones (bis 600px breit) und Tablets (601px – 900px) Hochformat ===== */
-@media only screen and (max-width: 900px) and (orientation: portrait) {
+@media only screen and (max-width: 1024px) and (orientation: portrait) {
     canvas {
         display: none;
     }
@@ -388,6 +514,15 @@ canvas {
      #touch-controls {
         display: flex;
     }
+
+    #btn-instruction-1,
+    #btn-instruction-2,
+    #btn-instruction-3,
+    #btn-control-1,
+    #btn-control-2,
+    #btn-control-3 {
+        display: none;
+    }
 }
 
 /* ===== Kleine Laptops (901px – 1200px) ===== */
@@ -413,10 +548,10 @@ canvas {
 }
 
 /* ===== Tablets Querformat (min 768px breit, max 1194px breit) ===== */
-@media only screen and (min-width: 768px) and (max-width: 1194px) and (orientation: landscape) {
+@media only screen and (min-width: 768px) and (max-width: 1200px) and (orientation: landscape) {
     canvas {
-        width: 100vw;
-        height: 100vh;
+        width: 100vw !important;
+        height: 100vh !important;
         margin: 0 auto;
         border: none;
     }
@@ -435,8 +570,8 @@ canvas {
     #game-screen,
     #lost-screen,
     #won-screen {
-        width: 100vw;
-        height: 100vh;
+        width: 100vw !important;
+        height: 100vh !important;
         margin: 40px auto;
     }
 
@@ -455,6 +590,15 @@ canvas {
         width: 70px;
         height: 70px;
         font-size: 28px;
+    }
+
+    #btn-instruction-1,
+    #btn-instruction-2,
+    #btn-instruction-3,
+    #btn-control-1,
+    #btn-control-2,
+    #btn-control-3 {
+        display: none;
     }
 }
 

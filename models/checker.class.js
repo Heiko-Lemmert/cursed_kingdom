@@ -1,4 +1,11 @@
+/**
+ * Handles all collision and state checks in the game
+ */
 class Checker {
+    /**
+     * Checks for collisions between character and enemies
+     * Handles damage and jumping on enemies
+     */
     checkCollison() {
         this.level.enemies.forEach((enemy, i) => {
             if (this.character.isColliding(enemy) && !enemy.isDead() && this.character.lastHitAgo()) {
@@ -15,6 +22,10 @@ class Checker {
         });
     }
 
+    /**
+     * Checks for collisions between arrows and enemies
+     * Handles different damage amounts for different enemy types
+     */
     checkArrowCollison() {
         this.level.enemies.forEach((enemy, i) => {
             this.arrows.forEach((arrow) => {
@@ -35,6 +46,9 @@ class Checker {
         });
     }
 
+    /**
+     * Removes dead enemies from the game
+     */
     checkEnemyRemover() {
         this.level.enemies.forEach((enemy, i) => {
             if (enemy.isDead() && enemy.animationFinished) {
@@ -43,6 +57,10 @@ class Checker {
         });
     }
 
+    /**
+     * Checks for collisions between character and coins
+     * Handles coin collection and sound effects
+     */
     checkCoinCollison() {
         let coinAudio = this.music.findAudioSrc('collectedCoin');
         this.level.coins.forEach((collectible, i) => {
@@ -54,6 +72,10 @@ class Checker {
         });
     }
 
+    /**
+     * Checks for collisions between character and apples
+     * Handles energy restoration
+     */
     checkAppleCollison() {
         this.apples.forEach((collectible, i) => {
             if (this.character.isColliding(collectible)) {
@@ -64,38 +86,38 @@ class Checker {
         });
     }
 
+    /**
+     * Handles character shooting mechanics
+     * Controls shooting animation and energy consumption
+     */
     checkShootableObject() {
         if (
-            this.keyboard.fire && // Taste F wird gedrückt
-            !this.character.isAboveGround() && // Charakter steht auf dem Boden
-            this.character.hasEnergy() && // Charakter hat Energie
-            this.character.lastShootAgo() && // Zeit seit letztem Schuss ist ausreichend
-            !this.character.isShooting && // Animation läuft noch nicht
+            this.keyboard.fire && 
+            !this.character.isAboveGround() &&
+            this.character.hasEnergy() &&
+            this.character.lastShootAgo() &&
+            !this.character.isShooting &&
             this.character.isGameReady
         ) {
-            this.character.isShooting = true; // Blockiere weiteren Schuss
-            clearInterval(this.character.animationInterval) // Beeende Animations Intervall
-
-            // Setze die Richtung und Postion des Schusses
+            this.character.isShooting = true;
+            clearInterval(this.character.animationInterval) 
             const shootX = this.character.otherDirection ? this.character.x : this.character.x + 160;
             const shootY = this.character.y + 125
-
-            // Schuss erzeugen
             this.character.shoot(shootX, shootY, this.character.otherDirection);
-
-            // Schussanimation starten
             if (this.keyboard.right || this.keyboard.left) {
                 this.character.startShootAnimation(this.character.IMAGES_RUN_SHOOTING);
             } else {
                 this.character.startShootAnimation(this.character.IMAGES_SHOOTING);
             }
-
-            // Energieverlust und Anzeige aktualisieren
             this.character.lostEnergy();
             this.energybar.setPercent(this.character.energy, this.energybar.IMAGES_ENERGY);
         }
     }
 
+    /**
+     * Checks if enemies are close to the character
+     * Triggers enemy reactions and boss fight conditions
+     */
     checkCloseBy() {
         this.level.enemies.forEach(enemy => {
             if (this.character.closeBy(enemy, 275) && !enemy.isDead()) {
@@ -113,6 +135,10 @@ class Checker {
         });
     }
 
+    /**
+     * Debug function to log collision frame coordinates
+     * Displays boundaries for character, enemies, and coins
+     */
     checkCollisonFrame() {
         console.log('Objekt Character - Berechnete Grenzen:');
         console.log('Left:', this.character.x + this.character.offset.left);
@@ -133,6 +159,10 @@ class Checker {
         console.log('Bottom:', this.level.coins[0].y + this.level.coins[0].height - this.level.coins[0].offset.bottom);
     }
 
+    /**
+     * Sets up click event listeners for UI buttons
+     * Handles screen and volume button interactions
+     */
     checkClickableButton() {
         this.canvas.addEventListener('click', (event) => {
             const rect = this.canvas.getBoundingClientRect();
@@ -151,6 +181,13 @@ class Checker {
         });
     }
 
+    /**
+     * Checks if a mouse click is within a button's boundaries
+     * @param {number} mouseX - X coordinate of mouse click
+     * @param {number} mouseY - Y coordinate of mouse click
+     * @param {Object} btn - Button object to check
+     * @returns {boolean} True if click is within button boundaries
+     */
     checkBtn(mouseX, mouseY, btn) {
         if (btn.id !== 'fullscreen') {
             return mouseX >= btn.x * scale && mouseX <= (btn.x + btn.width) * scale && mouseY >= btn.y * scale && mouseY <= (btn.y + btn.height) * scale;
@@ -160,6 +197,9 @@ class Checker {
 
     }
 
+    /**
+     * Monitors fullscreen state and updates screen button accordingly
+     */
     checkFullscreen() {
         if (!document.fullscreenElement && this.screenBtn.id === 'smallscreen') {
             exitFullscreen();
@@ -169,6 +209,10 @@ class Checker {
         }
     }
 
+    /**
+     * Updates screen button state and triggers fullscreen changes
+     * @param {Object} screenBtn - The screen button object to update
+     */
     setScreenBtn(screenBtn) {
         if (screenBtn.id === 'fullscreen') {
             screenBtn.onClick(1);
@@ -179,6 +223,10 @@ class Checker {
         }
     }
 
+    /**
+     * Updates volume button state and triggers sound changes
+     * @param {Object} volumeBtn - The volume button object to update
+     */
     setVolumeBtn(volumeBtn) {
         if (volumeBtn.id === 'volume-on') {
             this.volumeBtn = new ClickableButton('asset/img/6_UI/btn/Default@Sound_Off.png', 965, 'volume-off');
@@ -189,6 +237,10 @@ class Checker {
         }
     }
 
+    /**
+     * Sets pause state for all game elements
+     * Updates game ready status based on pause menu visibility
+     */
     setPauseStatus() {
         const isGamePaused = offcanvas.classList.contains('show');
 
@@ -203,6 +255,9 @@ class Checker {
         gameElements.forEach(element => element.isGameReady = isGamePaused === false ? true : false);
     }
 
+    /**
+     * Checks and updates game win/loss conditions
+     */
     setGameStatus() {
         if (this.character.isDead() && this.character.animationFinished) {
             this.gameLost = true;
@@ -216,6 +271,9 @@ class Checker {
         });
     }
 
+    /**
+     * Controls background music playback based on game state
+     */
     checkMusicStatus() {
         if (localStorage.getItem('mute') === 'false' && !this.isEndFight && !this.gameWon && !this.gameLost
         ) {

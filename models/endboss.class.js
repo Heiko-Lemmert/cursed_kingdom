@@ -1,3 +1,7 @@
+/**
+ * Represents the final boss enemy in the game
+ * @extends MovableObject
+ */
 class Endboss extends MovableObject {
     IMAGES_WALKING = [
         'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Walking/0_Death_Knight_Walking_000.png',
@@ -80,6 +84,10 @@ class Endboss extends MovableObject {
     startEndFight = false;
     audioWisper;
 
+    /**
+     * Creates a new Endboss instance
+     * @param {Object} music - The music controller for boss sounds
+     */
     constructor(music) {
         super().loadImage(this.IMAGES_WALKING[0]);
         this.x = 9000;
@@ -103,6 +111,10 @@ class Endboss extends MovableObject {
         this.audioWisper = music.findAudioSrc('endbossWisper');
     }
 
+    /**
+     * Waits for the end fight trigger and starts boss animation
+     * Checks every 100ms if the fight should start
+     */
     waitForEndFight() {
         let start = setInterval(() => {
             if (this.startEndFight) {
@@ -112,6 +124,10 @@ class Endboss extends MovableObject {
         }, 100)
     }
 
+    /**
+     * Initiates boss movement and animation
+     * Called when the end fight begins
+     */
     animate() { 
         this.setEnemyMove();
         this.playEnemyAnimation(this)

@@ -1,3 +1,7 @@
+/**
+ * Represents a ghoul enemy in the game
+ * @extends MovableObject
+ */
 class Ghoul extends MovableObject {
     IMAGES_WALKING = [
         'asset/img/2_Enemies/Ghoul/PNG/PNG Sequences/Walking/0_Ghoul_Walking_000.png',
@@ -67,6 +71,11 @@ class Ghoul extends MovableObject {
         height : 150
     };
 
+    /**
+     * Creates a new Ghoul instance
+     * @param {number} x - Base X-coordinate position (random offset will be added)
+     * @param {Object} music - The music controller for ghoul sounds
+     */
     constructor(x, music) {
         super().loadImage(this.IMAGES_WALKING[0]);
         this.x = x + Math.random() * 500;
@@ -83,6 +92,10 @@ class Ghoul extends MovableObject {
         this.audioGrowl = music.findAudioSrc('enemyGrowl');
     }
 
+    /**
+     * Initiates ghoul movement and animation
+     * Controls enemy behavior patterns
+     */
     animate() {
         this.setEnemyMove();
         this.playEnemyAnimation(this)

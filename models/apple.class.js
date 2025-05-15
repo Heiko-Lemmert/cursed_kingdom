@@ -1,14 +1,23 @@
+/**
+ * Represents a collectible apple in the game
+ * @extends CollectibleObject
+ */
 class Apple extends CollectibleObject {
     IMG_SRC = 'asset/img/7_Collectibles/Apple.png';
-    baseY = 400; // Ausgangsposition
-    amplitude = 3; // Höhe des Sprungs
-    frequency = 0.1; // Geschwindigkeit des Hüpfens
-    angle = 0; // Aktueller Winkel (für sinusförmige Bewegung)
+    baseY = 400; 
+    amplitude = 3; 
+    frequency = 0.1; 
+    angle = 0;
     innerFrame = {
         width: this.width,
         height: this.height
     };
 
+    /**
+     * Creates a new Apple instance
+     * @param {number} x - The x-coordinate position
+     * @param {number} y - The y-coordinate position
+     */
     constructor(x, y) {
         super().loadImage(this.IMG_SRC);
         this.x = this.outerFrame.x = this.innerFrame.x = x;
@@ -16,10 +25,14 @@ class Apple extends CollectibleObject {
         this.animate()
     }
 
+    /**
+     * Starts the floating animation of the apple
+     * Uses sine wave motion for a floating effect
+     */
     animate() {
         setInterval(() => {
-            this.angle += this.frequency; // Winkel inkrementieren
+            this.angle += this.frequency; 
             this.y = this.baseY + Math.sin(this.angle) * this.amplitude;
-        }, 1000 / 60); // 60 FPS für flüssige Animation
+        }, 1000 / 60); 
     }
 }

@@ -1,3 +1,7 @@
+/**
+ * Represents a collectible coin in the game
+ * @extends CollectibleObject
+ */
 class Coin extends CollectibleObject {
     IMAGES_COIN = [
         'asset/img/7_Collectibles/Coin_01.png',
@@ -13,6 +17,11 @@ class Coin extends CollectibleObject {
         height: this.height
     };
 
+    /**
+     * Creates a new coin instance with random position offset
+     * @param {number} x - Base X-coordinate position
+     * @param {number} y - Base Y-coordinate position
+     */
     constructor(x, y) {
         super().loadImage(this.IMAGES_COIN[0]);
         this.x = x + Math.random() * 1000;
@@ -26,6 +35,10 @@ class Coin extends CollectibleObject {
         this.offset = this.calculateOffset(this.outerFrame, this.innerFrame)
     }
 
+    /**
+     * Initiates coin animation
+     * Plays through coin animation frames when game is ready
+     */
     animate() {
         setInterval(() => {
             if (this.isGameReady) {

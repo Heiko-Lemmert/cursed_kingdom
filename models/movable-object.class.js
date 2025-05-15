@@ -1,3 +1,8 @@
+/**
+ * Base class for all objects that can move in the game
+ * Handles movement, gravity, collision, health and energy mechanics
+ * @extends DrawableObjects
+ */
 class MovableObject extends DrawableObjects {
     x = 100;
     y = 200;
@@ -16,14 +21,14 @@ class MovableObject extends DrawableObjects {
         y: this.y,
         width: this.width,
         height: this.height
-    }
+    };
     innerFrame = {
         y: 0,
         x: 0,
         width: 0,
         height: 0,
         flippedX: 0
-    }
+    };
     offset = {
         top: 0,
         left: 0,
@@ -36,51 +41,77 @@ class MovableObject extends DrawableObjects {
     audioHit;
     audioGrowl;
 
+    /**
+     * Applies gravity effect to the object when jumping
+     * Updates vertical position and speed based on acceleration
+     */
     applyGravity() {
         setInterval(() => {
             if (this.isJumping) {
                 this.y -= this.speedY;
                 this.innerFrame.y -= this.speedY;
                 this.speedY -= this.acceleration;
-                // Sobald der Charakter den Boden erreicht:
-                if (Math.abs(this.y - this.currentY) < 10) { // Toleranz von 10 Pixel
-                    this.y = this.currentY; // Auf Boden fixieren
-                    this.speedY = 0; // Geschwindigkeit zurücksetzen
-                    this.isJumping = false; // Sprungstatus zurücksetzen
+                if (Math.abs(this.y - this.currentY) < 10) {
+                    this.y = this.currentY;
+                    this.speedY = 0;
+                    this.isJumping = false;
                 }
-
             }
         }, 1000 / 25);
     }
 
+    /**
+     * Moves the object to the right
+     * Updates x position and direction flag
+     */
     moveRight() {
         this.x += this.speed;
         this.innerFrame.x += this.speed;
         this.otherDirection = false;
     }
 
+    /**
+     * Moves the object to the left
+     * Updates x position and direction flag
+     */
     moveLeft() {
         this.x -= this.speed;
         this.innerFrame.x -= this.speed;
         this.otherDirection = true;
     }
 
+    /**
+     * Moves the object upward
+     * Updates y position
+     */
     moveUp() {
         this.y -= this.speed;
         this.innerFrame.y -= this.speed;
     }
 
+    /**
+     * Moves the object downward
+     * Updates y position
+     */
     moveDown() {
         this.y += this.speed;
         this.innerFrame.y += this.speed;
     }
 
+    /**
+     * Stores the current Y position
+     * Used as reference point for jumping
+     */
     currentPosition() {
         if (!this.isJumping) {
             this.currentY = this.y;
         }
     }
 
+    /**
+     * Initiates a jump if not already jumping
+     * Sets initial jump speed
+     */
     jump() {
         if (!this.isJumping) {
             this.isJumping = true;
@@ -89,75 +120,94 @@ class MovableObject extends DrawableObjects {
     }
 
     /**
-     * 
-     * @returns The object is in the Air
+     * Checks if object is in the air
+     * @returns {boolean} True if object is above ground level
      */
     isAboveGround() {
         return this.y < 145;
     }
 
     /**
-     * 
-     * @returns The object is not at the map endpoint
+     * Checks if object hasn't reached the map end
+     * @returns {boolean} True if object is within map bounds
      */
     mapEndPoint() {
-        return this.x < this.world.level.levelEndX
+        return this.x < this.world.level.levelEndX;
     }
 
     /**
-     * 
-     * @returns The object is not at the map startpoint
+     * Checks if object hasn't reached the map start
+     * @returns {boolean} True if object is beyond start point
      */
     mapStartPoint() {
         return this.x > 0;
     }
 
     /**
-     * 
-     * @returns The object is located at the top of the bridge
+     * Checks if object is at bridge's top section
+     * @returns {boolean} True if object is above bridge threshold
      */
     bridgeTopPoint() {
         return this.y > 180;
     }
 
     /**
-     * 
-     * @returns The object is located at the bottom of the bridge
+     * Checks if object is at bridge's bottom section
+     * @returns {boolean} True if object is below bridge threshold
      */
     bridgeBottomPoint() {
         return this.y < 400;
     }
 
     /**
-     * 
-     * @param {number} damage is the amount of damage
+     * Applies damage to the object
+     * @param {number} damage - Amount of health to reduce
      */
     hit(damage) {
         this.health -= damage;
         this.lastHit = new Date().getTime();
         if (this.health <= 0) {
-            this.health = 0
+            this.health = 0;
         }
     }
 
+    /**
+     * Checks if object has no health remaining
+     * @returns {boolean} True if health is zero
+     */
     isDead() {
         return this.health === 0;
     }
 
+    /**
+     * Checks if object was recently hit
+     * @returns {boolean} True if hit within last second
+     */
     isHurt() {
-        let timepassed = new Date().getTime() - this.lastHit; // Differenz in ms
-        timepassed = timepassed / 1000 // Differenz in s
-        return timepassed < 1
+        let timepassed = new Date().getTime() - this.lastHit;
+        timepassed = timepassed / 1000;
+        return timepassed < 1;
     }
 
+    /**
+     * Checks if object has energy remaining
+     * @returns {boolean} True if energy is greater than zero
+     */
     hasEnergy() {
         return this.energy > 0;
     }
 
+    /**
+     * Reduces object's energy by 20 points
+     */
     lostEnergy() {
         this.energy -= 20;
     }
 
+    /**
+     * Restores object's energy to maximum
+     * Does nothing if energy is already full
+     */
     increasesEnergy() {
         if (this.energy === 100) {
             return;
@@ -167,10 +217,10 @@ class MovableObject extends DrawableObjects {
     }
 
     /**
-     * 
-     * @param {*} mo is a Movable Object (e.g.: Enemy)
-     * @param {*} number this is the distance between the objects
-     * @returns 
+     * Checks if another object is within specified distance
+     * @param {MovableObject} mo - The object to check distance to
+     * @param {number} number - The maximum distance to consider as "close"
+     * @returns {boolean} True if objects are within specified distance
      */
     closeBy(mo, number) {
         return Math.abs(this.x - mo.x) <= number;
@@ -199,7 +249,7 @@ class MovableObject extends DrawableObjects {
      */
     playEnemyAnimation(enemy) {
         setInterval(() => {
-            if (enemy.isGameReady) { 
+            if (enemy.isGameReady) {
                 if (enemy.isDead() && !enemy.animationFinished) {
                     enemy.playOnceAnimation(enemy.IMAGES_DYING);
                 } else if (!enemy.isDead() && enemy.isHurt()) {
@@ -210,7 +260,7 @@ class MovableObject extends DrawableObjects {
                     enemy.playAnimation(enemy.IMAGES_WALKING);
                 }
             }
-        }, 100)
+        }, 100);
     }
 
     /**
@@ -224,7 +274,7 @@ class MovableObject extends DrawableObjects {
             if (!this.isDead() && this.isGameReady) {
                 this.moveLeft();
             } else if (this.isDead()) {
-                clearInterval(move)
+                clearInterval(move);
             }
         }, 1000 / 60);
     }

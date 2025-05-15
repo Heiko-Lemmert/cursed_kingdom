@@ -1,3 +1,7 @@
+/**
+ * Base class for all collectible objects in the game
+ * @extends DrawableObjects
+ */
 class CollectibleObject extends DrawableObjects {
     height = 75;
     width = 75;

@@ -1,3 +1,7 @@
+/**
+ * Manages all game audio and sound effects
+ * Handles volume control and mute state persistence
+ */
 class Music {
     sounds = [
         {name: 'backgroundMusic', file: ''},
@@ -15,7 +19,10 @@ class Music {
         {name: 'endbossGrowl', file: new Audio('asset/audio/bossGrowl.mp3')},  
     ];
 
-
+    /**
+     * Creates a new Music instance
+     * @param {Audio} soundfile - Optional background music file
+     */
     constructor(soundfile = null) {
         if (soundfile) {
             this.setBackgroundMusic(soundfile);
@@ -23,6 +30,10 @@ class Music {
         this.loadMuteStatus();
     }
 
+    /**
+     * Sets the background music track
+     * @param {Audio} soundfile - The audio file to use as background music
+     */
     setBackgroundMusic(soundfile) {
         this.sounds.forEach(sound => {
             if (sound.name === 'backgroundMusic') {
@@ -31,6 +42,9 @@ class Music {
         })
     }
 
+    /**
+     * Mutes all game sounds and saves state to localStorage
+     */
     muteVolume() {
         this.sounds.forEach(sound => {
             if (sound.file && typeof sound.file.volume === 'number') {
@@ -40,6 +54,10 @@ class Music {
         localStorage.setItem('mute', 'true');
     }
 
+    /**
+     * Unmutes all game sounds and sets appropriate volume levels
+     * Background music plays at 20% volume, other sounds at 100%
+     */
     setVolume() {
         this.sounds.forEach(sound => {
             if (sound.file && typeof sound.file.volume === 'number') {
@@ -53,10 +71,18 @@ class Music {
         localStorage.setItem('mute', 'false');
     }
 
+    /**
+     * Finds and returns an audio source by name
+     * @param {string} audioName - Name of the audio source to find
+     * @returns {Audio} The audio file matching the given name
+     */
     findAudioSrc(audioName) {
         return this.sounds.find(sound => sound.name === audioName).file
     }
 
+    /**
+     * Loads and applies the saved mute state from localStorage
+     */
     loadMuteStatus() {
         const isMuted = localStorage.getItem('mute') === 'true';
         if (isMuted) {

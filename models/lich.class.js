@@ -1,3 +1,8 @@
+/**
+ * Represents a lich enemy in the game
+ * More powerful than regular enemies and drops energy when defeated
+ * @extends MovableObject
+ */
 class Lich extends MovableObject {
     IMAGES_WALKING = [
         'asset/img/2_Enemies/Lich/PNG/PNG Sequences/Walking/0_Lich_Walking_000.png',
@@ -70,28 +75,30 @@ class Lich extends MovableObject {
         'asset/img/2_Enemies/Lich/PNG/PNG Sequences/Hurt/0_Lich_Hurt_009.png',
         'asset/img/2_Enemies/Lich/PNG/PNG Sequences/Hurt/0_Lich_Hurt_010.png',
         'asset/img/2_Enemies/Lich/PNG/PNG Sequences/Hurt/0_Lich_Hurt_011.png'
-    ]
-
-
+    ];
 
     otherDirection = true;
     frameColor = 'red';
     innerFrame = {
-        y : 300,
-        width : 120,
-        height : 150
+        y: 300,
+        width: 120,
+        height: 150
     };
     world;
-    
 
+    /**
+     * Creates a new Lich instance
+     * @param {number} x - Base X-coordinate position (random offset will be added)
+     * @param {Object} music - The music controller for lich sounds
+     */
     constructor(x, music) {
         super().loadImage(this.IMAGES_WALKING[0]);
         this.x = x + Math.random() * 500;
         this.y = this.y + Math.random() * 150;
-        this.speed = 0.25 + Math.random() * 0.25
+        this.speed = 0.25 + Math.random() * 0.25;
         this.innerFrame.x = this.x + 60;
         this.outerFrame.x = this.x;
-        this.offset = this.calculateOffset(this.outerFrame, this.innerFrame)
+        this.offset = this.calculateOffset(this.outerFrame, this.innerFrame);
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_DYING);
         this.loadImages(this.IMAGES_SLASHING);
@@ -102,16 +109,24 @@ class Lich extends MovableObject {
         this.audioGrowl = music.findAudioSrc('enemyGrowl');
     }
 
+    /**
+     * Initiates lich movement and animation
+     * Controls enemy behavior patterns
+     */
     animate() {
         this.setEnemyMove();
-        this.playEnemyAnimation(this)
+        this.playEnemyAnimation(this);
     }
 
+    /**
+     * Monitors lich's death state and drops an energy apple when defeated
+     * Creates a new Apple object at the lich's position upon death
+     */
     dropEnergy() {
-       let dropEnergy = setInterval(() => {
+        let dropEnergy = setInterval(() => {
             if (this.isDead()) {
-                 this.world.apples.push(new Apple(this.x, this.y));
-                    clearInterval(dropEnergy);
+                this.world.apples.push(new Apple(this.x, this.y));
+                clearInterval(dropEnergy);
             }
         }, 100);
     }

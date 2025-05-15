@@ -1,3 +1,8 @@
+/**
+ * Represents the energy bar display in the game UI
+ * Shows the character's current energy level
+ * @extends Status
+ */
 class Energybar extends Status {
     IMAGES_ENERGY = [
         'asset/img/6_UI/stats/energybar/energy-gamebar-0.png',
@@ -9,6 +14,10 @@ class Energybar extends Status {
     ]
     y = 10;
 
+    /**
+     * Creates a new Energybar instance
+     * Initializes the energy bar with images and position
+     */
     constructor() {
         super().loadImages(this.IMAGES_ENERGY);
         this.setPercent(this.percent, this.IMAGES_ENERGY);

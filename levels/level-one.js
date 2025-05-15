@@ -1,3 +1,8 @@
+/**
+ * Creates and returns the first level of the game
+ * @param {Object} music - The music controller object for the game
+ * @returns {Level} A new Level instance with enemies, clouds, backgrounds, coins and music
+ */
 function createLevelOne(music) {
     let backgrounds = [];
     fillBackgroundArr(backgrounds);
@@ -5,19 +10,19 @@ function createLevelOne(music) {
     return new Level(
         [
             new Skeleton(1000, music),
-            // new Lich(2000, music),
-            // new Ghoul(1500, music),
-            // new Skeleton(2000, music),
-            // new Ghoul(2500, music),
-            // new Skeleton(3000, music),
-            // new Ghoul(3500, music),
-            // new Skeleton(4000, music),
-            // new Ghoul(5000, music),
-            // new Skeleton(5500, music),
-            // new Lich(6000, music),
-            // new Ghoul(6000, music),
-            // new Skeleton(6500, music),
-            // new Ghoul(7000, music),
+            new Lich(2000, music),
+            new Ghoul(1500, music),
+            new Skeleton(2000, music),
+            new Ghoul(2500, music),
+            new Skeleton(3000, music),
+            new Ghoul(3500, music),
+            new Skeleton(4000, music),
+            new Ghoul(5000, music),
+            new Skeleton(5500, music),
+            new Lich(6000, music),
+            new Ghoul(6000, music),
+            new Skeleton(6500, music),
+            new Ghoul(7000, music),
             new Endboss(music),
         ],
         [
@@ -61,6 +66,10 @@ function createLevelOne(music) {
     )
 }
 
+/**
+ * Fills the background array with repeating background objects (tower, bridge, grass)
+ * @param {Array} backgrounds - The array to fill with BackgroundObject instances
+ */
 function fillBackgroundArr(backgrounds) {
     let xpostion = -1200;
     let bridgeImg = 'bridge';

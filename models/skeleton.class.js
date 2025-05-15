@@ -1,3 +1,7 @@
+/**
+ * Represents a skeleton enemy in the game
+ * @extends MovableObject
+ */
 class Skeleton extends MovableObject {
     IMAGES_WALKING = [
         'asset/img/2_Enemies/Skeleton/PNG/PNG Sequences/Walking/0_Skeleton_Walking_000.png',
@@ -58,8 +62,6 @@ class Skeleton extends MovableObject {
         'asset/img/2_Enemies/Skeleton/PNG/PNG Sequences/Run Slashing/0_Skeleton_Run Slashing_011.png'
     ];
 
-
-
     otherDirection = true;
     frameColor = 'red';
     innerFrame = {
@@ -67,8 +69,12 @@ class Skeleton extends MovableObject {
         width : 120,
         height : 150
     };
-    
 
+    /**
+     * Creates a new Skeleton instance
+     * @param {number} x - Base X-coordinate position (random offset will be added)
+     * @param {Object} music - The music controller for skeleton sounds
+     */
     constructor(x, music) {
         super().loadImage(this.IMAGES_WALKING[0]);
         this.x = x + Math.random() * 500;
@@ -85,9 +91,12 @@ class Skeleton extends MovableObject {
         this.audioGrowl = music.findAudioSrc('enemyGrowl');
     }
 
+    /**
+     * Initiates skeleton movement and animation
+     * Controls enemy behavior patterns
+     */
     animate() {
         this.setEnemyMove();
         this.playEnemyAnimation(this)
     }
-    
 }

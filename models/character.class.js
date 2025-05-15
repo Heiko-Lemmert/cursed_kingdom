@@ -1,3 +1,7 @@
+/**
+ * Represents the main character (archer) in the game
+ * @extends MovableObject
+ */
 class Character extends MovableObject {
     IMAGES_IDLE = [
         'asset/img/1_Main_character/Archer/PNG Sequences/Idle Blinking/0_Archer_Idle Blinking_000.png',
@@ -133,7 +137,10 @@ class Character extends MovableObject {
     };
     animationInterval;
 
-
+    /**
+     * Creates a new Character instance
+     * @param {Object} music - The music controller for character sounds
+     */
     constructor(music) {
         super().loadImage(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_IDLE);
@@ -155,104 +162,119 @@ class Character extends MovableObject {
         this.audioHit = music.findAudioSrc('characterHit');
     }
 
-animate() {
-    setInterval(() => {
-        if (this.isGameReady) {
-            this.audioWalking.pause();
-        if (this.world.keyboard.right && this.mapEndPoint()) {
-            if (!this.isAboveGround()) this.audioWalking.play();
-            this.moveRight();
-        }
-        if (this.world.keyboard.left && this.mapStartPoint()) {
-            if (!this.isAboveGround()) this.audioWalking.play();
-            this.moveLeft();
-        }
-        if (this.world.keyboard.up && this.bridgeTopPoint() && !this.isJumping) {
-            if (!this.isAboveGround()) this.audioWalking.play();
-            this.moveUp();
-        }
-        if (this.world.keyboard.down && this.bridgeBottomPoint() && !this.isJumping) {
-            if (!this.isAboveGround()) this.audioWalking.play();
-            this.moveDown();
-        }
-        if (this.world.keyboard.space && !this.isAboveGround() && !this.isJumping) {
-            this.audioJumping.play()
-            this.currentPosition();
-            this.jump();
-        }
-        this.world.camera_x = -this.x + 50;
-        this.world.addObjectsToMap;
-        }
-    }, 1000 / 60)
+    /**
+     * Controls character movement and keyboard input handling
+     * Updates camera position and plays appropriate sound effects
+     */
+    animate() {
+        setInterval(() => {
+            if (this.isGameReady) {
+                this.audioWalking.pause();
+                if (this.world.keyboard.right && this.mapEndPoint()) {
+                    if (!this.isAboveGround()) this.audioWalking.play();
+                    this.moveRight();
+                }
+                if (this.world.keyboard.left && this.mapStartPoint()) {
+                    if (!this.isAboveGround()) this.audioWalking.play();
+                    this.moveLeft();
+                }
+                if (this.world.keyboard.up && this.bridgeTopPoint() && !this.isJumping) {
+                    if (!this.isAboveGround()) this.audioWalking.play();
+                    this.moveUp();
+                }
+                if (this.world.keyboard.down && this.bridgeBottomPoint() && !this.isJumping) {
+                    if (!this.isAboveGround()) this.audioWalking.play();
+                    this.moveDown();
+                }
+                if (this.world.keyboard.space && !this.isAboveGround() && !this.isJumping) {
+                    this.audioJumping.play()
+                    this.currentPosition();
+                    this.jump();
+                }
+                this.world.camera_x = -this.x + 50;
+                this.world.addObjectsToMap;
+            }
+        }, 1000 / 60)
 
-    setInterval(() => {
-        if (this.isAboveGround() && this.speedY >= 0 && !this.world.keyboard.right && !this.world.keyboard.left) {
-            this.playAnimation(this.IMAGES_JUMPING);
-        }
-    }, 250)
-}
+        setInterval(() => {
+            if (this.isAboveGround() && this.speedY >= 0 && !this.world.keyboard.right && !this.world.keyboard.left) {
+                this.playAnimation(this.IMAGES_JUMPING);
+            }
+        }, 250)
+    }
 
-animateImages() {
-    this.animationInterval = setInterval(() => {
-        if (this.isDead() && !this.animationFinished) {
-            this.playOnceAnimation(this.IMAGES_DYING);
-        } else if (this.isHurt() && !this.isDead()) {
-            this.playAnimation(this.IMAGES_HURT);
-        } else if (this.isAboveGround() && this.speedY < 0 || this.isAboveGround() && this.world.keyboard.right || this.isAboveGround() && this.world.keyboard.left) {
-            this.playAnimation(this.IMAGES_FALLING);
-        } else if (!this.isAboveGround() && !this.world.keyboard.right && !this.world.keyboard.left && !this.world.keyboard.down && !this.world.keyboard.up && !this.isDead() && !this.isHurt() && !this.isShooting) {
-            this.playAnimation(this.IMAGES_IDLE);
-        } else if (!this.isAboveGround() && this.world.keyboard.right || !this.isAboveGround() && this.world.keyboard.left || this.isShooting || !this.isAboveGround() && this.world.keyboard.down || !this.isAboveGround() && this.world.keyboard.up) {
-            this.playAnimation(this.IMAGES_WALKING);
-        }
-    }, 1000 / 30)
-}
+    /**
+     * Handles character animation states based on current conditions
+     * Includes animations for dying, hurt, falling, idle, and walking states
+     */
+    animateImages() {
+        this.animationInterval = setInterval(() => {
+            if (this.isDead() && !this.animationFinished) {
+                this.playOnceAnimation(this.IMAGES_DYING);
+            } else if (this.isHurt() && !this.isDead()) {
+                this.playAnimation(this.IMAGES_HURT);
+            } else if (this.isAboveGround() && this.speedY < 0 || this.isAboveGround() && this.world.keyboard.right || this.isAboveGround() && this.world.keyboard.left) {
+                this.playAnimation(this.IMAGES_FALLING);
+            } else if (!this.isAboveGround() && !this.world.keyboard.right && !this.world.keyboard.left && !this.world.keyboard.down && !this.world.keyboard.up && !this.isDead() && !this.isHurt() && !this.isShooting) {
+                this.playAnimation(this.IMAGES_IDLE);
+            } else if (!this.isAboveGround() && this.world.keyboard.right || !this.isAboveGround() && this.world.keyboard.left || this.isShooting || !this.isAboveGround() && this.world.keyboard.down || !this.isAboveGround() && this.world.keyboard.up) {
+                this.playAnimation(this.IMAGES_WALKING);
+            }
+        }, 1000 / 30)
+    }
 
+    /**
+     * Creates and shoots an arrow
+     * @param {number} x - The x-coordinate starting position of the arrow
+     * @param {number} y - The y-coordinate starting position of the arrow
+     * @param {boolean} left - Direction of the arrow (true for left, false for right)
+     */
+    shoot(x, y, left) {
+        this.lastShoot = new Date().getTime();
+        let arrow = new ShootableObject(x, y, left);
+        this.world.arrows.push(arrow);
+        this.audioArrow.currentTime = 0;
+        this.audioArrow.play();
+    }
 
-shoot(x, y, left) {
-    this.lastShoot = new Date().getTime();
-    let arrow = new ShootableObject(x, y, left);
-    this.world.arrows.push(arrow);
-    this.audioArrow.currentTime = 0;
-    this.audioArrow.play();
-}
+    /**
+     * Checks if enough time has passed since the last shot
+     * @returns {boolean} True if more than 1 second has passed since last shot
+     */
+    lastShootAgo() {
+        let timepassed = new Date().getTime() - this.lastShoot;
+        timepassed = timepassed / 1000
+        return timepassed > 1;
+    }
 
-lastShootAgo() {
-    let timepassed = new Date().getTime() - this.lastShoot; // Differenz in ms
-    timepassed = timepassed / 1000 // Differenz in s
-    return timepassed > 1;
-}
+    /**
+     * Checks if enough time has passed since the last hit
+     * @returns {boolean} True if more than 1 second has passed since last hit
+     */
+    lastHitAgo() {
+        let timepassed = new Date().getTime() - this.lastHit;
+        timepassed = timepassed / 1000
+        return timepassed > 1;
+    }
 
-lastHitAgo() {
-    let timepassed = new Date().getTime() - this.lastHit; // Differenz in ms
-    timepassed = timepassed / 1000 // Differenz in s
-    return timepassed > 1;
-}
+    /**
+     * Starts the shooting animation by cycling through the provided images
+     * @param {string[]} images - Array of image paths for the shooting animation
+     */
+    startShootAnimation(images) {
+        this.currentOnceImages = 0;
+        this.animationInterval = setInterval(() => {
+            const i = this.currentOnceImages;
 
-/**
- * Starts the shooting animation by cycling through the provided images at a rate of 30 frames per second.
- * Once the animation is complete, it clears the interval, starts the animation of other images, and allows shooting again.
- *
- * @param {string[]} images - An array of image paths to be used in the shooting animation.
- */
-startShootAnimation(images) {
-    this.currentOnceImages = 0;
-
-    // Starte neuen Intervall
-    this.animationInterval = setInterval(() => {
-        const i = this.currentOnceImages;
-
-        if (i >= images.length) {
-            // Animation abgeschlossen
-            clearInterval(this.animationInterval); // Beende Schuss Intervall
-            this.animateImages(); // Starte animation der anderen Bilder
-            this.isShooting = false; // Erlaube erneutes Schießenf
-        } else {
-            // Zeige das nächste Bild der Animation
-            const path = images[i];
-            this.img = this.imageCache[path];
-            this.currentOnceImages++;
-        }
-    }, 1000 / 30); // 60 FPS
-}
+            if (i >= images.length) {
+                clearInterval(this.animationInterval);
+                this.animateImages();
+                this.isShooting = false;
+            } else {
+                const path = images[i];
+                this.img = this.imageCache[path];
+                this.currentOnceImages++;
+            }
+        }, 1000 / 30);
+    }
 }
