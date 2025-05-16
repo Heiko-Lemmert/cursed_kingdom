@@ -20,6 +20,7 @@ function init() {
     title = document.getElementById('title');
     description = document.getElementById('description');
     explanation = document.getElementById('explanation');
+    detectDeviceType()
 }
 
 window.addEventListener('keydown', (event) => {
@@ -351,19 +352,28 @@ function initTouchControls() {
 }
 
 /**
- * Determines and sets the screen size and orientation
+ * Detects the type of device based on the user agent string and sets the global `isMobile` variable accordingly.
+ * Determines if the device is an Android, iPad, iPhone, or Windows Phone.
+ * Sets `isMobile` to `true` for mobile devices, otherwise sets it to `false`.
  */
-function getScreenSize() {
-    screenWidth = screen.width;
-    screenOrientation = screen.orientation;
+function detectDeviceType() {
+    const userAgent = navigator.userAgent.toLowerCase();
 
-    if (screenWidth < 1194 && screenOrientation.type === 'landscape-primary') {
+    if (/android/.test(userAgent)) {
         isMobile = true;
+    } else if (/ipad/.test(userAgent)) {
+        isMobile = true;
+    } else if (/iphone/.test(userAgent)) {
+        isMobile = true;
+    } else if (/windows phone/.test(userAgent)) {
+        isMobile = true;
+    } else {
+        isMobile = false;;
     }
 }
+
 
 document.addEventListener('DOMContentLoaded', () => {
     init();
     initTouchControls();
-    getScreenSize();
 });
