@@ -38,9 +38,9 @@
     <script src="./models/shootable-object.class.js"></script>
     <script src="./models/clickable-button.class.js"></script>
     <script src="./models/music.class.js"></script>
-    <script src="./levels/level-one.js"></script>
+    <script src="./levels/level-one.js"></script>    
+    <script src="./js/page-setup.js"></script>
     <script src="./js/game.js"></script>
-    <script src="./js/get-path.js"></script>
     <!-- <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
     <script>eruda.init();</script> -->
     <title>Cursed Kingdom</title>
@@ -87,6 +87,8 @@
                     href="#offcanvas" onclick="generateHTML('controls')">Controls</button>
                 <button id="btn-instruction-1" class="btn btn-secondary btn-lg" data-bs-toggle="offcanvas" aria-controls="offcanvas"
                     href="#offcanvas" onclick="generateHTML('instructions')">Instructions</button>
+                <button id="btn-terms" class="btn btn-secondary btn-lg" onclick="window.location.href='./terms.html'">Terms of Use</button>
+                <button id="btn-imprint" class="btn btn-secondary btn-lg" onclick="window.location.href='./imprint.html'">Impressum</button>
             </div>
         </div>
         <div id="game-screen" class="d-none">

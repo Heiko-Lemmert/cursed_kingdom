@@ -10,7 +10,6 @@ let originalHeight = 675;
 let scale = 1;
 let resizeWidth = 1920;
 let resizeHeight = 1080;
-let isMobile = false;
 
 /**
  * Initializes the game by getting DOM elements
@@ -350,28 +349,6 @@ function initTouchControls() {
     setupControlButtons();
     setupGameButtons();
 }
-
-/**
- * Detects the type of device based on the user agent string and sets the global `isMobile` variable accordingly.
- * Determines if the device is an Android, iPad, iPhone, or Windows Phone.
- * Sets `isMobile` to `true` for mobile devices, otherwise sets it to `false`.
- */
-function detectDeviceType() {
-    const userAgent = navigator.userAgent.toLowerCase();
-
-    if (/android/.test(userAgent)) {
-        isMobile = true;
-    } else if (/ipad/.test(userAgent)) {
-        isMobile = true;
-    } else if (/iphone/.test(userAgent)) {
-        isMobile = true;
-    } else if (/windows phone/.test(userAgent)) {
-        isMobile = true;
-    } else {
-        isMobile = false;;
-    }
-}
-
 
 document.addEventListener('DOMContentLoaded', () => {
     init();

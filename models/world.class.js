@@ -108,19 +108,29 @@ class World extends Checker {
      */
     run() {
         this.checkClickableButton();
+        
+        // Critical game mechanics - 60fps
         setInterval(() => {
-            this.checkCollison();
             this.checkArrowCollison();
+            this.checkCollison();
+            this.checkShootableObject();
+        }, 1000 / 60);
+
+        // Important game interactions - 30fps
+        setInterval(() => {
             this.checkCoinCollison();
             this.checkAppleCollison();
-            this.checkShootableObject();
             this.checkCloseBy();
+            this.checkEnemyRemover();
+        }, 1000 / 30);
+
+        // UI and status updates - 100ms
+        setInterval(() => {
             this.checkFullscreen();
             this.setPauseStatus();
-            this.checkEnemyRemover();
             this.setGameStatus();
             this.checkMusicStatus();
-        }, 200);
+        }, 100);
 
         const update = () => {
             this.draw();
