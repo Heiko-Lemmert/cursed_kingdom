@@ -149,6 +149,7 @@ main {
 #start-screen,
 #game-screen,
 #lost-screen,
+#loading-screen,
 #won-screen {
     width: 1200px;
     height: 675px;
@@ -161,6 +162,45 @@ main {
     border-radius: 15px;
     display: flex;
     justify-content: center;
+}
+
+#loading-screen {
+    background-color: rgba(0, 0, 0, 0.9);
+    align-items: center;
+    border-radius: 15px;
+    z-index: 1000;
+}
+
+.loading-content {
+    text-align: center;
+    color: #fff;
+    font-family: 'Eagle Lake', cursive;
+}
+
+.loading-content h2 {
+    margin-bottom: 20px;
+    font-size: 36px;
+}
+
+.loading-bar {
+    width: 300px;
+    height: 20px;
+    background-color: #333;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid #666;
+}
+
+.loading-progress {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(45deg, #ff521bff, #e0ba6aff);
+    border-radius: 8px;
+    transition: width 3s ease-in-out;
+}
+
+#loading-screen.loading .loading-progress {
+    width: 100%;
 }
 
 .btn-home {
@@ -514,6 +554,7 @@ canvas {
     #start-screen,
     #game-screen,
     #lost-screen,
+    #loading-screen
     #won-screen {
         display: none;
         
@@ -534,6 +575,7 @@ canvas {
     #start-screen,
     #game-screen,
     #lost-screen,
+    #loading-screen,
     #won-screen {
         width: 100vw;
         height: 100vh;
@@ -583,6 +625,7 @@ canvas {
     #start-screen,
     #game-screen,
     #lost-screen,
+    #loading-screen,
     #won-screen {
         width: 98%;
         height: calc(88vh - var(--header-height));
@@ -612,6 +655,7 @@ canvas {
     #start-screen,
     #game-screen,
     #lost-screen,
+    #loading-screen,
     #won-screen {
         width: 100vw !important;
         height: 100vh !important;
@@ -660,6 +704,7 @@ canvas {
     #start-screen,
     #game-screen,
     #lost-screen,
+    #loading-screen,
     #won-screen {
         width: 80%;
         height: calc(90vh - var(--header-height));

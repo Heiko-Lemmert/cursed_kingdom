@@ -30,6 +30,20 @@ class Endboss extends MovableObject {
         'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Walking/0_Death_Knight_Walking_022.png',
         'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Walking/0_Death_Knight_Walking_023.png'
     ];
+    IMAGES_RUNNING = [
+        'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Running/0_Death_Knight_Running_000.png',
+        'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Running/0_Death_Knight_Running_001.png',
+        'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Running/0_Death_Knight_Running_002.png',
+        'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Running/0_Death_Knight_Running_003.png',
+        'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Running/0_Death_Knight_Running_004.png',
+        'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Running/0_Death_Knight_Running_005.png',
+        'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Running/0_Death_Knight_Running_006.png',
+        'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Running/0_Death_Knight_Running_007.png',
+        'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Running/0_Death_Knight_Running_008.png',
+        'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Running/0_Death_Knight_Running_009.png',
+        'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Running/0_Death_Knight_Running_010.png',
+        'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Running/0_Death_Knight_Running_011.png'
+    ];
     IMAGES_DYING = [
         'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Dying/0_Death_Knight_Dying_000.png',
         'asset/img/2_Enemies/Death_Knight/PNG/PNG Sequences/Dying/0_Death_Knight_Dying_001.png',
@@ -77,25 +91,30 @@ class Endboss extends MovableObject {
     ]
     otherDirection = true;
     innerFrame = {
-        y : 130,
+        y : 240,
         width : 200,
         height : 325
     };
     startEndFight = false;
     audioWisper;
+    hitCount = 0;
+    aggroMode = false;
+    isAggro = false;
 
     /**
      * Creates a new Endboss instance
      * @param {Object} music - The music controller for boss sounds
      */
     constructor(music) {
-        super().loadImage(this.IMAGES_WALKING[0]);
-        this.x = 9000;
-        this.y = 40;
+        super();
+        this.loadImage(this.IMAGES_WALKING[0]);
+        this.x = 3000; // 9000
+        this.y = 140;
         this.height = 500;
         this.width = 500;
-        this.speed = 0.50;
+        this.speed = 1.5;
         this.loadImages(this.IMAGES_WALKING);
+        this.loadImages(this.IMAGES_RUNNING);
         this.loadImages(this.IMAGES_DYING);
         this.loadImages(this.IMAGES_SLASHING);
         this.loadImages(this.IMAGES_HURT);
@@ -104,6 +123,7 @@ class Endboss extends MovableObject {
         this.outerFrame.width = this.width;
         this.outerFrame.height = this.height;
         this.innerFrame.x = this.x + 150;
+        this.innerFrame.y = this.y + 150;
         this.offset = this.calculateOffset(this.outerFrame, this.innerFrame);
         this.waitForEndFight();
         this.audioHit = music.findAudioSrc('endbossHit');
@@ -119,6 +139,7 @@ class Endboss extends MovableObject {
         let start = setInterval(() => {
             if (this.startEndFight) {
                 this.animate();
+                this.aggroModeOn();
                 clearInterval(start);
             }
         }, 100)
@@ -131,5 +152,29 @@ class Endboss extends MovableObject {
     animate() { 
         this.setEnemyMove();
         this.playEnemyAnimation(this)
+    }
+
+    /**
+     * Activates aggro mode when the hit count reaches 2 or more.
+     * In aggro mode, the entity's speed is increased and a flag is set.
+     * Aggro mode lasts for 4 seconds before being turned off automatically.
+     * This method uses setInterval to monitor the hit count and setTimeout to disable aggro mode.
+     */
+    aggroModeOn() {
+        let aggroOn = setInterval(() => {
+            if (this.hitCount >= 2) {
+                this.isAggro = true;
+                this.speed = 4;
+                setTimeout(() => this.aggroModeOff(), 4000)
+                clearInterval(aggroOn);
+            } 
+        }, 100)
+    }
+
+    aggroModeOff() {
+        this.hitCount = 0;
+        this.isAggro = false;
+        this.speed = 1.5;
+        this.aggroModeOn();
     }
 }

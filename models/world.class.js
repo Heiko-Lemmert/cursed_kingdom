@@ -25,6 +25,7 @@ class World extends Checker {
     isEndFight = false;
     gameWon = false;
     gameLost = false;
+    loadingComplete = false;
 
     /**
      * Creates a new game world instance
@@ -122,6 +123,7 @@ class World extends Checker {
             this.checkAppleCollison();
             this.checkCloseBy();
             this.checkEnemyRemover();
+            this.checkPastEnemy()
         }, 1000 / 30);
 
         // UI and status updates - 100ms
@@ -137,6 +139,7 @@ class World extends Checker {
             requestAnimationFrame(update);
         };
         update();
+
     }
 
     /**
@@ -158,6 +161,16 @@ class World extends Checker {
             this.flipImg(wo);
         }
         wo.draw(this.ctx);
+        wo.drawFrame(this.ctx);
+
+        if (wo instanceof Character ||
+            wo instanceof Skeleton ||
+            wo instanceof Ghoul ||
+            wo instanceof Lich ||
+            wo instanceof Endboss ||
+            wo instanceof CollectibleObject) {
+            wo.drawInnerFrame(this.ctx);
+}
         if (wo.otherDirection) {
             this.flipImgBack(wo);
         }

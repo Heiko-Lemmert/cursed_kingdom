@@ -131,11 +131,10 @@ class Character extends MovableObject {
     shootAnimationFinished = false;
     innerFrame = {
         x: 160,
-        y: 300,
+        y: 350,
         width: 120,
-        height: 150
+        height: 150,
     };
-    animationInterval;
 
     /**
      * Creates a new Character instance
@@ -154,8 +153,11 @@ class Character extends MovableObject {
         this.animate();
         this.animateImages();
         this.applyGravity();
-        this.offset = this.calculateOffset(this.outerFrame, this.innerFrame)
+        this.y = 300;
+        this.outerFrame.x = this.x;
+        this.outerFrame.y = this.y;
         this.currentY = this.y;
+        this.offset = this.calculateOffset(this.outerFrame, this.innerFrame);
         this.audioWalking = music.findAudioSrc('characterWalking');
         this.audioJumping = music.findAudioSrc('characterJumping');
         this.audioArrow = music.findAudioSrc('characterShooting');
@@ -191,7 +193,7 @@ class Character extends MovableObject {
                     this.currentPosition();
                     this.jump();
                 }
-                this.world.camera_x = -this.x + 50;
+                this.world.camera_x = -this.x + 400;
                 this.world.addObjectsToMap;
             }
         }, 1000 / 60)
@@ -276,5 +278,16 @@ class Character extends MovableObject {
                 this.currentOnceImages++;
             }
         }, 1000 / 30);
+    }
+
+    /**
+     * Determines if the character has passed the specified enemy on the x-axis.
+     *
+     * @param {Object} enemy - The enemy object to compare positions with.
+     * @param {number} enemy.x - The x-coordinate of the enemy.
+     * @returns {boolean} True if the character's x position is greater than the enemy's x position; otherwise, false.
+     */
+    pastEnemy(enemy) {
+        return this.x > enemy.x;
     }
 }

@@ -66,9 +66,8 @@ class Ghoul extends MovableObject {
     otherDirection = true;
     frameColor = 'red';
     innerFrame = {
-        y : 300,
-        width : 120,
-        height : 150
+        width : 115,
+        height : 130
     };
 
     /**
@@ -82,8 +81,10 @@ class Ghoul extends MovableObject {
         this.y = this.y + Math.random() * 150;
         this.speed = 0.35 + Math.random() * 0.45
         this.innerFrame.x = this.x + 60;
+        this.innerFrame.y = this.y + 60;
         this.outerFrame.x = this.x;
-        this.offset = this.calculateOffset(this.outerFrame, this.innerFrame)
+        this.outerFrame.y = this.y;
+        this.offset = this.calculateOffset(this.outerFrame, this.innerFrame);
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_DYING);
         this.loadImages(this.IMAGES_SLASHING);

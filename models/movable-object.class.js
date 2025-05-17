@@ -17,8 +17,8 @@ class MovableObject extends DrawableObjects {
     lastHit = 0;
     energy = 100;
     outerFrame = {
-        x: this.x,
-        y: this.y,
+        x: 0,
+        y: 0,
         width: this.width,
         height: this.height
     };
@@ -40,6 +40,7 @@ class MovableObject extends DrawableObjects {
     isSlashing = false;
     audioHit;
     audioGrowl;
+    animationInterval;
 
     /**
      * Applies gravity effect to the object when jumping
@@ -227,25 +228,27 @@ class MovableObject extends DrawableObjects {
     }
 
     /**
-     * Plays the appropriate animation for the given enemy based on its state.
+     * Starts an interval that continuously updates the enemy's animation based on its current state.
+     * The animation is chosen according to the following priority:
+     * - If the enemy is dead and the death animation hasn't finished, plays the dying animation once.
+     * - If the enemy is hurt (but not dead), plays the hurt animation.
+     * - If the enemy is being slashed (but not dead), plays the slashing animation.
+     * - If the enemy is aggressive (but not dead), plays the running animation.
+     * - Otherwise, plays the walking animation.
      * 
-     * This function sets up an interval that checks the state of the enemy every 100 milliseconds
-     * and plays the corresponding animation:
-     * - If the enemy is dead and the animation has not finished, it plays the dying animation once.
-     * - If the enemy is hurt but not dead, it plays the hurt animation.
-     * - If the enemy is not dead and is slashing, it plays the slashing animation.
-     * - If the enemy is not dead and not in any special state, it plays the walking animation.
-     * 
-     * @param {Object} enemy - The enemy object for which the animation should be played.
-     * @param {Function} enemy.isDead - Method to check if the enemy is dead.
-     * @param {Function} enemy.isHurt - Method to check if the enemy is hurt.
-     * @param {Function} enemy.playOnceAnimation - Method to play an animation once.
-     * @param {Function} enemy.playAnimation - Method to play a looping animation.
-     * @param {Array} enemy.IMAGES_DYING - Array of images for the dying animation.
-     * @param {Array} enemy.IMAGES_HURT - Array of images for the hurt animation.
-     * @param {Array} enemy.IMAGES_SLASHING - Array of images for the slashing animation.
-     * @param {Array} enemy.IMAGES_WALKING - Array of images for the walking animation.
-     * @param {boolean} enemy.animationFinished - Flag indicating if the dying animation has finished.
+     * @param {Object} enemy - The enemy object whose animation should be updated.
+     * @param {boolean} enemy.isGameReady - Indicates if the game is ready for animation updates.
+     * @param {Function} enemy.isDead - Returns true if the enemy is dead.
+     * @param {boolean} enemy.animationFinished - Indicates if the death animation has finished.
+     * @param {Function} enemy.playOnceAnimation - Plays an animation sequence once.
+     * @param {Array<string>} enemy.IMAGES_DYING - Array of image paths for the dying animation.
+     * @param {Function} enemy.isHurt - Returns true if the enemy is hurt.
+     * @param {Function} enemy.playAnimation - Plays a looping animation sequence.
+     * @param {Array<string>} enemy.IMAGES_HURT - Array of image paths for the hurt animation.
+     * @param {Array<string>} enemy.IMAGES_SLASHING - Array of image paths for the slashing animation.
+     * @param {boolean} enemy.isAggro - Indicates if the enemy is in an aggressive state.
+     * @param {Array<string>} enemy.IMAGES_RUNNING - Array of image paths for the running animation.
+     * @param {Array<string>} enemy.IMAGES_WALKING - Array of image paths for the walking animation.
      */
     playEnemyAnimation(enemy) {
         setInterval(() => {
@@ -256,6 +259,8 @@ class MovableObject extends DrawableObjects {
                     enemy.playAnimation(enemy.IMAGES_HURT);
                 } else if (!enemy.isDead() && this.isSlashing) {
                     enemy.playAnimation(enemy.IMAGES_SLASHING);
+                } else if (!enemy.isDead() && enemy.isAggro) {
+                    enemy.playAnimation(enemy.IMAGES_RUNNING);
                 } else if (!enemy.isDead()) {
                     enemy.playAnimation(enemy.IMAGES_WALKING);
                 }
@@ -264,17 +269,25 @@ class MovableObject extends DrawableObjects {
     }
 
     /**
-     * Sets the enemy's movement to the left at a consistent interval.
-     * The movement will stop if the enemy is dead.
-     * 
-     * @method
+     * Starts the enemy movement loop, updating the enemy's position based on its state.
+     * - Moves the enemy left or right depending on the `otherDirection` flag.
+     * - Pauses movement if the enemy is hurt, and resumes after a delay.
+     * - Stops movement if the enemy is dead.
+     * The movement loop runs at approximately 60 frames per second.
+     *
+     * @returns {void}
      */
     setEnemyMove() {
         let move = setInterval(() => {
-            if (!this.isDead() && this.isGameReady) {
-                this.moveLeft();
-            } else if (this.isDead()) {
+            if (this.isDead()) {
                 clearInterval(move);
+            } else if (this.isHurt() && !this.isDead()) {
+                clearInterval(move);
+                setTimeout(() => this.setEnemyMove(), 1000);
+            } else if (!this.isDead() && this.isGameReady && !this.otherDirection) {
+                // this.moveRight();
+            } else if (!this.isDead() && this.isGameReady && this.otherDirection) {
+                // this.moveLeft(); 
             }
         }, 1000 / 60);
     }

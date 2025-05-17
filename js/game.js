@@ -153,24 +153,49 @@ function minimizeCanvas() {
     world.ctx.font = fontStyle;
 }
 
+function setLoadingScreen() {
+    document.getElementById('loading-screen').classList.remove('d-none');
+
+    requestAnimationFrame(() => {
+        document.getElementById('loading-screen').classList.add('loading');
+    });
+}
+
+function setNewGameScreen() {
+    setTimeout(() => {
+        document.getElementById('loading-screen').classList.add('d-none');
+        document.getElementById('game-screen').classList.remove('d-none');
+        document.getElementById('touch-controls').classList.remove('d-none');
+        if (world) {
+            world.loadingComplete = true;
+        }
+    }, 3000);
+}
+
 /**
  * Starts a new game session
  */
 function startGame() {
-        world = new World(canvas, keyboard);
         document.getElementById('start-screen').classList.add('d-none');
-        document.getElementById('game-screen').classList.remove('d-none');
-        document.getElementById('touch-controls').classList.remove('d-none');
+        setLoadingScreen();
+        setTimeout(() => {
+            world = new World(canvas, keyboard);
+        }, 100);
+        setNewGameScreen();
 }
 
 /**
  * Restarts the game after winning or losing
  */
 function restartGame() {
-        world = new World(canvas, keyboard);
         document.getElementById('lost-screen').classList.add('d-none');
         document.getElementById('won-screen').classList.add('d-none');
         document.getElementById('touch-controls').classList.remove('d-none');
+        setLoadingScreen();
+        setTimeout(() => {
+            world = new World(canvas, keyboard);
+        }, 100);
+        setNewGameScreen();
 }
 
 /**

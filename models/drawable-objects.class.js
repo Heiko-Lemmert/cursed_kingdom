@@ -43,7 +43,7 @@ class DrawableObjects {
      * @param {CanvasRenderingContext2D} ctx - The canvas rendering context
      */
     drawFrame(ctx) {
-        if (this instanceof Character || this instanceof Skeleton || this instanceof Ghoul  || this instanceof Lich || this instanceof Endboss || this instanceof CollectibleObject || this instanceof ClickableButton) {
+        if (this instanceof Character || this instanceof Skeleton || this instanceof Ghoul  || this instanceof Lich || this instanceof Endboss || this instanceof CollectibleObject || this instanceof ClickableButton || this instanceof ShootableObject) {
             ctx.beginPath();
             ctx.lineWidth = '5';
             ctx.strokeStyle = this.frameColor;

@@ -26,10 +26,10 @@ class Coin extends CollectibleObject {
         super().loadImage(this.IMAGES_COIN[0]);
         this.x = x + Math.random() * 1000;
         this.y = y + Math.random() * 150;
-        this.outerFrame.x = x;
-        this.outerFrame.y = y;
-        this.innerFrame.x = x;
-        this.innerFrame.y = y;
+        this.outerFrame.x = this.x;
+        this.outerFrame.y = this.y;
+        this.innerFrame.x = this.x;
+        this.innerFrame.y = this.y;
         this.loadImages(this.IMAGES_COIN);
         this.animate();
         this.offset = this.calculateOffset(this.outerFrame, this.innerFrame)

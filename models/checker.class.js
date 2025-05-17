@@ -14,7 +14,11 @@ class Checker {
                     enemy.hit(100);
                     enemy.audioHit.play();
                 } else {
-                    this.character.hit(20);
+                    if (enemy instanceof Endboss) {
+                        this.character.hit(40);
+                    } else {
+                        this.character.hit(20);
+                    }
                     this.healthbar.setPercent(this.character.health, this.healthbar.IMAGES_HEALTH);
                     this.character.audioHit.play();
                 }
@@ -32,6 +36,7 @@ class Checker {
                 if (arrow.isColliding(enemy) && !enemy.isDead()) {
                     if (enemy instanceof Endboss) {
                         enemy.hit(20);
+                        enemy.hitCount++;
                         this.healthbarEndboss.setPercent(enemy.health, this.healthbarEndboss.IMAGES_HEALTH);
                     } else if (enemy instanceof Lich) {
                         enemy.hit(50);
@@ -136,6 +141,23 @@ class Checker {
     }
 
     /**
+     * Checks each enemy in the current level to determine if they are a "past enemy"
+     * relative to the character. Sets the `otherDirection` property of each enemy
+     * to `false` if they are a past enemy, otherwise sets it to `true`.
+     *
+     * @method
+     */
+    checkPastEnemy() {
+        this.level.enemies.forEach(enemy => {
+            if (this.character.pastEnemy(enemy)) {
+                enemy.otherDirection = false;
+            } else {
+                enemy.otherDirection = true;
+            }
+        });
+    }
+
+    /**
      * Debug function to log collision frame coordinates
      * Displays boundaries for character, enemies, and coins
      */
@@ -177,7 +199,7 @@ class Checker {
             if (this.checkBtn(mouseX, mouseY, volumeBtn)) {
                 this.setVolumeBtn(volumeBtn);
             }
-            console.log('X:' + mouseX, 'Y:' + mouseY);
+            console.log('x:', mouseX, 'y:', mouseY);
         });
     }
 
@@ -242,17 +264,19 @@ class Checker {
      * Updates game ready status based on pause menu visibility
      */
     setPauseStatus() {
-        const isGamePaused = offcanvas.classList.contains('show');
+        if (this.loadingComplete) {
+            const isGamePaused = offcanvas.classList.contains('show');
 
-        this.character.isGameReady = isGamePaused === false ? true : false;
+            this.character.isGameReady = isGamePaused === false ? true : false;
 
-        const gameElements = [
-            ...this.level.enemies,
-            ...this.level.clouds,
-            ...this.level.coins
-        ];
+            const gameElements = [
+                ...this.level.enemies,
+                ...this.level.clouds,
+                ...this.level.coins
+            ];
 
-        gameElements.forEach(element => element.isGameReady = isGamePaused === false ? true : false);
+            gameElements.forEach(element => element.isGameReady = isGamePaused === false ? true : false);
+        }
     }
 
     /**
