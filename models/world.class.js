@@ -10,7 +10,7 @@ class World extends Checker {
     healthbarEndboss = new Healthbar(850);
     energybar = new Energybar();
     coinbar = new Coinbar();
-    checker = new Checker();
+    arrowUI = new ShootableObject(115, 90, false);
     arrows = [];
     apples = [];
     screenBtn = new ClickableButton('asset/img/6_UI/btn/Default@Fullscreen.png', 1075, 'fullscreen');
@@ -44,7 +44,7 @@ class World extends Checker {
         this.bgMusic.volume = 0.2;
         this.setWorld();
         this.setVolumeBtnImage();
-        this.draw();
+        this.drawGame();
         this.run();
     }
 
@@ -75,7 +75,7 @@ class World extends Checker {
      * Main drawing function that renders all game objects
      * Runs 30-60 times per second using requestAnimationFrame
      */
-    draw() {
+    drawGame() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgrounds);
@@ -90,6 +90,7 @@ class World extends Checker {
         this.energybar.draw(this.ctx);
         this.coinbar.draw(this.ctx);
         this.coinbar.fillText(this.ctx);
+        this.arrowUI.draw(this.ctx);
         if (!isMobile) { 
             this.screenBtn.draw(this.ctx); 
         }
@@ -115,6 +116,7 @@ class World extends Checker {
             this.checkArrowCollison();
             this.checkCollison();
             this.checkShootableObject();
+            this.character.updateArrowReadiness();
         }, 1000 / 60);
 
         // Important game interactions - 30fps
@@ -135,7 +137,7 @@ class World extends Checker {
         }, 100);
 
         const update = () => {
-            this.draw();
+            this.drawGame();
             requestAnimationFrame(update);
         };
         update();
@@ -161,16 +163,6 @@ class World extends Checker {
             this.flipImg(wo);
         }
         wo.draw(this.ctx);
-        wo.drawFrame(this.ctx);
-
-        if (wo instanceof Character ||
-            wo instanceof Skeleton ||
-            wo instanceof Ghoul ||
-            wo instanceof Lich ||
-            wo instanceof Endboss ||
-            wo instanceof CollectibleObject) {
-            wo.drawInnerFrame(this.ctx);
-}
         if (wo.otherDirection) {
             this.flipImgBack(wo);
         }

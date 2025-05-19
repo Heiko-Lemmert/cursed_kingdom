@@ -9,7 +9,7 @@ class Checker {
     checkCollison() {
         this.level.enemies.forEach((enemy, i) => {
             if (this.character.isColliding(enemy) && !enemy.isDead() && this.character.lastHitAgo()) {
-                if (this.character.isJumping && this.character.isLandingOn(enemy)) {
+                if (this.character.isJumping && this.character.isLandingOn(enemy) && !(enemy instanceof Endboss)) {
                     this.character.speedY = 10;
                     enemy.hit(100);
                     enemy.audioHit.play();
@@ -32,7 +32,7 @@ class Checker {
      */
     checkArrowCollison() {
         this.level.enemies.forEach((enemy, i) => {
-            this.arrows.forEach((arrow) => {
+            this.arrows.forEach((arrow, i) => {
                 if (arrow.isColliding(enemy) && !enemy.isDead()) {
                     if (enemy instanceof Endboss) {
                         enemy.hit(20);
@@ -43,7 +43,7 @@ class Checker {
                     } else {
                         enemy.hit(100);
                     }
-                    this.arrows.splice(arrow, 1);
+                    this.arrows.splice(i, 1);
                     this.character.audioArrow.pause();
                     enemy.audioHit.play();
                 }
@@ -56,7 +56,7 @@ class Checker {
      */
     checkEnemyRemover() {
         this.level.enemies.forEach((enemy, i) => {
-            if (enemy.isDead() && enemy.animationFinished) {
+            if (!(enemy instanceof Endboss) && enemy.isDead() && enemy.animationFinished) {
                 this.level.enemies.splice(i, 1)
             }
         });
@@ -105,6 +105,7 @@ class Checker {
             this.character.isGameReady
         ) {
             this.character.isShooting = true;
+            this.arrowUI.isShootReady = false;
             clearInterval(this.character.animationInterval) 
             const shootX = this.character.otherDirection ? this.character.x : this.character.x + 160;
             const shootY = this.character.y + 125
@@ -149,36 +150,12 @@ class Checker {
      */
     checkPastEnemy() {
         this.level.enemies.forEach(enemy => {
-            if (this.character.pastEnemy(enemy)) {
+            if (enemy.otherDirection && this.character.pastRightEnemy(enemy)) {
                 enemy.otherDirection = false;
-            } else {
+            } else if (!enemy.otherDirection && this.character.pastLeftEnemy(enemy)) {
                 enemy.otherDirection = true;
             }
         });
-    }
-
-    /**
-     * Debug function to log collision frame coordinates
-     * Displays boundaries for character, enemies, and coins
-     */
-    checkCollisonFrame() {
-        console.log('Objekt Character - Berechnete Grenzen:');
-        console.log('Left:', this.character.x + this.character.offset.left);
-        console.log('Right:', this.character.x + this.character.width - this.character.offset.right);
-        console.log('Top:', this.character.y + this.character.offset.top);
-        console.log('Bottom:', this.character.y + this.character.height - this.character.offset.bottom);
-
-        console.log('Objekt Enemy - Berechnete Grenzen:');
-        console.log('Left:', this.level.enemies[0].x + this.level.enemies[0].offset.left);
-        console.log('Right:', this.level.enemies[0].x + this.level.enemies[0].width - this.level.enemies[0].offset.right);
-        console.log('Top:', this.level.enemies[0].y + this.level.enemies[0].offset.top);
-        console.log('Bottom:', this.level.enemies[0].y + this.level.enemies[0].height - this.level.enemies[0].offset.bottom);
-
-        console.log('Objekt Coin - Berechnete Grenzen:');
-        console.log('Left:', this.level.coins[0].x + this.level.coins[0].offset.left);
-        console.log('Right:', this.level.coins[0].x + this.level.coins[0].width - this.level.coins[0].offset.right);
-        console.log('Top:', this.level.coins[0].y + this.level.coins[0].offset.top);
-        console.log('Bottom:', this.level.coins[0].y + this.level.coins[0].height - this.level.coins[0].offset.bottom);
     }
 
     /**
@@ -199,7 +176,6 @@ class Checker {
             if (this.checkBtn(mouseX, mouseY, volumeBtn)) {
                 this.setVolumeBtn(volumeBtn);
             }
-            console.log('x:', mouseX, 'y:', mouseY);
         });
     }
 
@@ -285,12 +261,12 @@ class Checker {
     setGameStatus() {
         if (this.character.isDead() && this.character.animationFinished) {
             this.gameLost = true;
-            stopGame();
+            setTimeout(stopGame, 100);
         }
         this.level.enemies.forEach(enemy => {
-            if (enemy instanceof Endboss && enemy.isDead()) {
+            if (enemy instanceof Endboss && enemy.isDead() && enemy.animationFinished) {
                 this.gameWon = true;
-                stopGame();
+                setTimeout(stopGame, 100);
             }
         });
     }
@@ -305,5 +281,29 @@ class Checker {
         } else {
             this.bgMusic.pause();
         }
+    }
+
+    /**
+     * Debug function to log collision frame coordinates
+     * Displays boundaries for character, enemies, and coins
+     */
+    checkCollisonFrame() {
+        console.log('Objekt Character - Berechnete Grenzen:');
+        console.log('Left:', this.character.x + this.character.offset.left);
+        console.log('Right:', this.character.x + this.character.width - this.character.offset.right);
+        console.log('Top:', this.character.y + this.character.offset.top);
+        console.log('Bottom:', this.character.y + this.character.height - this.character.offset.bottom);
+
+        console.log('Objekt Enemy - Berechnete Grenzen:');
+        console.log('Left:', this.level.enemies[0].x + this.level.enemies[0].offset.left);
+        console.log('Right:', this.level.enemies[0].x + this.level.enemies[0].width - this.level.enemies[0].offset.right);
+        console.log('Top:', this.level.enemies[0].y + this.level.enemies[0].offset.top);
+        console.log('Bottom:', this.level.enemies[0].y + this.level.enemies[0].height - this.level.enemies[0].offset.bottom);
+
+        console.log('Objekt Coin - Berechnete Grenzen:');
+        console.log('Left:', this.level.coins[0].x + this.level.coins[0].offset.left);
+        console.log('Right:', this.level.coins[0].x + this.level.coins[0].width - this.level.coins[0].offset.right);
+        console.log('Top:', this.level.coins[0].y + this.level.coins[0].offset.top);
+        console.log('Bottom:', this.level.coins[0].y + this.level.coins[0].height - this.level.coins[0].offset.bottom);
     }
 }

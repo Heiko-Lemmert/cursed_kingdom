@@ -108,7 +108,7 @@ class Endboss extends MovableObject {
     constructor(music) {
         super();
         this.loadImage(this.IMAGES_WALKING[0]);
-        this.x = 3000; // 9000
+        this.x = 8000;
         this.y = 140;
         this.height = 500;
         this.width = 500;
@@ -164,7 +164,7 @@ class Endboss extends MovableObject {
         let aggroOn = setInterval(() => {
             if (this.hitCount >= 2) {
                 this.isAggro = true;
-                this.speed = 4;
+                this.speed = 5;
                 setTimeout(() => this.aggroModeOff(), 4000)
                 clearInterval(aggroOn);
             } 

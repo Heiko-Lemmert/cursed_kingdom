@@ -35,7 +35,14 @@ class DrawableObjects {
      * @param {CanvasRenderingContext2D} ctx - The canvas rendering context
      */
     draw(ctx) {
-        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+    ctx.save();
+    if (!this.isShootReady && this instanceof ShootableObject) {
+        ctx.globalAlpha = 0.3; 
+    } else {
+        ctx.globalAlpha = 1.0;
+    }
+    ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+    ctx.restore();
     }
 
     /**

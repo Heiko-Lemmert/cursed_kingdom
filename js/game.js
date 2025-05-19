@@ -153,6 +153,10 @@ function minimizeCanvas() {
     world.ctx.font = fontStyle;
 }
 
+/**
+ * Displays the loading screen by removing the 'd-none' class and adding the 'loading' class
+ * on the next animation frame. This ensures any CSS transitions or animations are triggered properly.
+ */
 function setLoadingScreen() {
     document.getElementById('loading-screen').classList.remove('d-none');
 
@@ -161,11 +165,19 @@ function setLoadingScreen() {
     });
 }
 
+/**
+ * Transitions the UI from the loading screen to the game screen after a delay.
+ * Hides the loading screen, shows the game screen and touch controls,
+ * and updates the loading state of the world object if it exists.
+ *
+ * @function
+ */
 function setNewGameScreen() {
     setTimeout(() => {
         document.getElementById('loading-screen').classList.add('d-none');
         document.getElementById('game-screen').classList.remove('d-none');
         document.getElementById('touch-controls').classList.remove('d-none');
+        document.getElementById('loading-screen').classList.remove('loading');
         if (world) {
             world.loadingComplete = true;
         }
@@ -191,6 +203,7 @@ function restartGame() {
         document.getElementById('lost-screen').classList.add('d-none');
         document.getElementById('won-screen').classList.add('d-none');
         document.getElementById('touch-controls').classList.remove('d-none');
+        world.loadingComplete = false;
         setLoadingScreen();
         setTimeout(() => {
             world = new World(canvas, keyboard);

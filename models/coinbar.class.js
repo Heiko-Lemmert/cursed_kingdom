@@ -19,7 +19,7 @@ class Coinbar extends Status {
      */
     constructor() {
         super().loadImage(this.coin);
-        this.x = 215;
+        this.x = 115;
         this.width = 75
     }
 
@@ -28,6 +28,6 @@ class Coinbar extends Status {
      * @param {CanvasRenderingContext2D} ctx - The canvas rendering context
      */
     fillText(ctx) {
-        ctx.fillText('x ' + this.currentCoins, 300, 60);
+        ctx.fillText('x ' + this.currentCoins, 200, 60);
     }
 }

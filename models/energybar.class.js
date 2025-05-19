@@ -12,7 +12,7 @@ class Energybar extends Status {
         'asset/img/6_UI/stats/energybar/energy-gamebar-80.png',
         'asset/img/6_UI/stats/energybar/energy-gamebar-100.png',
     ]
-    y = 10;
+    y = 90;
 
     /**
      * Creates a new Energybar instance
@@ -21,7 +21,7 @@ class Energybar extends Status {
     constructor() {
         super().loadImages(this.IMAGES_ENERGY);
         this.setPercent(this.percent, this.IMAGES_ENERGY);
-        this.x = 125;
+        this.x = 20;
         this.width = 75;
     }
 }

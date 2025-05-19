@@ -172,6 +172,16 @@ class MovableObject extends DrawableObjects {
         }
     }
 
+        /**
+     * Checks if enough time has passed since the last hit
+     * @returns {boolean} True if more than 1 second has passed since last hit
+     */
+    lastHitAgo() {
+        let timepassed = new Date().getTime() - this.lastHit;
+        timepassed = timepassed / 1000
+        return timepassed > 1;
+    }
+
     /**
      * Checks if object has no health remaining
      * @returns {boolean} True if health is zero
@@ -283,11 +293,11 @@ class MovableObject extends DrawableObjects {
                 clearInterval(move);
             } else if (this.isHurt() && !this.isDead()) {
                 clearInterval(move);
-                setTimeout(() => this.setEnemyMove(), 1000);
+                setTimeout(() => this.setEnemyMove(), 100);
             } else if (!this.isDead() && this.isGameReady && !this.otherDirection) {
-                // this.moveRight();
+                this.moveRight();
             } else if (!this.isDead() && this.isGameReady && this.otherDirection) {
-                // this.moveLeft(); 
+                this.moveLeft(); 
             }
         }, 1000 / 60);
     }

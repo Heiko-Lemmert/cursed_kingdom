@@ -234,8 +234,9 @@ class Character extends MovableObject {
     shoot(x, y, left) {
         this.lastShoot = new Date().getTime();
         let arrow = new ShootableObject(x, y, left);
-        this.world.arrows.push(arrow);
         this.audioArrow.currentTime = 0;
+        this.world.arrows.push(arrow);
+        arrow.onFly();
         this.audioArrow.play();
     }
 
@@ -246,18 +247,22 @@ class Character extends MovableObject {
     lastShootAgo() {
         let timepassed = new Date().getTime() - this.lastShoot;
         timepassed = timepassed / 1000
-        return timepassed > 1;
+        return timepassed > 1.5;
     }
 
+
     /**
-     * Checks if enough time has passed since the last hit
-     * @returns {boolean} True if more than 1 second has passed since last hit
-     */
-    lastHitAgo() {
-        let timepassed = new Date().getTime() - this.lastHit;
-        timepassed = timepassed / 1000
-        return timepassed > 1;
+    * Updates the shoot readiness state for the arrow UI.
+    * 
+    * Checks if the player is allowed to shoot based on the time elapsed since 
+    * the last shot and the current energy level. Sets `isShootReady` to true 
+    * only if both conditions are met.
+    */
+    updateArrowReadiness() {
+        this.world.arrowUI.isShootReady = this.lastShootAgo() && this.hasEnergy();
     }
+
+
 
     /**
      * Starts the shooting animation by cycling through the provided images
@@ -281,13 +286,29 @@ class Character extends MovableObject {
     }
 
     /**
-     * Determines if the character has passed the specified enemy on the x-axis.
+     * Determines if this character has moved past the right side of the specified enemy.
      *
-     * @param {Object} enemy - The enemy object to compare positions with.
+     * @param {Object} enemy - The enemy object to compare against.
      * @param {number} enemy.x - The x-coordinate of the enemy.
-     * @returns {boolean} True if the character's x position is greater than the enemy's x position; otherwise, false.
+     * @param {number} enemy.width - The width of the enemy.
+     * @param {Object} enemy.offset - The offset values for the enemy.
+     * @param {number} enemy.offset.right - The right offset of the enemy.
+     * @returns {boolean} True if this character is past the right side of the enemy, otherwise false.
      */
-    pastEnemy(enemy) {
-        return this.x > enemy.x;
+    pastRightEnemy(enemy) {
+        return this.x + this.offset.left > enemy.x + enemy.width - enemy.offset.right + 5;
+    }
+
+    /**
+     * Determines if this character has completely passed to the left of the given enemy.
+     *
+     * @param {Object} enemy - The enemy object to compare against.
+     * @param {number} enemy.x - The x-coordinate of the enemy.
+     * @param {Object} enemy.offset - The offset values for the enemy.
+     * @param {number} enemy.offset.left - The left offset of the enemy.
+     * @returns {boolean} True if this character is past the left side of the enemy, false otherwise.
+     */
+    pastLeftEnemy(enemy) {
+        return this.x + this.width - this.offset.right < enemy.x + enemy.offset.left + 5;
     }
 }

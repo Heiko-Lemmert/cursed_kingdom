@@ -23,7 +23,13 @@ function createLevelOne(music) {
             new Ghoul(6000, music),
             new Skeleton(6500, music),
             new Ghoul(7000, music),
+            new Skeleton(8500, music),
+            new Lich(9000, music),
+            new Ghoul(9000, music),
+            new Ghoul(10000, music),
+            new Skeleton(10000, music),
             new Endboss(music)
+
         ],
         [
             new Cloud(1000),

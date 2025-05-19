@@ -8,6 +8,7 @@ class ShootableObject extends MovableObject {
     IMG_SRC = 'asset/img/1_Main_character/Archer/Vector Parts/Arrow.png';
     speed = 1;
     arrowSpeed = 25;
+    isShootReady = true;
 
     /**
      * Creates a new arrow projectile
@@ -21,7 +22,6 @@ class ShootableObject extends MovableObject {
         this.y = y;
         this.otherDirection = otherDirection;
         this.loadImage(this.IMG_SRC);
-        this.onFly();
     }
 
     /**

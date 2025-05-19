@@ -79,7 +79,7 @@ class Ghoul extends MovableObject {
         super().loadImage(this.IMAGES_WALKING[0]);
         this.x = x + Math.random() * 500;
         this.y = this.y + Math.random() * 150;
-        this.speed = 0.35 + Math.random() * 0.45
+        this.speed = 0.4 + Math.random() * 0.45
         this.innerFrame.x = this.x + 60;
         this.innerFrame.y = this.y + 60;
         this.outerFrame.x = this.x;
