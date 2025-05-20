@@ -75,7 +75,35 @@ if (
   wo instanceof CollectibleObject
 ) {
   wo.drawInnerFrame(this.ctx);
-}
+} 
+```
+
+For more specifice Information added the code to the `world.class.js` and your running the Function.
+
+```js
+/**
+     * Debug function to log collision frame coordinates
+     * Displays boundaries for character, enemies, and coins
+     */
+    checkCollisonFrame() {
+        console.log('Objekt Character - Berechnete Grenzen:');
+        console.log('Left:', this.character.x + this.character.offset.left);
+        console.log('Right:', this.character.x + this.character.width - this.character.offset.right);
+        console.log('Top:', this.character.y + this.character.offset.top);
+        console.log('Bottom:', this.character.y + this.character.height - this.character.offset.bottom);
+
+        console.log('Objekt Enemy - Berechnete Grenzen:');
+        console.log('Left:', this.level.enemies[0].x + this.level.enemies[0].offset.left);
+        console.log('Right:', this.level.enemies[0].x + this.level.enemies[0].width - this.level.enemies[0].offset.right);
+        console.log('Top:', this.level.enemies[0].y + this.level.enemies[0].offset.top);
+        console.log('Bottom:', this.level.enemies[0].y + this.level.enemies[0].height - this.level.enemies[0].offset.bottom);
+
+        console.log('Objekt Coin - Berechnete Grenzen:');
+        console.log('Left:', this.level.coins[0].x + this.level.coins[0].offset.left);
+        console.log('Right:', this.level.coins[0].x + this.level.coins[0].width - this.level.coins[0].offset.right);
+        console.log('Top:', this.level.coins[0].y + this.level.coins[0].offset.top);
+        console.log('Bottom:', this.level.coins[0].y + this.level.coins[0].height - this.level.coins[0].offset.bottom);
+    }
 ```
 
 This draws outer and inner frames to help identify hitboxes and collisions.

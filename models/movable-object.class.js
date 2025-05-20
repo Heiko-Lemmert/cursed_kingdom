@@ -52,7 +52,7 @@ class MovableObject extends DrawableObjects {
                 this.y -= this.speedY;
                 this.innerFrame.y -= this.speedY;
                 this.speedY -= this.acceleration;
-                if (Math.abs(this.y - this.currentY) < 10) {
+                if (this.y >= this.currentY) {
                     this.y = this.currentY;
                     this.speedY = 0;
                     this.isJumping = false;

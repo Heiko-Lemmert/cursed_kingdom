@@ -1,8 +1,8 @@
 /**
  * Main game world class that manages all game objects and their interactions
- * @extends Checker
+ * @extends GameController
  */
-class World extends Checker {
+class World extends GameController {
     music = new Music();
     level = createLevelOne(this.music);
     character = new Character(this.music);
@@ -78,48 +78,101 @@ class World extends Checker {
     drawGame() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.camera_x, 0);
-        this.addObjectsToMap(this.level.backgrounds);
-        this.addObjectsToMap(this.level.clouds);
-
-        this.ctx.translate(-this.camera_x, 0);
-        // --- Space for fixed Objects
-        this.healthbar.draw(this.ctx);
-        if (this.isEndFight) {
-            this.healthbarEndboss.draw(this.ctx);
-        }
-        this.energybar.draw(this.ctx);
-        this.coinbar.draw(this.ctx);
-        this.coinbar.fillText(this.ctx);
-        this.arrowUI.draw(this.ctx);
-        if (!isMobile) { 
-            this.screenBtn.draw(this.ctx); 
-        }
-        this.volumeBtn.draw(this.ctx);
-        this.ctx.translate(this.camera_x, 0);
-
-        this.addToMap(this.character);
-        this.addObjectsToMap(this.arrows)
-        this.addObjectsToMap(this.level.enemies);
-        this.addObjectsToMap(this.level.coins);
-        this.addObjectsToMap(this.apples);
+        this.drawBackgroundObj();
+        this.drawUIObj();
+        this.drawInteractiveObj();
         this.ctx.translate(-this.camera_x, 0);
     }
 
     /**
-     * Main game loop that handles all checks and updates
+     * Draws background objects for the current level by adding background and cloud objects to the map.
+     * Utilizes the `addObjectsToMap` method to render both backgrounds and clouds.
+     */
+    drawBackgroundObj() {
+        this.addObjectsToMap(this.level.backgrounds);
+        this.addObjectsToMap(this.level.clouds);
+    }
+
+    /**
+     * Draws the user interface (UI) elements on the canvas context.
+     * Translates the context based on the camera position, then draws various UI components
+     * such as health bars, energy bar, coin bar, arrow UI, screen button (if not on mobile), and volume button.
+     * Restores the context translation after drawing.
+     *
+     * @method
+     */
+    drawUIObj() {
+        this.ctx.translate(-this.camera_x, 0);
+        this.healthbar.draw(this.ctx);
+        if (this.isEndFight) { this.healthbarEndboss.draw(this.ctx); }
+        this.energybar.draw(this.ctx);
+        this.coinbar.draw(this.ctx);
+        this.coinbar.fillText(this.ctx);
+        this.arrowUI.draw(this.ctx);
+        if (!isMobile) { this.screenBtn.draw(this.ctx); }
+        this.volumeBtn.draw(this.ctx);
+        this.ctx.translate(this.camera_x, 0);
+    }
+
+    /**
+     * Draws all Interactiv objects onto the map, including arrows, enemies, coins, apples, and the main character.
+     * This method adds each group of objects to the map in a specific order to ensure correct rendering.
+     *
+     * @method
+     */
+    drawInteractiveObj() {
+        this.addObjectsToMap(this.arrows)
+        this.addObjectsToMap(this.level.enemies);
+        this.addObjectsToMap(this.level.coins);
+        this.addObjectsToMap(this.apples);
+        this.addToMap(this.character);
+    }
+
+    /**
+     * Executes the main update cycle for the world.
+     * 
+     * This method performs a series of checks and updates in the following order:
+     * 1. Checks for clickable buttons.
+     * 2. Executes high priority checks.
+     * 3. Executes medium priority checks.
+     * 4. Executes low priority checks.
+     * 5. Updates the game state.
      */
     run() {
         this.checkClickableButton();
-        
-        // Critical game mechanics - 60fps
+        this.highPriorityCheck();
+        this.mediumPriorityCheck();
+        this.lowPriorityCheck();
+        this.gameUpdater();
+    }
+
+    /**
+     * Starts a high-priority interval that performs frequent game state checks.
+     * The following actions are executed approximately 60 times per second:
+     * - Checks for arrow collisions.
+     * - Checks for general collisions.
+     * - Checks for shootable objects.
+     * - Updates the character's arrow readiness state.
+     *
+     * @returns {void}
+     */
+    highPriorityCheck() {
         setInterval(() => {
-            this.checkArrowCollison();
-            this.checkCollison();
+            this.checkEnemyCollisions();
             this.checkShootableObject();
             this.character.updateArrowReadiness();
         }, 1000 / 60);
+    }
 
-        // Important game interactions - 30fps
+    /**
+     * Starts a recurring interval that performs several medium-priority checks
+     * related to game state, such as coin and apple collisions, proximity checks,
+     * enemy removal, and past enemy checks. The checks are executed approximately
+     * 30 times per second.
+     *
+     * @returns {void}
+     */
+    mediumPriorityCheck() {
         setInterval(() => {
             this.checkCoinCollison();
             this.checkAppleCollison();
@@ -127,21 +180,33 @@ class World extends Checker {
             this.checkEnemyRemover();
             this.checkPastEnemy()
         }, 1000 / 30);
+    }
 
-        // UI and status updates - 100ms
+    /**
+     * Periodically performs low-priority checks related to the game state.
+     * Executes the following methods every 100 milliseconds:
+     * - checkFullscreen: Checks and updates fullscreen status.
+     * - setPauseStatus: Updates the game's pause status.
+     * - setGameStatus: Updates the overall game status.
+     * - checkMusicStatus: Checks and updates the music status.
+     */
+    lowPriorityCheck() {
         setInterval(() => {
             this.checkFullscreen();
             this.setPauseStatus();
             this.setGameStatus();
             this.checkMusicStatus();
         }, 100);
+    }
 
-        const update = () => {
-            this.drawGame();
-            requestAnimationFrame(update);
-        };
-        update();
-
+    /**
+     * Continuously updates and redraws the game by calling drawGame,
+     * and schedules the next update using requestAnimationFrame.
+     * This creates a game loop that keeps the game state and visuals in sync.
+     */
+    gameUpdater() {
+        this.drawGame();
+        requestAnimationFrame(this.gameUpdater.bind(this));
     }
 
     /**

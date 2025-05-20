@@ -1,54 +1,59 @@
 /**
  * Handles all collision and state checks in the game
  */
-class Checker {
+class GameController {
+    /**
+    * Checks for collisions between the character or arrows and enemies.
+    * Handles damage, jumping on enemies, and arrow impact logic.
+    */
+    checkEnemyCollisions() {
+        this.level.enemies.forEach((enemy) => {
+            if (this.character.isColliding(enemy) && !enemy.isDead() && this.character.lastHitAgo()) {
+                this.characterCollisions(enemy);
+            }
+
+            this.arrows.forEach((arrow, index) => {
+                this.arrowCollisions(enemy, arrow, index);
+            });
+        });
+    }
+
     /**
      * Checks for collisions between character and enemies
      * Handles damage and jumping on enemies
      */
-    checkCollison() {
-        this.level.enemies.forEach((enemy, i) => {
-            if (this.character.isColliding(enemy) && !enemy.isDead() && this.character.lastHitAgo()) {
-                if (this.character.isJumping && this.character.isLandingOn(enemy) && !(enemy instanceof Endboss)) {
-                    this.character.speedY = 10;
-                    enemy.hit(100);
-                    enemy.audioHit.play();
-                } else {
-                    if (enemy instanceof Endboss) {
-                        this.character.hit(40);
-                    } else {
-                        this.character.hit(20);
-                    }
-                    this.healthbar.setPercent(this.character.health, this.healthbar.IMAGES_HEALTH);
-                    this.character.audioHit.play();
-                }
+    characterCollisions(enemy) {
+        if (this.character.isJumping && this.character.isLandingOn(enemy) && !(enemy instanceof Endboss)) {
+                this.character.speedY = 10;
+                enemy.hit(100);
+                enemy.audioHit.play();
+            } else {
+                const damage = (enemy instanceof Endboss) ? 40 : 20;
+                this.character.hit(damage);
+                this.healthbar.setPercent(this.character.health, this.healthbar.IMAGES_HEALTH);
+                this.character.audioHit.play();
             }
-        });
     }
 
     /**
      * Checks for collisions between arrows and enemies
      * Handles different damage amounts for different enemy types
      */
-    checkArrowCollison() {
-        this.level.enemies.forEach((enemy, i) => {
-            this.arrows.forEach((arrow, i) => {
-                if (arrow.isColliding(enemy) && !enemy.isDead()) {
-                    if (enemy instanceof Endboss) {
-                        enemy.hit(20);
-                        enemy.hitCount++;
-                        this.healthbarEndboss.setPercent(enemy.health, this.healthbarEndboss.IMAGES_HEALTH);
-                    } else if (enemy instanceof Lich) {
-                        enemy.hit(50);
-                    } else {
-                        enemy.hit(100);
-                    }
-                    this.arrows.splice(i, 1);
-                    this.character.audioArrow.pause();
-                    enemy.audioHit.play();
-                }
-            });
-        });
+    arrowCollisions(enemy, arrow, index) {
+        if (arrow.isColliding(enemy) && !enemy.isDead()) {
+            if (enemy instanceof Endboss) {
+                enemy.hit(20);
+                enemy.hitCount++;
+                this.healthbarEndboss.setPercent(enemy.health, this.healthbarEndboss.IMAGES_HEALTH);
+            } else if (enemy instanceof Lich) {
+                enemy.hit(50);
+            } else {
+                enemy.hit(100);
+            }
+            this.arrows.splice(index, 1);
+            this.character.audioArrow.pause();
+            enemy.audioHit.play();
+        }
     }
 
     /**
@@ -96,29 +101,53 @@ class Checker {
      * Controls shooting animation and energy consumption
      */
     checkShootableObject() {
-        if (
-            this.keyboard.fire && 
-            !this.character.isAboveGround() &&
-            this.character.hasEnergy() &&
-            this.character.lastShootAgo() &&
-            !this.character.isShooting &&
-            this.character.isGameReady
-        ) {
-            this.character.isShooting = true;
-            this.arrowUI.isShootReady = false;
+        if (this.keyboard.fire && !this.character.isAboveGround() && this.character.hasEnergy() && this.character.lastShootAgo() && !this.character.isShooting && this.character.isGameReady) {
+            this.setShootVariables();
             clearInterval(this.character.animationInterval) 
-            const shootX = this.character.otherDirection ? this.character.x : this.character.x + 160;
-            const shootY = this.character.y + 125
-            this.character.shoot(shootX, shootY, this.character.otherDirection);
-            if (this.keyboard.right || this.keyboard.left) {
-                this.character.startShootAnimation(this.character.IMAGES_RUN_SHOOTING);
-            } else {
-                this.character.startShootAnimation(this.character.IMAGES_SHOOTING);
-            }
+            this.character.shoot(this.getShootPosition('X'), this.getShootPosition('Y'), this.character.otherDirection);
+            this.character.startShootAnimation(this.chooseImagesArray());
             this.character.lostEnergy();
             this.energybar.setPercent(this.character.energy, this.energybar.IMAGES_ENERGY);
         }
     }
+
+    /**
+     * Sets the variables related to the shooting state of the character.
+     * Marks the character as currently shooting and updates the arrow UI to indicate that shooting is not ready.
+     */
+    setShootVariables() {
+        this.character.isShooting = true;
+        this.arrowUI.isShootReady = false;
+    }
+
+    /**
+     * Calculates the shoot position based on the given coordinate axis.
+     *
+     * @param {'X'|'Y'} coordinate - The axis for which to get the shoot position ('X' or 'Y').
+     * @returns {number|undefined} The calculated shoot position for the specified axis, or undefined if the axis is invalid.
+     */
+    getShootPosition(coordinate) {
+        switch (coordinate) {
+            case 'Y':
+                return this.character.y + 125;
+            case 'X':
+                return this.character.otherDirection ? this.character.x : this.character.x + 160;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * Determines and returns the appropriate array of images for the character
+     * based on the current keyboard input (left or right movement).
+     *
+     * @returns {Array<string>} The array of image paths for running and shooting or just shooting.
+     */
+    chooseImagesArray() {
+        const chooseImages = this.character.world.keyboard.right || this.character.world.keyboard.left ? this.character.IMAGES_RUN_SHOOTING : this.character.IMAGES_SHOOTING;
+        return chooseImages;
+    }
+
 
     /**
      * Checks if enemies are close to the character
@@ -281,29 +310,5 @@ class Checker {
         } else {
             this.bgMusic.pause();
         }
-    }
-
-    /**
-     * Debug function to log collision frame coordinates
-     * Displays boundaries for character, enemies, and coins
-     */
-    checkCollisonFrame() {
-        console.log('Objekt Character - Berechnete Grenzen:');
-        console.log('Left:', this.character.x + this.character.offset.left);
-        console.log('Right:', this.character.x + this.character.width - this.character.offset.right);
-        console.log('Top:', this.character.y + this.character.offset.top);
-        console.log('Bottom:', this.character.y + this.character.height - this.character.offset.bottom);
-
-        console.log('Objekt Enemy - Berechnete Grenzen:');
-        console.log('Left:', this.level.enemies[0].x + this.level.enemies[0].offset.left);
-        console.log('Right:', this.level.enemies[0].x + this.level.enemies[0].width - this.level.enemies[0].offset.right);
-        console.log('Top:', this.level.enemies[0].y + this.level.enemies[0].offset.top);
-        console.log('Bottom:', this.level.enemies[0].y + this.level.enemies[0].height - this.level.enemies[0].offset.bottom);
-
-        console.log('Objekt Coin - Berechnete Grenzen:');
-        console.log('Left:', this.level.coins[0].x + this.level.coins[0].offset.left);
-        console.log('Right:', this.level.coins[0].x + this.level.coins[0].width - this.level.coins[0].offset.right);
-        console.log('Top:', this.level.coins[0].y + this.level.coins[0].offset.top);
-        console.log('Bottom:', this.level.coins[0].y + this.level.coins[0].height - this.level.coins[0].offset.bottom);
     }
 }

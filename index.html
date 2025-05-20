@@ -15,7 +15,7 @@
     <link rel="manifest" href="./asset/img/4_Main_location/favicon/site.webmanifest" />
     <!-- Scripts -->
     <script src="./js/bootstrap.min.js"></script>
-    <script src="./models/checker.class.js"></script>
+    <script src="./models/game-controller.class.js"></script>
     <script src="./models/world.class.js"></script>
     <script src="./models/drawable-objects.class.js"></script>
     <script src="./models/movable-object.class.js"></script>
@@ -41,8 +41,6 @@
     <script src="./levels/level-one.js"></script>    
     <script src="./js/page-setup.js"></script>
     <script src="./js/game.js"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-    <script>eruda.init();</script> -->
     <title>Cursed Kingdom</title>
 </head>
 
@@ -69,7 +67,7 @@
                             <a class="nav-link" href="./terms.html">Terms of Use</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="./imprint.html">Impressum</a>
+                            <a class="nav-link" href="./imprint.html">Imprint</a>
                         </li>
                     </ul>
                 </div>
@@ -88,7 +86,7 @@
                 <button id="btn-instruction-1" class="btn btn-secondary btn-lg" data-bs-toggle="offcanvas" aria-controls="offcanvas"
                     href="#offcanvas" onclick="generateHTML('instructions')">Instructions</button>
                 <button id="btn-terms" class="btn btn-secondary btn-lg" onclick="window.location.href='./terms.html'">Terms of Use</button>
-                <button id="btn-imprint" class="btn btn-secondary btn-lg" onclick="window.location.href='./imprint.html'">Impressum</button>
+                <button id="btn-imprint" class="btn btn-secondary btn-lg" onclick="window.location.href='./imprint.html'">Imprint</button>
             </div>
         </div>
         <div id="loading-screen" class="d-none">

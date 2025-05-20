@@ -308,9 +308,9 @@ August 2021 : ok on Chrome v92+, Firefox v90+, Edge v92+
 }
 
 .offcanvas-body p {
-    font-size: 2em;
+    font-size: 1.2em;
     color: #7F3300;
-    margin-top: .75em;
+    margin-top: .35em;
     text-align: justify;
 }
 
@@ -376,12 +376,12 @@ August 2021 : ok on Chrome v92+, Firefox v90+, Edge v92+
 #signature {
     text-align: right;
     color: black;
-    font-size: 250%;
+    font-size: 1.2em;
 }
 
 #description {
     color: DimGray;
-    line-height: 2em;
+    line-height: 1.2em;
 }
 
 #sperator {
@@ -603,8 +603,22 @@ canvas {
         display: none;
     }
 
-    .inkTitle {
-        font-size: 1.5em;
+    .container {
+        margin-top: 5px !important;
+    }
+
+    .content h2 {
+        font-size: 1em;
+    }
+
+    .content p {
+        font-size: 0.8em;
+    }
+
+    .inkTitle,
+    .cachet,
+    #labarum {
+        display: none;
     }
 
     .touch-btn {

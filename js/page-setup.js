@@ -68,6 +68,7 @@ function isStringEmpty(str) {
 
 function setIndexClass() {
     document.body.classList.add('overflow-hidden');
+    document.getElementById('parchment').style.height = getContainHeight() + 'px';
     if (!isMobile) {
         document.getElementsByTagName('header')[0].classList.remove('d-none');
         document.getElementById('btn-imprint').classList.add('d-none');
