@@ -68,6 +68,7 @@ function isStringEmpty(str) {
 
 function setIndexClass() {
     document.body.classList.add('overflow-hidden');
+    document.body.classList.add('body-height');
     document.getElementById('parchment').style.height = getContainHeight() + 'px';
     if (!isMobile) {
         document.getElementsByTagName('header')[0].classList.remove('d-none');

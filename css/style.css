@@ -70,7 +70,11 @@ body {
     background-size: 400px;
     backdrop-filter: blur(2px);
     color: aliceblue;
-    height: 100vh;
+    height: 100%;
+}
+
+.body-height {
+    height: 100vh !important;
 }
 
 .navbar {
