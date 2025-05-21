@@ -171,38 +171,79 @@ class Character extends MovableObject {
     animate() {
         setInterval(() => {
             if (this.isGameReady) {
-                this.audioWalking.pause();
-                if (this.world.keyboard.right && this.mapEndPoint()) {
-                    if (!this.isAboveGround()) this.audioWalking.play();
-                    this.moveRight();
-                }
-                if (this.world.keyboard.left && this.mapStartPoint()) {
-                    if (!this.isAboveGround()) this.audioWalking.play();
-                    this.moveLeft();
-                }
-                if (this.world.keyboard.up && this.bridgeTopPoint() && !this.isJumping) {
-                    if (!this.isAboveGround()) this.audioWalking.play();
-                    this.moveUp();
-                }
-                if (this.world.keyboard.down && this.bridgeBottomPoint() && !this.isJumping) {
-                    if (!this.isAboveGround()) this.audioWalking.play();
-                    this.moveDown();
-                }
-                if (this.world.keyboard.space && !this.isAboveGround() && !this.isJumping) {
-                    this.audioJumping.play()
-                    this.currentPosition();
-                    this.jump();
-                }
-                this.world.camera_x = -this.x + 400;
-                this.world.addObjectsToMap;
+                this.handleKeyboardInput();
+                this.updateCamera();
             }
-        }, 1000 / 60)
+        }, 1000 / 60);
 
         setInterval(() => {
-            if (this.isAboveGround() && this.speedY >= 0 && !this.world.keyboard.right && !this.world.keyboard.left) {
-                this.playAnimation(this.IMAGES_JUMPING);
-            }
-        }, 250)
+            this.autoPlayJumpingAnimation();
+        }, 250);
+    }
+
+    /**
+     * Handles keyboard input for character movement and actions.
+     */
+    handleKeyboardInput() {
+        this.audioWalking.pause();
+        this.handleRightInput();
+        this.handleLeftInput();
+        this.handleUpInput();
+        this.handleDownInput();
+        this.handleJumpInput();
+    }
+
+    handleRightInput() {
+        if (this.world.keyboard.right && this.mapEndPoint()) {
+            if (!this.isAboveGround()) this.audioWalking.play();
+            this.moveRight();
+        }
+    }
+
+    handleLeftInput() {
+        if (this.world.keyboard.left && this.mapStartPoint()) {
+            if (!this.isAboveGround()) this.audioWalking.play();
+            this.moveLeft();
+        }
+    }
+
+    handleUpInput() {
+        if (this.world.keyboard.up && this.bridgeTopPoint() && !this.isJumping) {
+            if (!this.isAboveGround()) this.audioWalking.play();
+            this.moveUp();
+        }
+    }
+
+    handleDownInput() {
+        if (this.world.keyboard.down && this.bridgeBottomPoint() && !this.isJumping) {
+            if (!this.isAboveGround()) this.audioWalking.play();
+            this.moveDown();
+        }
+    }
+
+    handleJumpInput() {
+        if (this.world.keyboard.space && !this.isAboveGround() && !this.isJumping) {
+            this.audioJumping.play();
+            this.currentPosition();
+            this.jump();
+        }
+    }
+
+    /**
+     * Updates the camera position based on the character's position.
+     */
+    updateCamera() {
+        this.world.camera_x = -this.x + 400;
+        this.world.addObjectsToMap;
+    }
+
+    /**
+     * Automatically plays the jumping animation when appropriate.
+     */
+    autoPlayJumpingAnimation() {
+        if (this.isAboveGround() && this.speedY >= 0 && !this.world.keyboard.right && !this.world.keyboard.left) {
+            this.playAnimation(this.IMAGES_JUMPING);
+        }
     }
 
     /**

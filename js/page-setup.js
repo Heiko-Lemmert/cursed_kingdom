@@ -1,11 +1,13 @@
 let isMobile = false;
+let page = null;
 
 /**
  * Initializes the Screen by getting DOM elements
  */
 function init() {
-    setInterval(detectDeviceType, 250)
-    setInterval(setClass, 250)
+    setInterval(detectDeviceType, 250);
+    setInterval(setClass, 250);
+    page = getPath();
 }
 
 /**
@@ -35,13 +37,14 @@ function detectDeviceType() {
  * @param {string} page - The name of the current HTML page (e.g., 'index.html')
  */
 function setClass() {
-    let page = getPath();
     if (page === 'index.html' || isStringEmpty(page)) {
         setIndexClass();
     } else if (page === 'imprint.html') {
-        setLegalClass('imprint');
+        setLegalClass();
     } else if (page === 'terms.html') {
-        setLegalClass('terms');
+        setLegalClass();
+    } else if (page === 'mobile-controls.html') {
+        setLegalClass();
     }
 }
 
@@ -74,21 +77,27 @@ function setIndexClass() {
         document.getElementsByTagName('header')[0].classList.remove('d-none');
         document.getElementById('btn-imprint').classList.add('d-none');
         document.getElementById('btn-terms').classList.add('d-none');
+        document.getElementById('btn-mobil-controls').classList.add('d-none');
+
     } else {
         document.getElementsByTagName('header')[0].classList.add('d-none');
         document.getElementById('btn-imprint').classList.remove('d-none');
         document.getElementById('btn-terms').classList.remove('d-none');
+        document.getElementById('btn-mobil-controls').classList.remove('d-none');
     }
 }
 
-function setLegalClass(page) {
+function setLegalClass() {
+    if (isMobile && page === 'imprint.html') {
+       document.body.classList.add('overflow-hidden');
+    }
     document.body.classList.add('overflow-initial');
     document.getElementById('parchment').style.height = getContainHeight() + 'px';
 }
 
 function getContainHeight() {
     let contain = document.getElementById('contain');
-    let height = contain.offsetHeight;
+    let height = contain.offsetHeight - 75;
     return height;
 }
 

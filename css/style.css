@@ -630,6 +630,36 @@ canvas {
         height: 60px;
         font-size: 20px;
     }
+
+    h1 {
+        font-size: 35px;
+    }
+
+    h2 {
+        font-size: 30px;
+    }
+
+    .btn-group-lg>.btn, .btn-lg {
+        --bs-btn-font-size: 0.75rem;
+    }
+
+    header {
+        height: 30px;
+    }
+
+    .navbar-brand img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .navbar-toggler-icon {
+        width: 0.75em;
+        height: 0.75em;
+    }
+
+    .inner-div {
+        gap: 10px;
+    }
 }
 
 /* ===== Kleine Laptops (901px – 1200px) ===== */
