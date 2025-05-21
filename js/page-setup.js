@@ -88,10 +88,13 @@ function setIndexClass() {
 }
 
 function setLegalClass() {
-    if (isMobile && page === 'imprint.html') {
-       document.body.classList.add('overflow-hidden');
+    if (isMobile && page === 'imprint.html' || isMobile && page === 'mobile-controls.html') {
+        document.body.classList.remove('overflow-initial');
+        document.body.classList.add('overflow-hidden');
+    } else {
+        document.body.classList.remove('overflow-hidden');
+        document.body.classList.add('overflow-initial');
     }
-    document.body.classList.add('overflow-initial');
     document.getElementById('parchment').style.height = getContainHeight() + 'px';
 }
 
